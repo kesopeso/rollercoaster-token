@@ -1,0 +1,12 @@
+{
+  "name": "rollercoaster-token",
+  "version": "1.0.0",
+  "description": "Welcome to the most thrilling and adventure filled DeFi ride of your life.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["crypto", "defi", "rollercoaster", "meme", "coins", "tokens", "gains", "ecosystem"],
+  "author": "RollerCoaster",
+  "license": "ISC"
+}
