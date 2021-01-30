@@ -6,7 +6,22 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["crypto", "defi", "rollercoaster", "meme", "coins", "tokens", "gains", "ecosystem"],
+  "keywords": [
+    "crypto",
+    "defi",
+    "rollercoaster",
+    "meme",
+    "coins",
+    "tokens",
+    "gains",
+    "ecosystem"
+  ],
   "author": "RollerCoaster",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@openzeppelin/truffle-upgrades": "^1.5.0",
+    "@truffle/hdwallet-provider": "^1.2.1",
+    "ganache-cli": "^6.12.2",
+    "truffle": "^5.1.63"
+  }
 }
