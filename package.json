@@ -21,7 +21,10 @@
   "dependencies": {
     "@openzeppelin/truffle-upgrades": "^1.5.0",
     "@truffle/hdwallet-provider": "^1.2.1",
+    "dotenv": "^8.2.0",
     "ganache-cli": "^6.12.2",
+    "prettier": "^2.2.1",
+    "prettier-plugin-solidity": "^1.0.0-beta.3",
     "truffle": "^5.1.63"
   }
 }
