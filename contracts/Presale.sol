@@ -12,37 +12,29 @@ import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
 contract Presale is Ownable, IPresale {
     using SafeMath for uint256;
 
-    uint256 public constant HARDCAP = 600 * 10**18;
-    uint256 public constant MAX_CONTRIBUTION = 3 * 10**18;
     uint256 public constant LIQUIDITY_ALLOCATION_PERCENT = 60;
-
     uint256 public constant PRESALE_MAX_SUPPLY = 600 * 10**18; // if 600 eth collected, otherwise leftover burned
     uint256 public constant LIQUIDITY_MAX_SUPPLY = 162 * 10**18; // if 600 eth collected (360 eth for liquidity), otherwise leftover burned
     uint256 public constant RC_FARM_SUPPLY = 1000 * 10**18;
     uint256 public constant RC_ETH_FARM_SUPPLY = 1600 * 10**18;
 
-    uint256 private immutable maxContributorsCount;
-    uint256 private immutable contributorTokensPerCollectedEth;
-    uint256 private immutable liquidityTokensPerCollectedEth;
-
+    uint256 private hardcap;
+    uint256 private collected;
+    uint256 private maxContribution;
+    uint256 private maxContributorsCount;
+    uint256 private contributorsCount;
+    uint256 private contributorTokensPerCollectedEth;
+    uint256 private liquidityTokensPerCollectedEth;
     address private token;
     address private liquidityLock;
     address private uniswapRouter;
     address private rcFarm;
     address private rcEthFarm;
-    uint256 private collected;
     bool private isPresaleActiveFlag;
     bool private isFcfsActiveFlag;
     bool private wasPresaleEndedFlag;
     mapping(address => bool) private contributors;
     mapping(address => uint256) private contributions;
-    uint256 private contributorsCount;
-
-    constructor() public {
-        maxContributorsCount = HARDCAP.div(MAX_CONTRIBUTION);
-        contributorTokensPerCollectedEth = PRESALE_MAX_SUPPLY.mul(10**18).div(HARDCAP);
-        liquidityTokensPerCollectedEth = LIQUIDITY_MAX_SUPPLY.mul(10**18).div(HARDCAP);
-    }
 
     modifier presaleActive() {
         require(isPresaleActiveFlag, "Presale is not active.");
@@ -51,6 +43,11 @@ contract Presale is Ownable, IPresale {
 
     modifier presaleNotActive() {
         require(!isPresaleActiveFlag, "Presale is active.");
+        _;
+    }
+
+    modifier presaleNotEnded() {
+        require(!wasPresaleEndedFlag, "Presale was ended.");
         _;
     }
 
@@ -90,6 +87,14 @@ contract Presale is Ownable, IPresale {
         return collected;
     }
 
+    function hardcapAmount() external view override returns (uint256) {
+        return hardcap;
+    }
+
+    function maxContributionAmount() external view override returns (uint256) {
+        return maxContribution;
+    }
+
     function isPresaleActive() external view override returns (bool) {
         return isPresaleActiveFlag;
     }
@@ -110,7 +115,7 @@ contract Presale is Ownable, IPresale {
         return contributions[_contributor];
     }
 
-    function addContributors(address[] memory _contributors) public override onlyOwner {
+    function addContributors(address[] memory _contributors) public override onlyOwner presaleActive {
         for (uint256 i; i < _contributors.length; i++) {
             bool isAlreadyAdded = contributors[_contributors[i]];
             if (isAlreadyAdded) {
@@ -123,14 +128,21 @@ contract Presale is Ownable, IPresale {
     }
 
     function start(
+        uint256 _hardcap,
+        uint256 _maxContribution,
         address _token,
         address _liquidityLock,
         address _uniswapRouter,
         address _rcFarm,
         address _rcEthFarm,
-        address[] memory _contributors
-    ) external override onlyOwner presaleNotActive sufficientSupply(_token) {
+        address[] calldata _contributors
+    ) external override onlyOwner presaleNotActive presaleNotEnded sufficientSupply(_token) {
         isPresaleActiveFlag = true;
+        hardcap = _hardcap;
+        maxContribution = _maxContribution;
+        maxContributorsCount = hardcap.div(maxContribution);
+        contributorTokensPerCollectedEth = PRESALE_MAX_SUPPLY.mul(10**18).div(hardcap);
+        liquidityTokensPerCollectedEth = LIQUIDITY_MAX_SUPPLY.mul(10**18).div(hardcap);
         token = _token;
         liquidityLock = _liquidityLock;
         uniswapRouter = _uniswapRouter;
@@ -182,7 +194,7 @@ contract Presale is Ownable, IPresale {
 
     receive() external payable presaleActive senderEligibleToContribute {
         uint256 totalContributionLeft = PRESALE_MAX_SUPPLY.sub(collected);
-        uint256 senderContributionLeft = MAX_CONTRIBUTION.sub(contributions[msg.sender]);
+        uint256 senderContributionLeft = maxContribution.sub(contributions[msg.sender]);
         uint256 contributionLeft = Math.min(totalContributionLeft, senderContributionLeft);
 
         uint256 valueToAccept = Math.min(msg.value, contributionLeft);

@@ -14,6 +14,10 @@ interface IPresale {
 
     function collectedAmount() external view returns (uint256);
 
+    function hardcapAmount() external view returns (uint256);
+
+    function maxContributionAmount() external view returns (uint256);
+
     function isPresaleActive() external view returns (bool);
 
     function isFcfsActive() external view returns (bool);
@@ -24,15 +28,17 @@ interface IPresale {
 
     function contribution(address _contributor) external view returns (uint256);
 
-    function addContributors(address[] memory _contributors) external;
+    function addContributors(address[] calldata _contributors) external;
 
     function start(
+        uint256 _hardcap,
+        uint256 _maxContribution,
         address _token,
         address _liquidityLock,
         address _uniswapRouter,
         address _rcFarm,
         address _rcEthFarm,
-        address[] memory _contributors
+        address[] calldata _contributors
     ) external;
 
     function activateFcfs() external;
