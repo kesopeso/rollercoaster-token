@@ -19,8 +19,10 @@
   "author": "RollerCoaster",
   "license": "ISC",
   "dependencies": {
+    "@openzeppelin/contracts": "^3.3.0",
     "@openzeppelin/truffle-upgrades": "^1.5.0",
     "@truffle/hdwallet-provider": "^1.2.1",
+    "@uniswap/v2-periphery": "^1.1.0-beta.0",
     "dotenv": "^8.2.0",
     "ganache-cli": "^6.12.2",
     "prettier": "^2.2.1",

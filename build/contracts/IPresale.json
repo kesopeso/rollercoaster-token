@@ -1,0 +1,131 @@
+{
+  "contractName": "IPresale",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IPresale.sol\":\"IPresale\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IPresale.sol\":{\"keccak256\":\"0x3424c17189be0eb90bf7c358505f6ffc30d0eb0eabf9dfa1491174910e2b1024\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://953e5336eb9dc2ccd5cf409e570fa05695cf00b14942596fc02569fd1f601ab6\",\"dweb:/ipfs/QmbNoTniDNGv3GMQ4oyX4DKFApAKWWka7LsfSUB3u9rtrk\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.9.0;\n\ninterface IPresale {}\n",
+  "sourcePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IPresale.sol",
+  "ast": {
+    "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IPresale.sol",
+    "exportedSymbols": {
+      "IPresale": [
+        41
+      ]
+    },
+    "id": 42,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 40,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.9",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:32:2"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 41,
+        "linearizedBaseContracts": [
+          41
+        ],
+        "name": "IPresale",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 42,
+        "src": "66:21:2"
+      }
+    ],
+    "src": "32:56:2"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IPresale.sol",
+      "exportedSymbols": {
+        "IPresale": [
+          41
+        ]
+      },
+      "license": "MIT"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            ">=",
+            "0.4",
+            ".22",
+            "<",
+            "0.9",
+            ".0"
+          ]
+        },
+        "id": 40,
+        "name": "PragmaDirective",
+        "src": "32:32:2"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            41
+          ],
+          "name": "IPresale",
+          "nodes": [
+            null
+          ],
+          "scope": 42
+        },
+        "id": 41,
+        "name": "ContractDefinition",
+        "src": "66:21:2"
+      }
+    ],
+    "id": 42,
+    "name": "SourceUnit",
+    "src": "32:56:2"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.6.12+commit.27d51765.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.3",
+  "updatedAt": "2021-01-30T23:11:29.639Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

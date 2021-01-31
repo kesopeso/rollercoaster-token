@@ -1,0 +1,208 @@
+{
+  "contractName": "Presale",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/keso/projects/crypto/rollercoaster-token/contracts/Presale.sol\":\"Presale\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/keso/projects/crypto/rollercoaster-token/contracts/Presale.sol\":{\"keccak256\":\"0x494ba93b0f5668d5b596acd68c380e811e067a126c3d505aee6f1923319fbaf9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://03086821181394a1168fc54113eb24d5ab2643dbf492557cde79d53474a9bcf0\",\"dweb:/ipfs/QmZcaRnni1nDDad1FK3RFQ6K7eixg93RuqUWJr77C219KK\"]},\"/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IPresale.sol\":{\"keccak256\":\"0x3424c17189be0eb90bf7c358505f6ffc30d0eb0eabf9dfa1491174910e2b1024\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://953e5336eb9dc2ccd5cf409e570fa05695cf00b14942596fc02569fd1f601ab6\",\"dweb:/ipfs/QmbNoTniDNGv3GMQ4oyX4DKFApAKWWka7LsfSUB3u9rtrk\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212201776c790262ca412ddfff5748be8a66259db890f83d9aa72645e75d5dcd7c19564736f6c634300060c0033",
+  "deployedBytecode": "0x6080604052600080fdfea26469706673582212201776c790262ca412ddfff5748be8a66259db890f83d9aa72645e75d5dcd7c19564736f6c634300060c0033",
+  "immutableReferences": {},
+  "sourceMap": "103:31:1:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "103:31:1:-:0;;;;;",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.9.0;\n\nimport \"./interfaces/IPresale.sol\";\n\ncontract Presale is IPresale {}\n",
+  "sourcePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/Presale.sol",
+  "ast": {
+    "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/Presale.sol",
+    "exportedSymbols": {
+      "Presale": [
+        38
+      ]
+    },
+    "id": 39,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 34,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.9",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:32:1"
+      },
+      {
+        "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IPresale.sol",
+        "file": "./interfaces/IPresale.sol",
+        "id": 35,
+        "nodeType": "ImportDirective",
+        "scope": 39,
+        "sourceUnit": 42,
+        "src": "66:35:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 36,
+              "name": "IPresale",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 41,
+              "src": "123:8:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IPresale_$41",
+                "typeString": "contract IPresale"
+              }
+            },
+            "id": 37,
+            "nodeType": "InheritanceSpecifier",
+            "src": "123:8:1"
+          }
+        ],
+        "contractDependencies": [
+          41
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 38,
+        "linearizedBaseContracts": [
+          38,
+          41
+        ],
+        "name": "Presale",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 39,
+        "src": "103:31:1"
+      }
+    ],
+    "src": "32:103:1"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/Presale.sol",
+      "exportedSymbols": {
+        "Presale": [
+          38
+        ]
+      },
+      "license": "MIT"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            ">=",
+            "0.4",
+            ".22",
+            "<",
+            "0.9",
+            ".0"
+          ]
+        },
+        "id": 34,
+        "name": "PragmaDirective",
+        "src": "32:32:1"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 42,
+          "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IPresale.sol",
+          "file": "./interfaces/IPresale.sol",
+          "scope": 39,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 35,
+        "name": "ImportDirective",
+        "src": "66:35:1"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "contractDependencies": [
+            41
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            38,
+            41
+          ],
+          "name": "Presale",
+          "nodes": [
+            null
+          ],
+          "scope": 39
+        },
+        "children": [
+          {
+            "attributes": {
+              "arguments": null
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "IPresale",
+                  "referencedDeclaration": 41,
+                  "type": "contract IPresale"
+                },
+                "id": 36,
+                "name": "UserDefinedTypeName",
+                "src": "123:8:1"
+              }
+            ],
+            "id": 37,
+            "name": "InheritanceSpecifier",
+            "src": "123:8:1"
+          }
+        ],
+        "id": 38,
+        "name": "ContractDefinition",
+        "src": "103:31:1"
+      }
+    ],
+    "id": 39,
+    "name": "SourceUnit",
+    "src": "32:103:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.6.12+commit.27d51765.Emscripten.clang"
+  },
+  "networks": {
+    "1612048235317": {
+      "events": {},
+      "links": {},
+      "address": "0x5c663fa9Bc88A41E748afc4B4aB8051f4210B1E0",
+      "transactionHash": "0xf68899de2b1b9889daebd5944fd40c7a916d013cf5be2f1c79a307a18355fe87"
+    }
+  },
+  "schemaVersion": "3.3.3",
+  "updatedAt": "2021-01-30T23:11:36.084Z",
+  "networkType": "ethereum",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}
