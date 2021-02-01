@@ -3,11 +3,11 @@ pragma solidity >=0.4.22 <0.9.0;
 
 import "./interfaces/IPresale.sol";
 import "./interfaces/IToken.sol";
+import "./interfaces/IUniswapV2Router02.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/math/Math.sol";
-import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
 
 contract Presale is Ownable, IPresale {
     using SafeMath for uint256;
