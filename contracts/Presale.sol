@@ -10,6 +10,12 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/math/Math.sol";
 
 contract Presale is Ownable, IPresale {
+    event PresaleStarted();
+    event FcfsActivated();
+    event PresaleEnded();
+    event ContributionAccepted(address indexed _contributor, uint256 _contribution, uint256 _receivedTokens);
+    event ContributionRefunded(address indexed _contributor, uint256 _contribution);
+
     using SafeMath for uint256;
 
     uint256 public constant LIQUIDITY_ALLOCATION_PERCENT = 60;
@@ -149,10 +155,15 @@ contract Presale is Ownable, IPresale {
         rcFarm = _rcFarm;
         rcEthFarm = _rcEthFarm;
         addContributors(_contributors);
+        emit PresaleStarted();
     }
 
     function activateFcfs() external override onlyOwner presaleActive {
+        if (isFcfsActiveFlag) {
+            return;
+        }
         isFcfsActiveFlag = true;
+        emit FcfsActivated();
     }
 
     function end(address payable _team) external override onlyOwner presaleActive {
@@ -188,6 +199,7 @@ contract Presale is Ownable, IPresale {
         // end presale
         isPresaleActiveFlag = false;
         wasPresaleEndedFlag = true;
+        emit PresaleEnded();
     }
 
     receive() external payable presaleActive senderEligibleToContribute {
@@ -196,19 +208,21 @@ contract Presale is Ownable, IPresale {
         uint256 contributionLeft = Math.min(totalContributionLeft, senderContributionLeft);
 
         uint256 valueToAccept = Math.min(msg.value, contributionLeft);
-        if (valueToAccept < msg.value) {
-            uint256 valueToReturn = msg.value.sub(valueToAccept);
-            _msgSender().transfer(valueToReturn);
+        if (valueToAccept > 0) {
+            collected = collected.add(valueToAccept);
+            contributions[msg.sender] = contributions[msg.sender].add(valueToAccept);
+
+            uint256 tokensToTransfer = contributorTokensPerCollectedEth.mul(valueToAccept).div(10**18);
+            IERC20(token).transfer(msg.sender, tokensToTransfer);
+
+            emit ContributionAccepted(msg.sender, valueToAccept, tokensToTransfer);
         }
 
-        if (valueToAccept == 0) {
-            return;
+        uint256 valueToRefund = msg.value.sub(valueToAccept);
+        if (valueToRefund > 0) {
+            _msgSender().transfer(valueToRefund);
+
+            emit ContributionRefunded(msg.sender, valueToRefund);
         }
-
-        collected = collected.add(valueToAccept);
-        contributions[msg.sender] = contributions[msg.sender].add(valueToAccept);
-
-        uint256 tokensToTransfer = contributorTokensPerCollectedEth.mul(valueToAccept).div(10**18);
-        IERC20(token).transfer(msg.sender, tokensToTransfer);
     }
 }
