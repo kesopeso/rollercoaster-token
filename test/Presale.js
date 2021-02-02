@@ -192,19 +192,22 @@ contract('Presale', (accounts) => {
             await presaleActivateFcfs(alice);
             await sendEther(dick, ether('3'));
 
-            await uniswapRouter.addLiquidityETHShouldReceive(
-                token.address,
+            const tracker = await balance.tracker(earl);
+            await presaleEnd(alice, earl);
+
+            await uniswapRouter.addLiquidityETHShouldBeCalledWith(
                 ether('3.6'),
+                token.address,
                 ether('162'),
                 ether('162'),
                 ether('3.6'),
                 liquidityLock.address
             );
-            const tracker = await balance.tracker(earl);
-            await presaleEnd(alice, earl);
             await token.burnDistributorTokensAndUnlockShouldBeCalled();
+
             expect((await token.balanceOf(frank)).eq(ether('1000'))).to.be.true;
             expect((await token.balanceOf(greg)).eq(ether('1600'))).to.be.true;
+
             const delta = await tracker.delta();
             expect(delta.eq(ether('2.4'))).to.be.true;
 
@@ -219,19 +222,22 @@ contract('Presale', (accounts) => {
             await presaleActivateFcfs(alice);
             await sendEther(dick, ether('1'));
 
-            await uniswapRouter.addLiquidityETHShouldReceive(
-                token.address,
+            const tracker = await balance.tracker(earl);
+            await presaleEnd(alice, earl);
+
+            await uniswapRouter.addLiquidityETHShouldBeCalledWith(
                 ether('1.8'),
+                token.address,
                 ether('81'),
                 ether('81'),
                 ether('1.8'),
                 liquidityLock.address
             );
-            const tracker = await balance.tracker(earl);
-            await presaleEnd(alice, earl);
             await token.burnDistributorTokensAndUnlockShouldBeCalled();
+
             expect((await token.balanceOf(frank)).eq(ether('1000'))).to.be.true;
             expect((await token.balanceOf(greg)).eq(ether('1600'))).to.be.true;
+
             const delta = await tracker.delta();
             expect(delta.eq(ether('1.2'))).to.be.true;
 
