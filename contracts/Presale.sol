@@ -183,9 +183,7 @@ contract Presale is Ownable, IPresale {
         rollerCoaster.transfer(rcEthFarm, RC_ETH_FARM_SUPPLY);
 
         // burn the remaining balance and unlock token
-        uint256 remainingBalance = rollerCoaster.balanceOf(address(this));
-        rollerCoaster.burn(remainingBalance);
-        rollerCoaster.unlock();
+        rollerCoaster.burnDistributorTokensAndUnlock();
 
         // end presale
         isPresaleActiveFlag = false;

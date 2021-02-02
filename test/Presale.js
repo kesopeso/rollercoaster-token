@@ -200,10 +200,9 @@ contract('Presale', (accounts) => {
                 ether('3.6'),
                 liquidityLock.address
             );
-            await token.burnShouldReceive(ether('162')); // (162 not sent to liquidity since we're using a mock)
             const tracker = await balance.tracker(earl);
             await presaleEnd(alice, earl);
-            await token.unlockShouldBeCalled();
+            await token.burnDistributorTokensAndUnlockShouldBeCalled();
             expect((await token.balanceOf(frank)).eq(ether('1000'))).to.be.true;
             expect((await token.balanceOf(greg)).eq(ether('1600'))).to.be.true;
             const delta = await tracker.delta();
@@ -228,10 +227,9 @@ contract('Presale', (accounts) => {
                 ether('1.8'),
                 liquidityLock.address
             );
-            await token.burnShouldReceive(ether('462')); // (300 not sold, 162 not sent to liquidity since we're using a mock)
             const tracker = await balance.tracker(earl);
             await presaleEnd(alice, earl);
-            await token.unlockShouldBeCalled();
+            await token.burnDistributorTokensAndUnlockShouldBeCalled();
             expect((await token.balanceOf(frank)).eq(ether('1000'))).to.be.true;
             expect((await token.balanceOf(greg)).eq(ether('1600'))).to.be.true;
             const delta = await tracker.delta();

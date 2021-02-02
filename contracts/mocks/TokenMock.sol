@@ -5,34 +5,17 @@ import "../interfaces/IToken.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract TokenMock is ERC20, IToken {
-    bool private shouldCompareBurn;
-    uint256 private burnAmount;
-    bool private wasUnlockCalled;
+    bool private wasBurnDistributorTokensAndUnlockCalled;
 
     constructor(address _beneficiary, uint256 _amount) public ERC20("TokenMock", "TokenMock") {
         _mint(_beneficiary, _amount);
     }
 
-    function unlockShouldBeCalled() external view {
-        require(wasUnlockCalled, "Unlock was not called.");
+    function burnDistributorTokensAndUnlockShouldBeCalled() external view {
+        require(wasBurnDistributorTokensAndUnlockCalled, "burnDistributorTokensAndUnlock function was not called.");
     }
 
-    function unlock() external override {
-        wasUnlockCalled = true;
-    }
-
-    function isUnlocked() external override returns (bool) {
-        return wasUnlockCalled;
-    }
-
-    function burnShouldReceive(uint256 _amount) external {
-        shouldCompareBurn = true;
-        burnAmount = _amount;
-    }
-
-    function burn(uint256 _amount) external override {
-        if (shouldCompareBurn) {
-            require(burnAmount == _amount, "_amount parameter missmatch.");
-        }
+    function burnDistributorTokensAndUnlock() external override {
+        wasBurnDistributorTokensAndUnlockCalled = true;
     }
 }
