@@ -4,7 +4,7 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 const getNetworkDeploymentConfig = (network, networkId) => {
     const ownerPrivateKey = process.env[`${network.toUpperCase()}_OWNER_PRIVATE_KEY`];
     const providerUrl = `https://${network}.infura.io/v3/${process.env.INFURA_KEY}`;
-    const provider = null; //new HDWalletProvider(ownerPrivateKey, providerUrl);
+    const provider = new HDWalletProvider(ownerPrivateKey, providerUrl);
     const network_id = networkId;
     const gas = Number(process.env.DEPLOY_GAS);
     const gasPrice = Number(`${process.env[`${network.toUpperCase()}_DEPLOY_GAS_PRICE_IN_GWEI`]}000000000`);

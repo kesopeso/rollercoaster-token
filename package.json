@@ -28,6 +28,7 @@
     "ganache-cli": "^6.12.2",
     "prettier": "^2.2.1",
     "prettier-plugin-solidity": "^1.0.0-beta.3",
-    "truffle": "^5.1.63"
+    "truffle": "^5.1.63",
+    "truffle-plugin-verify": "^0.5.4"
   }
 }

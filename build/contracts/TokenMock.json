@@ -89,7 +89,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -132,7 +133,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -145,7 +147,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -206,7 +209,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -219,7 +223,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -232,7 +237,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -292,7 +298,8 @@
       "name": "burnDistributorTokensAndUnlockShouldBeCalled",
       "outputs": [],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -352,7 +359,7 @@
         "id": 871,
         "nodeType": "ImportDirective",
         "scope": 914,
-        "sourceUnit": 1967,
+        "sourceUnit": 1958,
         "src": "101:55:6",
         "symbolAliases": [],
         "unitAlias": ""
@@ -367,10 +374,10 @@
               "id": 872,
               "name": "ERC20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1966,
+              "referencedDeclaration": 1957,
               "src": "180:5:6",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20_$1966",
+                "typeIdentifier": "t_contract$_ERC20_$1957",
                 "typeString": "contract ERC20"
               }
             },
@@ -399,9 +406,9 @@
         ],
         "contractDependencies": [
           843,
-          1085,
-          1966,
-          2044
+          1076,
+          1957,
+          2035
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -410,9 +417,9 @@
         "linearizedBaseContracts": [
           913,
           843,
-          1966,
-          2044,
-          1085
+          1957,
+          2035,
+          1076
         ],
         "name": "TokenMock",
         "nodeType": "ContractDefinition",
@@ -497,7 +504,7 @@
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1842,
+                      "referencedDeclaration": 1833,
                       "src": "359:5:6",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint256_$returns$__$",
@@ -576,10 +583,10 @@
                   "name": "ERC20",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1966,
+                  "referencedDeclaration": 1957,
                   "src": "317:5:6",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_ERC20_$1966_$",
+                    "typeIdentifier": "t_type$_t_contract$_ERC20_$1957_$",
                     "typeString": "type(contract ERC20)"
                   }
                 },
@@ -926,7 +933,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 1967,
+          "SourceUnit": 1958,
           "absolutePath": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
           "file": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
           "scope": 914,
@@ -944,9 +951,9 @@
           "abstract": false,
           "contractDependencies": [
             843,
-            1085,
-            1966,
-            2044
+            1076,
+            1957,
+            2035
           ],
           "contractKind": "contract",
           "documentation": null,
@@ -954,9 +961,9 @@
           "linearizedBaseContracts": [
             913,
             843,
-            1966,
-            2044,
-            1085
+            1957,
+            2035,
+            1076
           ],
           "name": "TokenMock",
           "scope": 914
@@ -971,7 +978,7 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "ERC20",
-                  "referencedDeclaration": 1966,
+                  "referencedDeclaration": 1957,
                   "type": "contract ERC20"
                 },
                 "id": 872,
@@ -1129,7 +1136,7 @@
                       "overloadedDeclarations": [
                         null
                       ],
-                      "referencedDeclaration": 1966,
+                      "referencedDeclaration": 1957,
                       "type": "type(contract ERC20)",
                       "value": "ERC20"
                     },
@@ -1211,7 +1218,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1842,
+                              "referencedDeclaration": 1833,
                               "type": "function (address,uint256)",
                               "value": "_mint"
                             },
@@ -1534,9 +1541,125 @@
     "name": "solc",
     "version": "0.6.12+commit.27d51765.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "4": {
+      "events": {
+        "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "spender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Approval",
+          "type": "event"
+        },
+        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Transfer",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xcA998cc7d8873dE5Ef22278850FCd873Faeff705",
+      "transactionHash": "0xf96217672dc3890ea824ce94b0a5e0b8da6920244f069e322092bad8eee58a79"
+    },
+    "1612278933187": {
+      "events": {
+        "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "spender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Approval",
+          "type": "event"
+        },
+        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Transfer",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x95525c17D53F7b8C9F5606E720Ce081429952e19",
+      "transactionHash": "0xfb738cbdf57a5f7bc3e3e4fb6ea64cf76efea9038d9264eccd8869a291e799d7"
+    }
+  },
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-02-01T23:09:13.967Z",
+  "updatedAt": "2021-02-02T15:24:38.038Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {

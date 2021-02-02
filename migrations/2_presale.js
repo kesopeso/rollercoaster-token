@@ -1,5 +1,5 @@
 const Presale = artifacts.require('Presale');
 
-module.exports = (deployer) => {
-    deployer.deploy(Presale);
+module.exports = async (deployer) => {
+    await deployer.deploy(Presale);
 };
