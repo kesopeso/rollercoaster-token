@@ -171,6 +171,45 @@ contract('Presale', (accounts) => {
     });
 
     context('after allowing contributions from all', () => {
+        const testEndPresaleSuccessfully = async (
+            bobContribution,
+            dickContribution,
+            liquidityEths,
+            liquidityTokens,
+            teamEths
+        ) => {
+            await presaleStart([bob, curtis], alice);
+            await sendEther(bob, ether(bobContribution.toString()));
+
+            await presaleActivateFcfs(alice);
+            await sendEther(dick, ether(dickContribution.toString()));
+
+            const tracker = await balance.tracker(earl);
+            await presaleEnd(alice, earl);
+
+            const liquidityEthAmount = ether(liquidityEths.toString());
+            const liquidityTokenAmount = ether(liquidityTokens.toString());
+            await uniswapRouter.addLiquidityETHShouldBeCalledWith(
+                liquidityEthAmount,
+                token.address,
+                liquidityTokenAmount,
+                liquidityTokenAmount,
+                liquidityEthAmount,
+                liquidityLock.address
+            );
+            await token.burnDistributorTokensAndUnlockShouldBeCalled();
+
+            expect((await token.balanceOf(frank)).eq(ether('1000'))).to.be.true;
+            expect((await token.balanceOf(greg)).eq(ether('1600'))).to.be.true;
+
+            const delta = await tracker.delta();
+            const teamEthAmount = ether(teamEths.toString());
+            expect(delta.eq(teamEthAmount)).to.be.true;
+
+            expect(await presale.isPresaleActive()).to.be.false;
+            expect(await presale.wasPresaleEnded()).to.be.true;
+        };
+
         it('should allow investment from non whitelisted addresses if fcfs active', async () => {
             await presaleStart([bob, curtis], alice);
             await expectRevert(send.ether(dick, presale.address, ether('2')), 'Not eligible to participate.');
@@ -186,63 +225,11 @@ contract('Presale', (accounts) => {
         });
 
         it('should end presale successfully', async () => {
-            await presaleStart([bob, curtis], alice);
-            await sendEther(bob, ether('3'));
-
-            await presaleActivateFcfs(alice);
-            await sendEther(dick, ether('3'));
-
-            const tracker = await balance.tracker(earl);
-            await presaleEnd(alice, earl);
-
-            await uniswapRouter.addLiquidityETHShouldBeCalledWith(
-                ether('3.6'),
-                token.address,
-                ether('162'),
-                ether('162'),
-                ether('3.6'),
-                liquidityLock.address
-            );
-            await token.burnDistributorTokensAndUnlockShouldBeCalled();
-
-            expect((await token.balanceOf(frank)).eq(ether('1000'))).to.be.true;
-            expect((await token.balanceOf(greg)).eq(ether('1600'))).to.be.true;
-
-            const delta = await tracker.delta();
-            expect(delta.eq(ether('2.4'))).to.be.true;
-
-            expect(await presale.isPresaleActive()).to.be.false;
-            expect(await presale.wasPresaleEnded()).to.be.true;
+            await testEndPresaleSuccessfully(3, 3, 3.6, 162, 2.4);
         });
 
         it('should end presale successfully with partially collected funds', async () => {
-            await presaleStart([bob, curtis], alice);
-            await sendEther(bob, ether('2'));
-
-            await presaleActivateFcfs(alice);
-            await sendEther(dick, ether('1'));
-
-            const tracker = await balance.tracker(earl);
-            await presaleEnd(alice, earl);
-
-            await uniswapRouter.addLiquidityETHShouldBeCalledWith(
-                ether('1.8'),
-                token.address,
-                ether('81'),
-                ether('81'),
-                ether('1.8'),
-                liquidityLock.address
-            );
-            await token.burnDistributorTokensAndUnlockShouldBeCalled();
-
-            expect((await token.balanceOf(frank)).eq(ether('1000'))).to.be.true;
-            expect((await token.balanceOf(greg)).eq(ether('1600'))).to.be.true;
-
-            const delta = await tracker.delta();
-            expect(delta.eq(ether('1.2'))).to.be.true;
-
-            expect(await presale.isPresaleActive()).to.be.false;
-            expect(await presale.wasPresaleEnded()).to.be.true;
+            await testEndPresaleSuccessfully(2, 1, 1.8, 81, 1.2);
         });
     });
 
