@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
+import "./interfaces/IBuyback.sol";
 import "./interfaces/IPresale.sol";
 import "./interfaces/IToken.sol";
 import "./interfaces/IUniswapV2Router02.sol";
@@ -18,9 +19,10 @@ contract Presale is Ownable, IPresale {
 
     using SafeMath for uint256;
 
-    uint256 public constant LIQUIDITY_ALLOCATION_PERCENT = 60;
+    uint256 public constant BUYBACK_ALLOCATION_PERCENT = 50;
+    uint256 public constant LIQUIDITY_ALLOCATION_PERCENT = 10;
     uint256 public constant PRESALE_MAX_SUPPLY = 600 * 10**18; // if 600 eth collected, otherwise leftover burned
-    uint256 public constant LIQUIDITY_MAX_SUPPLY = 162 * 10**18; // if 600 eth collected (360 eth for liquidity), otherwise leftover burned
+    uint256 public constant LIQUIDITY_MAX_SUPPLY = 27 * 10**18; // if 600 eth collected (360 eth for liquidity), otherwise leftover burned
     uint256 public constant RC_FARM_SUPPLY = 1000 * 10**18;
     uint256 public constant RC_ETH_FARM_SUPPLY = 1600 * 10**18;
 
@@ -32,6 +34,7 @@ contract Presale is Ownable, IPresale {
     uint256 private contributorTokensPerCollectedEth;
     uint256 private liquidityTokensPerCollectedEth;
     address private token;
+    address private buyback;
     address private liquidityLock;
     address private uniswapRouter;
     address private rcFarm;
@@ -71,6 +74,10 @@ contract Presale is Ownable, IPresale {
 
     function tokenAddress() external view override returns (address) {
         return token;
+    }
+
+    function buybackAddress() external view override returns (address) {
+        return buyback;
     }
 
     function liquidityLockAddress() external view override returns (address) {
@@ -137,6 +144,7 @@ contract Presale is Ownable, IPresale {
         uint256 _hardcap,
         uint256 _maxContribution,
         address _token,
+        address _buyback,
         address _liquidityLock,
         address _uniswapRouter,
         address _rcFarm,
@@ -150,6 +158,7 @@ contract Presale is Ownable, IPresale {
         contributorTokensPerCollectedEth = PRESALE_MAX_SUPPLY.mul(10**18).div(hardcap);
         liquidityTokensPerCollectedEth = LIQUIDITY_MAX_SUPPLY.mul(10**18).div(hardcap);
         token = _token;
+        buyback = _buyback;
         liquidityLock = _liquidityLock;
         uniswapRouter = _uniswapRouter;
         rcFarm = _rcFarm;
@@ -168,9 +177,13 @@ contract Presale is Ownable, IPresale {
 
     function end(address payable _team) external override onlyOwner presaleActive {
         IToken rollerCoaster = IToken(token);
-
-        // calculate liquidity share
         uint256 totalCollected = address(this).balance;
+
+        // calculate buyback and execute it
+        uint256 buybackEths = totalCollected.mul(BUYBACK_ALLOCATION_PERCENT).div(100);
+        IBuyback(buyback).init{ value: buybackEths }(token, uniswapRouter);
+    
+        // calculate liquidity share
         uint256 liquidityEths = totalCollected.mul(LIQUIDITY_ALLOCATION_PERCENT).div(100);
         uint256 liquidityTokens = liquidityTokensPerCollectedEth.mul(totalCollected).div(10**18);
 
@@ -186,7 +199,7 @@ contract Presale is Ownable, IPresale {
         );
 
         // transfer team share
-        uint256 teamEths = totalCollected.sub(liquidityEths);
+        uint256 teamEths = totalCollected.sub(liquidityEths).sub(buybackEths);
         _team.transfer(teamEths);
 
         // transfer farm shares

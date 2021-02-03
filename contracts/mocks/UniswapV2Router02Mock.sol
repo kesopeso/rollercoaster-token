@@ -11,6 +11,11 @@ contract UniswapV2Router02Mock is IUniswapV2Router02 {
     uint256 private _amountETHMin;
     address private _to;
 
+    uint256 private _sMsgValue;
+    uint256 private _sAmountOutMin;
+    address[] private _sPath;
+    address private _sTo;
+
     function addLiquidityETHShouldBeCalledWith(
         uint256 msgValue,
         address token,
@@ -57,5 +62,36 @@ contract UniswapV2Router02Mock is IUniswapV2Router02 {
         amountToken = 0;
         amountETH = 0;
         liquidity = 0;
+    }
+
+    function swapExactETHForTokensShouldBeCalledWith(
+        uint256 msgValue,
+        uint256 amountOutMin,
+        address[] calldata path,
+        address to
+    ) external view {
+        require(msgValue == _sMsgValue, "msg.value parameter missmatch.");
+        require(amountOutMin == _sAmountOutMin, "amountOutMin parameter missmatch.");
+        require(path.length == _sPath.length, "path parameter length missmatch.");
+        for (uint256 i; i < path.length; i++) {
+            require(path[i] == _sPath[i], "path parameter elements missmatch.");
+        }
+        require(to == _to, "to parameter missmatch.");
+    }
+
+    function swapExactETHForTokens(
+        uint256 amountOutMin,
+        address[] calldata path,
+        address to,
+        uint256 deadline
+    ) external payable override returns (uint256[] memory amounts) {
+        _sMsgValue = msg.value;
+        _sAmountOutMin = amountOutMin;
+        _sPath = path;
+        _sTo = to;
+
+        // to silence warnings
+        deadline = 0;
+        amounts = new uint256[](path.length);
     }
 }
