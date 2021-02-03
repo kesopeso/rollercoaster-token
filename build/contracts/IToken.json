@@ -204,15 +204,15 @@
     "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IToken.sol",
     "exportedSymbols": {
       "IToken": [
-        843
+        1346
       ]
     },
-    "id": 844,
+    "id": 1347,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 836,
+        "id": 1339,
         "literals": [
           "solidity",
           ">=",
@@ -223,16 +223,16 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "32:32:4"
+        "src": "32:32:7"
       },
       {
         "absolutePath": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
         "file": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-        "id": 837,
+        "id": 1340,
         "nodeType": "ImportDirective",
-        "scope": 844,
-        "sourceUnit": 2036,
-        "src": "66:56:4",
+        "scope": 1347,
+        "sourceUnit": 2676,
+        "src": "66:56:7",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -243,31 +243,31 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 838,
+              "id": 1341,
               "name": "IERC20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2035,
-              "src": "144:6:4",
+              "referencedDeclaration": 2675,
+              "src": "144:6:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IERC20_$2035",
+                "typeIdentifier": "t_contract$_IERC20_$2675",
                 "typeString": "contract IERC20"
               }
             },
-            "id": 839,
+            "id": 1342,
             "nodeType": "InheritanceSpecifier",
-            "src": "144:6:4"
+            "src": "144:6:7"
           }
         ],
         "contractDependencies": [
-          2035
+          2675
         ],
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 843,
+        "id": 1346,
         "linearizedBaseContracts": [
-          843,
-          2035
+          1346,
+          2675
         ],
         "name": "IToken",
         "nodeType": "ContractDefinition",
@@ -276,7 +276,7 @@
             "body": null,
             "documentation": null,
             "functionSelector": "aa2d9f0b",
-            "id": 842,
+            "id": 1345,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -284,36 +284,36 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 840,
+              "id": 1343,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "196:2:4"
+              "src": "196:2:7"
             },
             "returnParameters": {
-              "id": 841,
+              "id": 1344,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "207:0:4"
+              "src": "207:0:7"
             },
-            "scope": 843,
-            "src": "157:51:4",
+            "scope": 1346,
+            "src": "157:51:7",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 844,
-        "src": "124:86:4"
+        "scope": 1347,
+        "src": "124:86:7"
       }
     ],
-    "src": "32:179:4"
+    "src": "32:179:7"
   },
   "legacyAST": {
     "attributes": {
       "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IToken.sol",
       "exportedSymbols": {
         "IToken": [
-          843
+          1346
         ]
       },
       "license": "MIT"
@@ -331,40 +331,40 @@
             ".0"
           ]
         },
-        "id": 836,
+        "id": 1339,
         "name": "PragmaDirective",
-        "src": "32:32:4"
+        "src": "32:32:7"
       },
       {
         "attributes": {
-          "SourceUnit": 2036,
+          "SourceUnit": 2676,
           "absolutePath": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
           "file": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-          "scope": 844,
+          "scope": 1347,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 837,
+        "id": 1340,
         "name": "ImportDirective",
-        "src": "66:56:4"
+        "src": "66:56:7"
       },
       {
         "attributes": {
           "abstract": false,
           "contractDependencies": [
-            2035
+            2675
           ],
           "contractKind": "interface",
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            843,
-            2035
+            1346,
+            2675
           ],
           "name": "IToken",
-          "scope": 844
+          "scope": 1347
         },
         "children": [
           {
@@ -376,17 +376,17 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "IERC20",
-                  "referencedDeclaration": 2035,
+                  "referencedDeclaration": 2675,
                   "type": "contract IERC20"
                 },
-                "id": 838,
+                "id": 1341,
                 "name": "UserDefinedTypeName",
-                "src": "144:6:4"
+                "src": "144:6:7"
               }
             ],
-            "id": 839,
+            "id": 1342,
             "name": "InheritanceSpecifier",
-            "src": "144:6:4"
+            "src": "144:6:7"
           },
           {
             "attributes": {
@@ -401,7 +401,7 @@
               ],
               "name": "burnDistributorTokensAndUnlock",
               "overrides": null,
-              "scope": 843,
+              "scope": 1346,
               "stateMutability": "nonpayable",
               "virtual": false,
               "visibility": "external"
@@ -414,9 +414,9 @@
                   ]
                 },
                 "children": [],
-                "id": 840,
+                "id": 1343,
                 "name": "ParameterList",
-                "src": "196:2:4"
+                "src": "196:2:7"
               },
               {
                 "attributes": {
@@ -425,24 +425,24 @@
                   ]
                 },
                 "children": [],
-                "id": 841,
+                "id": 1344,
                 "name": "ParameterList",
-                "src": "207:0:4"
+                "src": "207:0:7"
               }
             ],
-            "id": 842,
+            "id": 1345,
             "name": "FunctionDefinition",
-            "src": "157:51:4"
+            "src": "157:51:7"
           }
         ],
-        "id": 843,
+        "id": 1346,
         "name": "ContractDefinition",
-        "src": "124:86:4"
+        "src": "124:86:7"
       }
     ],
-    "id": 844,
+    "id": 1347,
     "name": "SourceUnit",
-    "src": "32:179:4"
+    "src": "32:179:7"
   },
   "compiler": {
     "name": "solc",
@@ -450,7 +450,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-02-02T15:13:52.144Z",
+  "updatedAt": "2021-02-03T01:03:01.287Z",
   "devdoc": {
     "kind": "dev",
     "methods": {
