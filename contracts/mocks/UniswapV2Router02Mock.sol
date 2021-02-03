@@ -76,7 +76,7 @@ contract UniswapV2Router02Mock is IUniswapV2Router02 {
         for (uint256 i; i < path.length; i++) {
             require(path[i] == _sPath[i], "path parameter elements missmatch.");
         }
-        require(to == _to, "to parameter missmatch.");
+        require(to == _sTo, "to parameter missmatch.");
     }
 
     function swapExactETHForTokens(

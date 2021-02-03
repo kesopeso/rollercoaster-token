@@ -14,7 +14,12 @@ contract Presale is Ownable, IPresale {
     event PresaleStarted();
     event FcfsActivated();
     event PresaleEnded();
-    event ContributionAccepted(address indexed _contributor, uint256 _contribution, uint256 _receivedTokens);
+    event ContributionAccepted(
+        address indexed _contributor,
+        uint256 _contribution,
+        uint256 _receivedTokens,
+        uint256 _contributions
+    );
     event ContributionRefunded(address indexed _contributor, uint256 _contribution);
 
     using SafeMath for uint256;
@@ -182,7 +187,7 @@ contract Presale is Ownable, IPresale {
         // calculate buyback and execute it
         uint256 buybackEths = totalCollected.mul(BUYBACK_ALLOCATION_PERCENT).div(100);
         IBuyback(buyback).init{ value: buybackEths }(token, uniswapRouter);
-    
+
         // calculate liquidity share
         uint256 liquidityEths = totalCollected.mul(LIQUIDITY_ALLOCATION_PERCENT).div(100);
         uint256 liquidityTokens = liquidityTokensPerCollectedEth.mul(totalCollected).div(10**18);
@@ -228,7 +233,7 @@ contract Presale is Ownable, IPresale {
             uint256 tokensToTransfer = contributorTokensPerCollectedEth.mul(valueToAccept).div(10**18);
             IERC20(token).transfer(msg.sender, tokensToTransfer);
 
-            emit ContributionAccepted(msg.sender, valueToAccept, tokensToTransfer);
+            emit ContributionAccepted(msg.sender, valueToAccept, tokensToTransfer, collected);
         }
 
         uint256 valueToRefund = msg.value.sub(valueToAccept);

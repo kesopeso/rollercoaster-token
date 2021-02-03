@@ -13,8 +13,10 @@ contract Buyback is Context, IBuyback {
 
     using SafeMath for uint256;
 
+    bool private isInitialized;
     address private token;
     address private uniswapRouter;
+    address private initializer;
     address private treasury;
     address private weth;
     uint256 private totalBuyback;
@@ -24,19 +26,43 @@ contract Buyback is Context, IBuyback {
     uint256 private nextBuybackTimestamp;
     uint256 private lastBuybackBlockNumber;
 
-    constructor(address _treasury, address _weth) public {
+    constructor(
+        address _initializer,
+        address _treasury,
+        address _weth
+    ) public {
+        initializer = _initializer;
         treasury = _treasury;
         weth = _weth;
     }
 
+    modifier onlyInitializer() {
+        require(msg.sender == initializer, "Only initializer allowed.");
+        _;
+    }
+
+    modifier initialized() {
+        require(isInitialized, "Not initialized.");
+        _;
+    }
+
+    modifier notInitialized() {
+        require(!isInitialized, "Already initialized.");
+        _;
+    }
+
     modifier scheduled() {
-        require(block.timestamp >= nextBuybackTimestamp && nextBuybackTimestamp > 0, "Not scheduled yet.");
+        require(block.timestamp >= nextBuybackTimestamp, "Not scheduled yet.");
         _;
     }
 
     modifier available() {
-        require(totalBuyback > alreadyBoughtBack, "No more funds available.");
+        require(totalBuyback > 0 && totalBuyback > alreadyBoughtBack, "No more funds available.");
         _;
+    }
+
+    function initializerAddress() external view override returns (address) {
+        return initializer;
     }
 
     function tokenAddress() external view override returns (address) {
@@ -75,21 +101,22 @@ contract Buyback is Context, IBuyback {
         return nextBuybackTimestamp;
     }
 
-    function lastBlockNumber() external view override returns (uint256) {
+    function lastBuybackBlock() external view override returns (uint256) {
         return lastBuybackBlockNumber;
     }
 
-    function init(address _token, address _uniswapRouter) external payable override {
+    function init(address _token, address _uniswapRouter) external payable override notInitialized onlyInitializer {
         token = _token;
         uniswapRouter = _uniswapRouter;
         totalBuyback = msg.value;
         singleBuyback = totalBuyback.div(10);
         updateBuybackTimestamps();
 
+        isInitialized = true;
         emit BuybackInitialized(totalBuyback, singleBuyback);
     }
 
-    function buyback() external override scheduled available {
+    function buyback() external override scheduled initialized available {
         uint256 fundsLeft = totalBuyback.sub(alreadyBoughtBack);
         uint256 actualBuyback = Math.min(fundsLeft, singleBuyback);
 

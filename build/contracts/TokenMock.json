@@ -89,8 +89,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -133,8 +132,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -147,8 +145,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -209,8 +206,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -223,8 +219,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -237,8 +232,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -298,8 +292,7 @@
       "name": "burnDistributorTokensAndUnlockShouldBeCalled",
       "outputs": [],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -321,15 +314,15 @@
     "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/mocks/TokenMock.sol",
     "exportedSymbols": {
       "TokenMock": [
-        1431
+        1499
       ]
     },
-    "id": 1432,
+    "id": 1500,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1387,
+        "id": 1455,
         "literals": [
           "solidity",
           ">=",
@@ -345,10 +338,10 @@
       {
         "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IToken.sol",
         "file": "../interfaces/IToken.sol",
-        "id": 1388,
+        "id": 1456,
         "nodeType": "ImportDirective",
-        "scope": 1432,
-        "sourceUnit": 1347,
+        "scope": 1500,
+        "sourceUnit": 1415,
         "src": "66:34:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -356,10 +349,10 @@
       {
         "absolutePath": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
         "file": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
-        "id": 1389,
+        "id": 1457,
         "nodeType": "ImportDirective",
-        "scope": 1432,
-        "sourceUnit": 2598,
+        "scope": 1500,
+        "sourceUnit": 2666,
         "src": "101:55:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -371,17 +364,17 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 1390,
+              "id": 1458,
               "name": "ERC20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2597,
+              "referencedDeclaration": 2665,
               "src": "180:5:9",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20_$2597",
+                "typeIdentifier": "t_contract$_ERC20_$2665",
                 "typeString": "contract ERC20"
               }
             },
-            "id": 1391,
+            "id": 1459,
             "nodeType": "InheritanceSpecifier",
             "src": "180:5:9"
           },
@@ -389,49 +382,49 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 1392,
+              "id": 1460,
               "name": "IToken",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1346,
+              "referencedDeclaration": 1414,
               "src": "187:6:9",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IToken_$1346",
+                "typeIdentifier": "t_contract$_IToken_$1414",
                 "typeString": "contract IToken"
               }
             },
-            "id": 1393,
+            "id": 1461,
             "nodeType": "InheritanceSpecifier",
             "src": "187:6:9"
           }
         ],
         "contractDependencies": [
-          1346,
-          1716,
-          2597,
-          2675
+          1414,
+          1784,
+          2665,
+          2743
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 1431,
+        "id": 1499,
         "linearizedBaseContracts": [
-          1431,
-          1346,
-          2597,
-          2675,
-          1716
+          1499,
+          1414,
+          2665,
+          2743,
+          1784
         ],
         "name": "TokenMock",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 1395,
+            "id": 1463,
             "mutability": "mutable",
             "name": "wasBurnDistributorTokensAndUnlockCalled",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 1431,
+            "scope": 1499,
             "src": "200:52:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -440,7 +433,7 @@
               "typeString": "bool"
             },
             "typeName": {
-              "id": 1394,
+              "id": 1462,
               "name": "bool",
               "nodeType": "ElementaryTypeName",
               "src": "200:4:9",
@@ -454,7 +447,7 @@
           },
           {
             "body": {
-              "id": 1411,
+              "id": 1479,
               "nodeType": "Block",
               "src": "349:45:9",
               "statements": [
@@ -464,11 +457,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 1407,
+                        "id": 1475,
                         "name": "_beneficiary",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1397,
+                        "referencedDeclaration": 1465,
                         "src": "365:12:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -477,11 +470,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 1408,
+                        "id": 1476,
                         "name": "_amount",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1399,
+                        "referencedDeclaration": 1467,
                         "src": "379:7:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -500,18 +493,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 1406,
+                      "id": 1474,
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2473,
+                      "referencedDeclaration": 2541,
                       "src": "359:5:9",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint256_$returns$__$",
                         "typeString": "function (address,uint256)"
                       }
                     },
-                    "id": 1409,
+                    "id": 1477,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -526,14 +519,14 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1410,
+                  "id": 1478,
                   "nodeType": "ExpressionStatement",
                   "src": "359:28:9"
                 }
               ]
             },
             "documentation": null,
-            "id": 1412,
+            "id": 1480,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [
@@ -542,7 +535,7 @@
                   {
                     "argumentTypes": null,
                     "hexValue": "546f6b656e4d6f636b",
-                    "id": 1402,
+                    "id": 1470,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -560,7 +553,7 @@
                   {
                     "argumentTypes": null,
                     "hexValue": "546f6b656e4d6f636b",
-                    "id": 1403,
+                    "id": 1471,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -576,17 +569,17 @@
                     "value": "TokenMock"
                   }
                 ],
-                "id": 1404,
+                "id": 1472,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 1401,
+                  "id": 1469,
                   "name": "ERC20",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 2597,
+                  "referencedDeclaration": 2665,
                   "src": "317:5:9",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_ERC20_$2597_$",
+                    "typeIdentifier": "t_type$_t_contract$_ERC20_$2665_$",
                     "typeString": "type(contract ERC20)"
                   }
                 },
@@ -598,17 +591,17 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 1400,
+              "id": 1468,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1397,
+                  "id": 1465,
                   "mutability": "mutable",
                   "name": "_beneficiary",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1412,
+                  "scope": 1480,
                   "src": "271:20:9",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -617,7 +610,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1396,
+                    "id": 1464,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "271:7:9",
@@ -632,12 +625,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1399,
+                  "id": 1467,
                   "mutability": "mutable",
                   "name": "_amount",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1412,
+                  "scope": 1480,
                   "src": "293:15:9",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -646,7 +639,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1398,
+                    "id": 1466,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "293:7:9",
@@ -662,12 +655,12 @@
               "src": "270:39:9"
             },
             "returnParameters": {
-              "id": 1405,
+              "id": 1473,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "349:0:9"
             },
-            "scope": 1431,
+            "scope": 1499,
             "src": "259:135:9",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -675,7 +668,7 @@
           },
           {
             "body": {
-              "id": 1420,
+              "id": 1488,
               "nodeType": "Block",
               "src": "470:124:9",
               "statements": [
@@ -685,11 +678,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 1416,
+                        "id": 1484,
                         "name": "wasBurnDistributorTokensAndUnlockCalled",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1395,
+                        "referencedDeclaration": 1463,
                         "src": "488:39:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
@@ -699,7 +692,7 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "6275726e4469737472696275746f72546f6b656e73416e64556e6c6f636b2066756e6374696f6e20776173206e6f742063616c6c65642e",
-                        "id": 1417,
+                        "id": 1485,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -726,7 +719,7 @@
                           "typeString": "literal_string \"burnDistributorTokensAndUnlock function was not called.\""
                         }
                       ],
-                      "id": 1415,
+                      "id": 1483,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -740,7 +733,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 1418,
+                    "id": 1486,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -755,7 +748,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1419,
+                  "id": 1487,
                   "nodeType": "ExpressionStatement",
                   "src": "480:107:9"
                 }
@@ -763,7 +756,7 @@
             },
             "documentation": null,
             "functionSelector": "d1e5ac51",
-            "id": 1421,
+            "id": 1489,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -771,18 +764,18 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 1413,
+              "id": 1481,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "453:2:9"
             },
             "returnParameters": {
-              "id": 1414,
+              "id": 1482,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "470:0:9"
             },
-            "scope": 1431,
+            "scope": 1499,
             "src": "400:194:9",
             "stateMutability": "view",
             "virtual": false,
@@ -790,28 +783,28 @@
           },
           {
             "baseFunctions": [
-              1345
+              1413
             ],
             "body": {
-              "id": 1429,
+              "id": 1497,
               "nodeType": "Block",
               "src": "660:63:9",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1427,
+                    "id": 1495,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 1425,
+                      "id": 1493,
                       "name": "wasBurnDistributorTokensAndUnlockCalled",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1395,
+                      "referencedDeclaration": 1463,
                       "src": "670:39:9",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -823,7 +816,7 @@
                     "rightHandSide": {
                       "argumentTypes": null,
                       "hexValue": "74727565",
-                      "id": 1426,
+                      "id": 1494,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -844,7 +837,7 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 1428,
+                  "id": 1496,
                   "nodeType": "ExpressionStatement",
                   "src": "670:46:9"
                 }
@@ -852,38 +845,38 @@
             },
             "documentation": null,
             "functionSelector": "aa2d9f0b",
-            "id": 1430,
+            "id": 1498,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "burnDistributorTokensAndUnlock",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 1423,
+              "id": 1491,
               "nodeType": "OverrideSpecifier",
               "overrides": [],
               "src": "651:8:9"
             },
             "parameters": {
-              "id": 1422,
+              "id": 1490,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "639:2:9"
             },
             "returnParameters": {
-              "id": 1424,
+              "id": 1492,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "660:0:9"
             },
-            "scope": 1431,
+            "scope": 1499,
             "src": "600:123:9",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 1432,
+        "scope": 1500,
         "src": "158:567:9"
       }
     ],
@@ -894,7 +887,7 @@
       "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/mocks/TokenMock.sol",
       "exportedSymbols": {
         "TokenMock": [
-          1431
+          1499
         ]
       },
       "license": "MIT"
@@ -912,37 +905,37 @@
             ".0"
           ]
         },
-        "id": 1387,
+        "id": 1455,
         "name": "PragmaDirective",
         "src": "32:32:9"
       },
       {
         "attributes": {
-          "SourceUnit": 1347,
+          "SourceUnit": 1415,
           "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IToken.sol",
           "file": "../interfaces/IToken.sol",
-          "scope": 1432,
+          "scope": 1500,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 1388,
+        "id": 1456,
         "name": "ImportDirective",
         "src": "66:34:9"
       },
       {
         "attributes": {
-          "SourceUnit": 2598,
+          "SourceUnit": 2666,
           "absolutePath": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
           "file": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
-          "scope": 1432,
+          "scope": 1500,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 1389,
+        "id": 1457,
         "name": "ImportDirective",
         "src": "101:55:9"
       },
@@ -950,23 +943,23 @@
         "attributes": {
           "abstract": false,
           "contractDependencies": [
-            1346,
-            1716,
-            2597,
-            2675
+            1414,
+            1784,
+            2665,
+            2743
           ],
           "contractKind": "contract",
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            1431,
-            1346,
-            2597,
-            2675,
-            1716
+            1499,
+            1414,
+            2665,
+            2743,
+            1784
           ],
           "name": "TokenMock",
-          "scope": 1432
+          "scope": 1500
         },
         "children": [
           {
@@ -978,15 +971,15 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "ERC20",
-                  "referencedDeclaration": 2597,
+                  "referencedDeclaration": 2665,
                   "type": "contract ERC20"
                 },
-                "id": 1390,
+                "id": 1458,
                 "name": "UserDefinedTypeName",
                 "src": "180:5:9"
               }
             ],
-            "id": 1391,
+            "id": 1459,
             "name": "InheritanceSpecifier",
             "src": "180:5:9"
           },
@@ -999,15 +992,15 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "IToken",
-                  "referencedDeclaration": 1346,
+                  "referencedDeclaration": 1414,
                   "type": "contract IToken"
                 },
-                "id": 1392,
+                "id": 1460,
                 "name": "UserDefinedTypeName",
                 "src": "187:6:9"
               }
             ],
-            "id": 1393,
+            "id": 1461,
             "name": "InheritanceSpecifier",
             "src": "187:6:9"
           },
@@ -1017,7 +1010,7 @@
               "mutability": "mutable",
               "name": "wasBurnDistributorTokensAndUnlockCalled",
               "overrides": null,
-              "scope": 1431,
+              "scope": 1499,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "bool",
@@ -1030,12 +1023,12 @@
                   "name": "bool",
                   "type": "bool"
                 },
-                "id": 1394,
+                "id": 1462,
                 "name": "ElementaryTypeName",
                 "src": "200:4:9"
               }
             ],
-            "id": 1395,
+            "id": 1463,
             "name": "VariableDeclaration",
             "src": "200:52:9"
           },
@@ -1047,7 +1040,7 @@
               "kind": "constructor",
               "name": "",
               "overrides": null,
-              "scope": 1431,
+              "scope": 1499,
               "stateMutability": "nonpayable",
               "virtual": false,
               "visibility": "public"
@@ -1061,7 +1054,7 @@
                       "mutability": "mutable",
                       "name": "_beneficiary",
                       "overrides": null,
-                      "scope": 1412,
+                      "scope": 1480,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -1075,12 +1068,12 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 1396,
+                        "id": 1464,
                         "name": "ElementaryTypeName",
                         "src": "271:7:9"
                       }
                     ],
-                    "id": 1397,
+                    "id": 1465,
                     "name": "VariableDeclaration",
                     "src": "271:20:9"
                   },
@@ -1090,7 +1083,7 @@
                       "mutability": "mutable",
                       "name": "_amount",
                       "overrides": null,
-                      "scope": 1412,
+                      "scope": 1480,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -1103,17 +1096,17 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 1398,
+                        "id": 1466,
                         "name": "ElementaryTypeName",
                         "src": "293:7:9"
                       }
                     ],
-                    "id": 1399,
+                    "id": 1467,
                     "name": "VariableDeclaration",
                     "src": "293:15:9"
                   }
                 ],
-                "id": 1400,
+                "id": 1468,
                 "name": "ParameterList",
                 "src": "270:39:9"
               },
@@ -1124,7 +1117,7 @@
                   ]
                 },
                 "children": [],
-                "id": 1405,
+                "id": 1473,
                 "name": "ParameterList",
                 "src": "349:0:9"
               },
@@ -1136,11 +1129,11 @@
                       "overloadedDeclarations": [
                         null
                       ],
-                      "referencedDeclaration": 2597,
+                      "referencedDeclaration": 2665,
                       "type": "type(contract ERC20)",
                       "value": "ERC20"
                     },
-                    "id": 1401,
+                    "id": 1469,
                     "name": "Identifier",
                     "src": "317:5:9"
                   },
@@ -1157,7 +1150,7 @@
                       "type": "literal_string \"TokenMock\"",
                       "value": "TokenMock"
                     },
-                    "id": 1402,
+                    "id": 1470,
                     "name": "Literal",
                     "src": "323:11:9"
                   },
@@ -1174,12 +1167,12 @@
                       "type": "literal_string \"TokenMock\"",
                       "value": "TokenMock"
                     },
-                    "id": 1403,
+                    "id": 1471,
                     "name": "Literal",
                     "src": "336:11:9"
                   }
                 ],
-                "id": 1404,
+                "id": 1472,
                 "name": "ModifierInvocation",
                 "src": "317:31:9"
               },
@@ -1218,11 +1211,11 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 2473,
+                              "referencedDeclaration": 2541,
                               "type": "function (address,uint256)",
                               "value": "_mint"
                             },
-                            "id": 1406,
+                            "id": 1474,
                             "name": "Identifier",
                             "src": "359:5:9"
                           },
@@ -1232,11 +1225,11 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1397,
+                              "referencedDeclaration": 1465,
                               "type": "address",
                               "value": "_beneficiary"
                             },
-                            "id": 1407,
+                            "id": 1475,
                             "name": "Identifier",
                             "src": "365:12:9"
                           },
@@ -1246,31 +1239,31 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1399,
+                              "referencedDeclaration": 1467,
                               "type": "uint256",
                               "value": "_amount"
                             },
-                            "id": 1408,
+                            "id": 1476,
                             "name": "Identifier",
                             "src": "379:7:9"
                           }
                         ],
-                        "id": 1409,
+                        "id": 1477,
                         "name": "FunctionCall",
                         "src": "359:28:9"
                       }
                     ],
-                    "id": 1410,
+                    "id": 1478,
                     "name": "ExpressionStatement",
                     "src": "359:28:9"
                   }
                 ],
-                "id": 1411,
+                "id": 1479,
                 "name": "Block",
                 "src": "349:45:9"
               }
             ],
-            "id": 1412,
+            "id": 1480,
             "name": "FunctionDefinition",
             "src": "259:135:9"
           },
@@ -1286,7 +1279,7 @@
               ],
               "name": "burnDistributorTokensAndUnlockShouldBeCalled",
               "overrides": null,
-              "scope": 1431,
+              "scope": 1499,
               "stateMutability": "view",
               "virtual": false,
               "visibility": "external"
@@ -1299,7 +1292,7 @@
                   ]
                 },
                 "children": [],
-                "id": 1413,
+                "id": 1481,
                 "name": "ParameterList",
                 "src": "453:2:9"
               },
@@ -1310,7 +1303,7 @@
                   ]
                 },
                 "children": [],
-                "id": 1414,
+                "id": 1482,
                 "name": "ParameterList",
                 "src": "470:0:9"
               },
@@ -1354,7 +1347,7 @@
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
-                            "id": 1415,
+                            "id": 1483,
                             "name": "Identifier",
                             "src": "480:7:9"
                           },
@@ -1364,11 +1357,11 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1395,
+                              "referencedDeclaration": 1463,
                               "type": "bool",
                               "value": "wasBurnDistributorTokensAndUnlockCalled"
                             },
-                            "id": 1416,
+                            "id": 1484,
                             "name": "Identifier",
                             "src": "488:39:9"
                           },
@@ -1385,34 +1378,34 @@
                               "type": "literal_string \"burnDistributorTokensAndUnlock function was not called.\"",
                               "value": "burnDistributorTokensAndUnlock function was not called."
                             },
-                            "id": 1417,
+                            "id": 1485,
                             "name": "Literal",
                             "src": "529:57:9"
                           }
                         ],
-                        "id": 1418,
+                        "id": 1486,
                         "name": "FunctionCall",
                         "src": "480:107:9"
                       }
                     ],
-                    "id": 1419,
+                    "id": 1487,
                     "name": "ExpressionStatement",
                     "src": "480:107:9"
                   }
                 ],
-                "id": 1420,
+                "id": 1488,
                 "name": "Block",
                 "src": "470:124:9"
               }
             ],
-            "id": 1421,
+            "id": 1489,
             "name": "FunctionDefinition",
             "src": "400:194:9"
           },
           {
             "attributes": {
               "baseFunctions": [
-                1345
+                1413
               ],
               "documentation": null,
               "functionSelector": "aa2d9f0b",
@@ -1423,7 +1416,7 @@
                 null
               ],
               "name": "burnDistributorTokensAndUnlock",
-              "scope": 1431,
+              "scope": 1499,
               "stateMutability": "nonpayable",
               "virtual": false,
               "visibility": "external"
@@ -1435,7 +1428,7 @@
                     null
                   ]
                 },
-                "id": 1423,
+                "id": 1491,
                 "name": "OverrideSpecifier",
                 "src": "651:8:9"
               },
@@ -1446,7 +1439,7 @@
                   ]
                 },
                 "children": [],
-                "id": 1422,
+                "id": 1490,
                 "name": "ParameterList",
                 "src": "639:2:9"
               },
@@ -1457,7 +1450,7 @@
                   ]
                 },
                 "children": [],
-                "id": 1424,
+                "id": 1492,
                 "name": "ParameterList",
                 "src": "660:0:9"
               },
@@ -1482,11 +1475,11 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1395,
+                              "referencedDeclaration": 1463,
                               "type": "bool",
                               "value": "wasBurnDistributorTokensAndUnlockCalled"
                             },
-                            "id": 1425,
+                            "id": 1493,
                             "name": "Identifier",
                             "src": "670:39:9"
                           },
@@ -1503,37 +1496,37 @@
                               "type": "bool",
                               "value": "true"
                             },
-                            "id": 1426,
+                            "id": 1494,
                             "name": "Literal",
                             "src": "712:4:9"
                           }
                         ],
-                        "id": 1427,
+                        "id": 1495,
                         "name": "Assignment",
                         "src": "670:46:9"
                       }
                     ],
-                    "id": 1428,
+                    "id": 1496,
                     "name": "ExpressionStatement",
                     "src": "670:46:9"
                   }
                 ],
-                "id": 1429,
+                "id": 1497,
                 "name": "Block",
                 "src": "660:63:9"
               }
             ],
-            "id": 1430,
+            "id": 1498,
             "name": "FunctionDefinition",
             "src": "600:123:9"
           }
         ],
-        "id": 1431,
+        "id": 1499,
         "name": "ContractDefinition",
         "src": "158:567:9"
       }
     ],
-    "id": 1432,
+    "id": 1500,
     "name": "SourceUnit",
     "src": "32:694:9"
   },
@@ -1715,8 +1708,7 @@
     }
   },
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-02-03T01:03:17.184Z",
-  "networkType": "ethereum",
+  "updatedAt": "2021-02-03T15:07:35.284Z",
   "devdoc": {
     "kind": "dev",
     "methods": {

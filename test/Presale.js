@@ -44,13 +44,13 @@ contract('Presale', (accounts) => {
         presale = await Presale.new();
         token = await TokenMock.new(presale.address, ether('3227'));
         treasury = await Treasury.new();
-        buyback = await Buyback.new(treasury.address, constants.ZERO_ADDRESS);
+        buyback = await Buyback.new(presale.address, treasury.address, constants.ZERO_ADDRESS);
         const liquidityUnlockTimestamp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30 * 6;
         liquidityLock = await LiquidityLock.new(token.address, liquidityUnlockTimestamp);
         uniswapRouter = await UniswapV2Router02Mock.new();
     });
 
-    context('non owners', async () => {
+    context('non owners', () => {
         it('should not allow start from non owner', async () => {
             await expectRevert(presaleStart([], bob), 'Ownable: caller is not the owner');
         });

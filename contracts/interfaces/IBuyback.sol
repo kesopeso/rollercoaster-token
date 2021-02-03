@@ -2,6 +2,8 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 interface IBuyback {
+    function initializerAddress() external view returns (address);
+
     function tokenAddress() external view returns (address);
 
     function uniswapRouterAddress() external view returns (address);
@@ -20,7 +22,7 @@ interface IBuyback {
 
     function nextBuyback() external view returns (uint256);
 
-    function lastBlockNumber() external view returns (uint256);
+    function lastBuybackBlock() external view returns (uint256);
 
     function init(address _token, address _uniswapRouter) external payable;
 

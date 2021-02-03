@@ -1,3 +1,4 @@
+const Presale = artifacts.require('Presale');
 const Treasury = artifacts.require('Treasury');
 const Buyback = artifacts.require('Buyback');
 const { constants } = require('@openzeppelin/test-helpers');
@@ -14,7 +15,8 @@ const getWethAddress = (network) => {
 };
 
 module.exports = async (deployer, network) => {
+    const presale = await Presale.deployed();
     const treasury = await Treasury.deployed();
     const wethAddress = getWethAddress(network);
-    await deployer.deploy(Buyback, treasury.address, wethAddress);
+    await deployer.deploy(Buyback, presale.address, treasury.address, wethAddress);
 };
