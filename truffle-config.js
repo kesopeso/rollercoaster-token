@@ -25,6 +25,11 @@ module.exports = {
             port: 8545, // Standard Ethereum port (default: none)
             network_id: '*', // Any network (default: none)
         },
+        test: {
+            host: '127.0.0.1',
+            port: 8545,
+            network_id: '*',
+        },
         rinkeby: getNetworkDeploymentConfig('rinkeby', 4),
         kovan: getNetworkDeploymentConfig('kovan', 42),
         mainnet: getNetworkDeploymentConfig('mainnet', 1),

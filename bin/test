@@ -1,2 +1,2 @@
 #!/bin/bash
-bin/truffle test --network development
+bin/truffle test --network test

@@ -15,6 +15,10 @@ const getWethAddress = (network) => {
 };
 
 module.exports = async (deployer, network) => {
+    if (network === 'test') {
+        console.log('Testing... Skipping Buyback contract migration.');
+        return;
+    }
     const presale = await Presale.deployed();
     const treasury = await Treasury.deployed();
     const wethAddress = getWethAddress(network);
