@@ -1,0 +1,338 @@
+{
+  "contractName": "IBuybackInitializer",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_uniswapRouter",
+          "type": "address"
+        }
+      ],
+      "name": "init",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_uniswapRouter\",\"type\":\"address\"}],\"name\":\"init\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IBuybackInitializer.sol\":\"IBuybackInitializer\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IBuybackInitializer.sol\":{\"keccak256\":\"0xea07eec0b9e54a4704e73f1ed5c4d12ea8b10504075e17cad5b97d1c97070f99\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://d28969cf52edf9e38cb14916d259613269fcc642780fe607990e9f4b19cedee9\",\"dweb:/ipfs/QmUPN9aEDRiDbM8Cq62SZRsbM9vwCkTSEBbJrdw2AVbDma\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.9.0;\n\ninterface IBuybackInitializer {\n    function init(address _token, address _uniswapRouter) external payable;\n}\n",
+  "sourcePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IBuybackInitializer.sol",
+  "ast": {
+    "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IBuybackInitializer.sol",
+    "exportedSymbols": {
+      "IBuybackInitializer": [
+        1684
+      ]
+    },
+    "id": 1685,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1676,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.9",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:32:7"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 1684,
+        "linearizedBaseContracts": [
+          1684
+        ],
+        "name": "IBuybackInitializer",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": null,
+            "functionSelector": "f09a4016",
+            "id": 1683,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "init",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 1681,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1678,
+                  "mutability": "mutable",
+                  "name": "_token",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 1683,
+                  "src": "116:14:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1677,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "116:7:7",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1680,
+                  "mutability": "mutable",
+                  "name": "_uniswapRouter",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 1683,
+                  "src": "132:22:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1679,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "132:7:7",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "115:40:7"
+            },
+            "returnParameters": {
+              "id": 1682,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "172:0:7"
+            },
+            "scope": 1684,
+            "src": "102:71:7",
+            "stateMutability": "payable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 1685,
+        "src": "66:109:7"
+      }
+    ],
+    "src": "32:144:7"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IBuybackInitializer.sol",
+      "exportedSymbols": {
+        "IBuybackInitializer": [
+          1684
+        ]
+      },
+      "license": "MIT"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            ">=",
+            "0.4",
+            ".22",
+            "<",
+            "0.9",
+            ".0"
+          ]
+        },
+        "id": 1676,
+        "name": "PragmaDirective",
+        "src": "32:32:7"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            1684
+          ],
+          "name": "IBuybackInitializer",
+          "scope": 1685
+        },
+        "children": [
+          {
+            "attributes": {
+              "body": null,
+              "documentation": null,
+              "functionSelector": "f09a4016",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "init",
+              "overrides": null,
+              "scope": 1684,
+              "stateMutability": "payable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_token",
+                      "overrides": null,
+                      "scope": 1683,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 1677,
+                        "name": "ElementaryTypeName",
+                        "src": "116:7:7"
+                      }
+                    ],
+                    "id": 1678,
+                    "name": "VariableDeclaration",
+                    "src": "116:14:7"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_uniswapRouter",
+                      "overrides": null,
+                      "scope": 1683,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 1679,
+                        "name": "ElementaryTypeName",
+                        "src": "132:7:7"
+                      }
+                    ],
+                    "id": 1680,
+                    "name": "VariableDeclaration",
+                    "src": "132:22:7"
+                  }
+                ],
+                "id": 1681,
+                "name": "ParameterList",
+                "src": "115:40:7"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 1682,
+                "name": "ParameterList",
+                "src": "172:0:7"
+              }
+            ],
+            "id": 1683,
+            "name": "FunctionDefinition",
+            "src": "102:71:7"
+          }
+        ],
+        "id": 1684,
+        "name": "ContractDefinition",
+        "src": "66:109:7"
+      }
+    ],
+    "id": 1685,
+    "name": "SourceUnit",
+    "src": "32:144:7"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.6.12+commit.27d51765.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.3",
+  "updatedAt": "2021-02-05T11:15:55.154Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

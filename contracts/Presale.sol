@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-import "./interfaces/IBuyback.sol";
+import "./interfaces/IBuybackInitializer.sol";
 import "./interfaces/IPresale.sol";
 import "./interfaces/ITokenDistributor.sol";
 import "./interfaces/IToken.sol";
@@ -191,7 +191,7 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
 
         // calculate buyback and execute it
         uint256 buybackEths = totalCollected.mul(BUYBACK_ALLOCATION_PERCENT).div(100);
-        IBuyback(buyback).init{ value: buybackEths }(token, uniswapRouter);
+        IBuybackInitializer(buyback).init{ value: buybackEths }(token, uniswapRouter);
 
         // calculate liquidity share
         uint256 liquidityEths = totalCollected.mul(LIQUIDITY_ALLOCATION_PERCENT).div(100);

@@ -22,9 +22,5 @@ interface IBuyback {
 
     function nextBuyback() external view returns (uint256);
 
-    function lastBuybackBlock() external view returns (uint256);
-
-    function init(address _token, address _uniswapRouter) external payable;
-
     function buyback() external;
 }

@@ -15,6 +15,7 @@ contract UniswapV2Router02Mock is IUniswapV2Router02 {
     uint256 private _sAmountOutMin;
     address[] private _sPath;
     address private _sTo;
+    uint256 private _sAmountOut;
 
     function addLiquidityETHShouldBeCalledWith(
         uint256 msgValue,
@@ -79,6 +80,10 @@ contract UniswapV2Router02Mock is IUniswapV2Router02 {
         require(to == _sTo, "to parameter missmatch.");
     }
 
+    function setSwapExactETHForTokensAmountOut(uint256 amountOut) external {
+        _sAmountOut = amountOut;
+    }
+
     function swapExactETHForTokens(
         uint256 amountOutMin,
         address[] calldata path,
@@ -93,5 +98,6 @@ contract UniswapV2Router02Mock is IUniswapV2Router02 {
         // to silence warnings
         deadline = 0;
         amounts = new uint256[](path.length);
+        amounts[path.length - 1] = _sAmountOut;
     }
 }

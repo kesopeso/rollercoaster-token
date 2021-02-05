@@ -8,7 +8,7 @@ contract('LiquidityLock', (accounts) => {
         const [alice, bob] = accounts;
         const tokensAmount = ether('5');
         const token = await TokenMock.new(alice, tokensAmount);
-        
+
         const release = (await time.latest()).add(time.duration.years(1));
         const liquidityLock = await LiquidityLock.new(token.address, release, { from: bob });
         await token.transfer(liquidityLock.address, tokensAmount);
@@ -22,9 +22,9 @@ contract('LiquidityLock', (accounts) => {
         await liquidityLock.release();
 
         const liquidityLockBalance = await token.balanceOf(liquidityLock.address);
-        expect(liquidityLockBalance.isZero()).to.be.true;
+        expect(liquidityLockBalance.toString()).to.eq(ether('0').toString());
 
         const bobBalance = await token.balanceOf(bob);
-        expect(bobBalance.eq(tokensAmount)).to.be.true;
+        expect(bobBalance.toString()).to.eq(tokensAmount.toString());
     });
 });

@@ -2,12 +2,14 @@
 pragma solidity ^0.6.0;
 
 import "./interfaces/IBuyback.sol";
+import "./interfaces/IBuybackInitializer.sol";
+import "./interfaces/ITransferLimiter.sol";
 import "./interfaces/IUniswapV2Router02.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/math/Math.sol";
 import "@openzeppelin/contracts/GSN/Context.sol";
 
-contract Buyback is Context, IBuyback {
+contract Buyback is Context, IBuyback, IBuybackInitializer, ITransferLimiter {
     event BuybackInitialized(uint256 _totalAmount, uint256 _singleAmount);
     event SingleBuybackExecuted(address _sender, uint256 _senderRewardAmount, uint256 _buybackAmount);
 
@@ -25,6 +27,7 @@ contract Buyback is Context, IBuyback {
     uint256 private lastBuybackTimestamp;
     uint256 private nextBuybackTimestamp;
     uint256 private lastBuybackBlockNumber;
+    uint256 private lastBuybackAmount;
 
     constructor(
         address _initializer,
@@ -57,7 +60,7 @@ contract Buyback is Context, IBuyback {
     }
 
     modifier available() {
-        require(totalBuyback > 0 && totalBuyback > alreadyBoughtBack, "No more funds available.");
+        require(totalBuyback > alreadyBoughtBack, "No more funds available.");
         _;
     }
 
@@ -101,8 +104,11 @@ contract Buyback is Context, IBuyback {
         return nextBuybackTimestamp;
     }
 
-    function lastBuybackBlock() external view override returns (uint256) {
-        return lastBuybackBlockNumber;
+    function getTransferLimitPerETH() external view override returns (uint256) {
+        if (block.number != lastBuybackBlockNumber || lastBuybackAmount == 0 || singleBuyback == 0) {
+            return 0;
+        }
+        return lastBuybackAmount.mul(10**18).div(singleBuyback);
     }
 
     function init(address _token, address _uniswapRouter) external payable override notInitialized onlyInitializer {
@@ -110,7 +116,7 @@ contract Buyback is Context, IBuyback {
         uniswapRouter = _uniswapRouter;
         totalBuyback = msg.value;
         singleBuyback = totalBuyback.div(10);
-        updateBuybackTimestamps();
+        updateBuybackTimestamps(true);
 
         isInitialized = true;
         emit BuybackInitialized(totalBuyback, singleBuyback);
@@ -129,17 +135,24 @@ contract Buyback is Context, IBuyback {
         address[] memory path = new address[](2);
         path[0] = weth;
         path[1] = token;
-        IUniswapV2Router02(uniswapRouter).swapExactETHForTokens{ value: buyShare }(0, path, treasury, block.timestamp);
+        uint256[] memory amounts =
+            IUniswapV2Router02(uniswapRouter).swapExactETHForTokens{ value: buyShare }(
+                0,
+                path,
+                treasury,
+                block.timestamp
+            );
 
         alreadyBoughtBack = alreadyBoughtBack.add(actualBuyback);
         lastBuybackBlockNumber = block.number;
-        updateBuybackTimestamps();
+        lastBuybackAmount = amounts[amounts.length - 1];
+        updateBuybackTimestamps(false);
 
         emit SingleBuybackExecuted(msg.sender, senderShare, buyShare);
     }
 
-    function updateBuybackTimestamps() private {
-        lastBuybackTimestamp = nextBuybackTimestamp;
-        nextBuybackTimestamp = (nextBuybackTimestamp > 0 ? nextBuybackTimestamp : block.timestamp) + 1 days;
+    function updateBuybackTimestamps(bool _isInit) private {
+        lastBuybackTimestamp = _isInit ? 0 : block.timestamp;
+        nextBuybackTimestamp = (_isInit ? block.timestamp : nextBuybackTimestamp) + 1 days;
     }
 }

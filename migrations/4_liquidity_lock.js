@@ -3,7 +3,7 @@ const LiquidityLock = artifacts.require('LiquidityLock');
 
 module.exports = async (deployer, network) => {
     if (network === 'test') {
-        console.log('Testing... Skipping LiquidityLockyy contract migration.');
+        console.log('Testing... Skipping LiquidityLock contract migration.');
         return;
     }
     const token = await Token.deployed();

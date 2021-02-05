@@ -39,19 +39,21 @@ contract('Buyback', (accounts) => {
             await buybackInit(alice, 10);
 
             const buybackDelta = await buybackTracker.delta();
-            expect(buybackDelta.eq(ether('10'))).to.be.true;
+            expect(buybackDelta.toString()).to.eq(ether('10').toString());
 
             expect(await buyback.tokenAddress()).to.equal(token.address);
             expect(await buyback.initializerAddress()).to.equal(alice);
             expect(await buyback.uniswapRouterAddress()).to.equal(uniswapRouter.address);
             expect(await buyback.treasuryAddress()).to.equal(treasury.address);
             expect(await buyback.wethAddress()).to.equal(constants.ZERO_ADDRESS);
-            expect((await buyback.totalAmount()).eq(ether('10'))).to.be.true;
-            expect((await buyback.singleAmount()).eq(ether('1'))).to.be.true;
-            expect((await buyback.boughtBackAmount()).eq(ether('0'))).to.be.true;
-            expect((await buyback.lastBuyback()).isZero()).to.be.true;
-            expect((await buyback.nextBuyback()).eq((await time.latest()).add(time.duration.days(1)))).to.be.true;
-            expect((await buyback.lastBuybackBlock()).isZero()).to.be.true;
+            expect((await buyback.totalAmount()).toString()).to.eq(ether('10').toString());
+            expect((await buyback.singleAmount()).toString()).to.eq(ether('1').toString());
+            expect((await buyback.boughtBackAmount()).toString()).to.eq(ether('0').toString());
+            expect((await buyback.lastBuyback()).toString()).to.eq(ether('0').toString());
+            expect((await buyback.nextBuyback()).toString()).to.eq(
+                (await time.latest()).add(time.duration.days(1)).toString()
+            );
+            expect((await buyback.getTransferLimitPerETH()).toString()).to.eq(ether('0').toString());
         });
     });
 
@@ -67,15 +69,18 @@ contract('Buyback', (accounts) => {
 
         it('should execute buyback successfully if scheduled', async () => {
             await expectRevert(buybackBuyback(bob), 'Not scheduled yet.');
+
+            let nextExecution = await buyback.nextBuyback();
             await time.increase(time.duration.days(1));
 
+            await uniswapRouter.setSwapExactETHForTokensAmountOut(ether('2'));
             const bobTracker = await balance.tracker(bob);
             const { receipt } = await buybackBuyback(bob);
 
             // we must take into consideration that default gas price on ganache is 20gwei
             const txFee = ether('0.00000002').mul(new BN(receipt.gasUsed));
             const rewardAmount = (await bobTracker.delta()).add(txFee);
-            expect(rewardAmount.eq(ether('0.01'))).to.be.true;
+            expect(rewardAmount.toString()).to.eq(ether('0.01').toString());
 
             await uniswapRouter.swapExactETHForTokensShouldBeCalledWith(
                 ether('0.99'),
@@ -84,16 +89,28 @@ contract('Buyback', (accounts) => {
                 treasury.address
             );
 
-            expect((await buyback.boughtBackAmount()).eq(ether('1'))).to.be.true;
+            expect((await buyback.getTransferLimitPerETH()).toString()).to.eq(ether('2').toString());
+            expect((await buyback.boughtBackAmount()).toString()).to.eq(ether('1').toString());
 
-            const lastExecution = await time.latest();
-            expect((await buyback.lastBuyback()).eq(lastExecution)).to.be.true;
+            let lastExecution = await time.latest();
+            expect((await buyback.lastBuyback()).toString()).to.eq(lastExecution.toString());
 
-            const nextExecution = lastExecution.add(time.duration.days(1));
-            expect((await buyback.nextBuyback()).eq(nextExecution)).to.be.true;
+            nextExecution = nextExecution.add(time.duration.days(1));
+            expect((await buyback.nextBuyback()).toString()).to.eq(nextExecution.toString());
 
-            const blockNumber = await time.latestBlock();
-            expect((await buyback.lastBuybackBlock()).eq(blockNumber)).to.be.true;
+            await time.increase(time.duration.hours(12));
+            await expectRevert(buybackBuyback(bob), 'Not scheduled yet.');
+
+            await time.increase(time.duration.hours(13));
+            await buybackBuyback(bob);
+
+            expect((await buyback.boughtBackAmount()).toString()).to.eq(ether('2').toString());
+
+            lastExecution = await time.latest();
+            expect((await buyback.lastBuyback()).toString()).to.eq(lastExecution.toString());
+
+            nextExecution = nextExecution.add(time.duration.days(1));
+            expect((await buyback.nextBuyback()).toString()).to.eq(nextExecution.toString());
         });
     });
 });

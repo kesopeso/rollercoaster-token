@@ -1,9 +1,9 @@
 {
-  "contractName": "ITokenDistributor",
+  "contractName": "ITransferLimiter",
   "abi": [
     {
       "inputs": [],
-      "name": "getMaxSupply",
+      "name": "getTransferLimitPerETH",
       "outputs": [
         {
           "internalType": "uint256",
@@ -15,27 +15,27 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getMaxSupply\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITokenDistributor.sol\":\"ITokenDistributor\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITokenDistributor.sol\":{\"keccak256\":\"0x928fa9632713c9cab5c48349c53480085df100a820799a70c4703ca9f3c019d9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fa9300e7e373c2353dc3921517071bc14ce892cd94f298ae0b090f835879cc33\",\"dweb:/ipfs/QmZzyCcmmLXfVuWecenxRwaXJ755uRBhQ2TCgZPAKUcLtn\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getTransferLimitPerETH\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITransferLimiter.sol\":\"ITransferLimiter\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITransferLimiter.sol\":{\"keccak256\":\"0x419b6c0aa78e69d44343b23801c5ec39b6544e9013328a26b7e846acdf1a1d3e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://22299a4581e89049842fd6c7fbcb8bf9a7fe3e6f79b72c70a26784f1a440c5c9\",\"dweb:/ipfs/QmSna2dmM74rgSKFo5GUYPrRyxKoLiQQZQBW3FRmL84Lq2\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.9.0;\n\ninterface ITokenDistributor {\n    function getMaxSupply() external view returns (uint256);\n}\n",
-  "sourcePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITokenDistributor.sol",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.9.0;\n\ninterface ITransferLimiter {\n    function getTransferLimitPerETH() external view returns (uint256);\n}\n",
+  "sourcePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITransferLimiter.sol",
   "ast": {
-    "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITokenDistributor.sol",
+    "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITransferLimiter.sol",
     "exportedSymbols": {
-      "ITokenDistributor": [
-        1812
+      "ITransferLimiter": [
+        1820
       ]
     },
-    "id": 1813,
+    "id": 1821,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1806,
+        "id": 1814,
         "literals": [
           "solidity",
           ">=",
@@ -46,7 +46,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "32:32:10"
+        "src": "32:32:11"
       },
       {
         "abstract": false,
@@ -55,43 +55,43 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 1812,
+        "id": 1820,
         "linearizedBaseContracts": [
-          1812
+          1820
         ],
-        "name": "ITokenDistributor",
+        "name": "ITransferLimiter",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": null,
             "documentation": null,
-            "functionSelector": "4c0f38c2",
-            "id": 1811,
+            "functionSelector": "197a03bc",
+            "id": 1819,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
-            "name": "getMaxSupply",
+            "name": "getTransferLimitPerETH",
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 1807,
+              "id": 1815,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "121:2:10"
+              "src": "130:2:11"
             },
             "returnParameters": {
-              "id": 1810,
+              "id": 1818,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1809,
+                  "id": 1817,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1811,
-                  "src": "147:7:10",
+                  "scope": 1819,
+                  "src": "156:7:11",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -99,10 +99,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1808,
+                    "id": 1816,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "147:7:10",
+                    "src": "156:7:11",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -112,27 +112,27 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "146:9:10"
+              "src": "155:9:11"
             },
-            "scope": 1812,
-            "src": "100:56:10",
+            "scope": 1820,
+            "src": "99:66:11",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 1813,
-        "src": "66:92:10"
+        "scope": 1821,
+        "src": "66:101:11"
       }
     ],
-    "src": "32:127:10"
+    "src": "32:136:11"
   },
   "legacyAST": {
     "attributes": {
-      "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITokenDistributor.sol",
+      "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITransferLimiter.sol",
       "exportedSymbols": {
-        "ITokenDistributor": [
-          1812
+        "ITransferLimiter": [
+          1820
         ]
       },
       "license": "MIT"
@@ -150,9 +150,9 @@
             ".0"
           ]
         },
-        "id": 1806,
+        "id": 1814,
         "name": "PragmaDirective",
-        "src": "32:32:10"
+        "src": "32:32:11"
       },
       {
         "attributes": {
@@ -167,26 +167,26 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            1812
+            1820
           ],
-          "name": "ITokenDistributor",
-          "scope": 1813
+          "name": "ITransferLimiter",
+          "scope": 1821
         },
         "children": [
           {
             "attributes": {
               "body": null,
               "documentation": null,
-              "functionSelector": "4c0f38c2",
+              "functionSelector": "197a03bc",
               "implemented": false,
               "isConstructor": false,
               "kind": "function",
               "modifiers": [
                 null
               ],
-              "name": "getMaxSupply",
+              "name": "getTransferLimitPerETH",
               "overrides": null,
-              "scope": 1812,
+              "scope": 1820,
               "stateMutability": "view",
               "virtual": false,
               "visibility": "external"
@@ -199,9 +199,9 @@
                   ]
                 },
                 "children": [],
-                "id": 1807,
+                "id": 1815,
                 "name": "ParameterList",
-                "src": "121:2:10"
+                "src": "130:2:11"
               },
               {
                 "children": [
@@ -211,7 +211,7 @@
                       "mutability": "mutable",
                       "name": "",
                       "overrides": null,
-                      "scope": 1811,
+                      "scope": 1819,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -224,34 +224,34 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 1808,
+                        "id": 1816,
                         "name": "ElementaryTypeName",
-                        "src": "147:7:10"
+                        "src": "156:7:11"
                       }
                     ],
-                    "id": 1809,
+                    "id": 1817,
                     "name": "VariableDeclaration",
-                    "src": "147:7:10"
+                    "src": "156:7:11"
                   }
                 ],
-                "id": 1810,
+                "id": 1818,
                 "name": "ParameterList",
-                "src": "146:9:10"
+                "src": "155:9:11"
               }
             ],
-            "id": 1811,
+            "id": 1819,
             "name": "FunctionDefinition",
-            "src": "100:56:10"
+            "src": "99:66:11"
           }
         ],
-        "id": 1812,
+        "id": 1820,
         "name": "ContractDefinition",
-        "src": "66:92:10"
+        "src": "66:101:11"
       }
     ],
-    "id": 1813,
+    "id": 1821,
     "name": "SourceUnit",
-    "src": "32:127:10"
+    "src": "32:136:11"
   },
   "compiler": {
     "name": "solc",
@@ -259,7 +259,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-02-05T11:15:55.158Z",
+  "updatedAt": "2021-02-05T11:15:55.159Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
