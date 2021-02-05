@@ -5,4 +5,4 @@ if [ "$#" -ne 1 ]; then
 fi
 
 bin/truffle migrate --network "$@"
-#bin/truffle run verify Presale --network "$@"
+#bin/truffle run verify Contract1 Contract2 Contract3 --network "$@"

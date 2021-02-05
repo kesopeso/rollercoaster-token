@@ -20,10 +20,9 @@ contract Token is ERC20Upgradeable, IToken {
         string memory _symbol,
         address _distributor,
         address _treasury,
-        address _transferLimiter,
-        address _uniswapPair
+        address _transferLimiter
     ) public initializer {
-        __Token_init(_name, _symbol, _distributor, _treasury, _transferLimiter, _uniswapPair);
+        __Token_init(_name, _symbol, _distributor, _treasury, _transferLimiter);
     }
 
     function __Token_init(
@@ -31,24 +30,21 @@ contract Token is ERC20Upgradeable, IToken {
         string memory _symbol,
         address _distributor,
         address _treasury,
-        address _transferLimiter,
-        address _uniswapPair
+        address _transferLimiter
     ) internal initializer {
         __Context_init_unchained();
         __ERC20_init_unchained(_name, _symbol);
-        __Token_init_unchained(_distributor, _treasury, _transferLimiter, _uniswapPair);
+        __Token_init_unchained(_distributor, _treasury, _transferLimiter);
     }
 
     function __Token_init_unchained(
         address _distributor,
         address _treasury,
-        address _transferLimiter,
-        address _uniswapPair
+        address _transferLimiter
     ) internal initializer {
         distributor = _distributor;
         treasury = _treasury;
         transferLimiter = _transferLimiter;
-        uniswapPair = _uniswapPair;
         isLocked = true;
 
         uint256 mintAmount = ITokenDistributor(distributor).getMaxSupply();
@@ -74,6 +70,19 @@ contract Token is ERC20Upgradeable, IToken {
     modifier onlyDistributor() {
         require(msg.sender == distributor, "Only distributor allowed.");
         _;
+    }
+
+    modifier uniswapPairNotSet() {
+        require(uniswapPair == address(0), "Uniswap pair is already set.");
+        _;
+    }
+
+    function uniswapPairAddress() external view override returns (address) {
+        return uniswapPair;
+    }
+
+    function setUniswapPair(address _uniswapPair) external override uniswapPairNotSet {
+        uniswapPair = _uniswapPair;
     }
 
     function burnDistributorTokensAndUnlock() external override onlyDistributor {

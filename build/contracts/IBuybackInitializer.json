@@ -32,15 +32,15 @@
     "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IBuybackInitializer.sol",
     "exportedSymbols": {
       "IBuybackInitializer": [
-        1684
+        1708
       ]
     },
-    "id": 1685,
+    "id": 1709,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1676,
+        "id": 1700,
         "literals": [
           "solidity",
           ">=",
@@ -60,9 +60,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 1684,
+        "id": 1708,
         "linearizedBaseContracts": [
-          1684
+          1708
         ],
         "name": "IBuybackInitializer",
         "nodeType": "ContractDefinition",
@@ -71,7 +71,7 @@
             "body": null,
             "documentation": null,
             "functionSelector": "f09a4016",
-            "id": 1683,
+            "id": 1707,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -79,17 +79,17 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 1681,
+              "id": 1705,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1678,
+                  "id": 1702,
                   "mutability": "mutable",
                   "name": "_token",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1683,
+                  "scope": 1707,
                   "src": "116:14:7",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -98,7 +98,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1677,
+                    "id": 1701,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "116:7:7",
@@ -113,12 +113,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1680,
+                  "id": 1704,
                   "mutability": "mutable",
                   "name": "_uniswapRouter",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1683,
+                  "scope": 1707,
                   "src": "132:22:7",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -127,7 +127,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1679,
+                    "id": 1703,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "132:7:7",
@@ -144,19 +144,19 @@
               "src": "115:40:7"
             },
             "returnParameters": {
-              "id": 1682,
+              "id": 1706,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "172:0:7"
             },
-            "scope": 1684,
+            "scope": 1708,
             "src": "102:71:7",
             "stateMutability": "payable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 1685,
+        "scope": 1709,
         "src": "66:109:7"
       }
     ],
@@ -167,7 +167,7 @@
       "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IBuybackInitializer.sol",
       "exportedSymbols": {
         "IBuybackInitializer": [
-          1684
+          1708
         ]
       },
       "license": "MIT"
@@ -185,7 +185,7 @@
             ".0"
           ]
         },
-        "id": 1676,
+        "id": 1700,
         "name": "PragmaDirective",
         "src": "32:32:7"
       },
@@ -202,10 +202,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            1684
+            1708
           ],
           "name": "IBuybackInitializer",
-          "scope": 1685
+          "scope": 1709
         },
         "children": [
           {
@@ -221,7 +221,7 @@
               ],
               "name": "init",
               "overrides": null,
-              "scope": 1684,
+              "scope": 1708,
               "stateMutability": "payable",
               "virtual": false,
               "visibility": "external"
@@ -235,7 +235,7 @@
                       "mutability": "mutable",
                       "name": "_token",
                       "overrides": null,
-                      "scope": 1683,
+                      "scope": 1707,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -249,12 +249,12 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 1677,
+                        "id": 1701,
                         "name": "ElementaryTypeName",
                         "src": "116:7:7"
                       }
                     ],
-                    "id": 1678,
+                    "id": 1702,
                     "name": "VariableDeclaration",
                     "src": "116:14:7"
                   },
@@ -264,7 +264,7 @@
                       "mutability": "mutable",
                       "name": "_uniswapRouter",
                       "overrides": null,
-                      "scope": 1683,
+                      "scope": 1707,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -278,17 +278,17 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 1679,
+                        "id": 1703,
                         "name": "ElementaryTypeName",
                         "src": "132:7:7"
                       }
                     ],
-                    "id": 1680,
+                    "id": 1704,
                     "name": "VariableDeclaration",
                     "src": "132:22:7"
                   }
                 ],
-                "id": 1681,
+                "id": 1705,
                 "name": "ParameterList",
                 "src": "115:40:7"
               },
@@ -299,22 +299,22 @@
                   ]
                 },
                 "children": [],
-                "id": 1682,
+                "id": 1706,
                 "name": "ParameterList",
                 "src": "172:0:7"
               }
             ],
-            "id": 1683,
+            "id": 1707,
             "name": "FunctionDefinition",
             "src": "102:71:7"
           }
         ],
-        "id": 1684,
+        "id": 1708,
         "name": "ContractDefinition",
         "src": "66:109:7"
       }
     ],
-    "id": 1685,
+    "id": 1709,
     "name": "SourceUnit",
     "src": "32:144:7"
   },
@@ -324,7 +324,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-02-05T11:15:55.154Z",
+  "updatedAt": "2021-02-05T15:13:37.241Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

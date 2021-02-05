@@ -1,5 +1,6 @@
 const Token = artifacts.require('Token');
 const LiquidityLock = artifacts.require('LiquidityLock');
+const { getTokenWethPairAddress } = require('../lib/uniswap');
 
 module.exports = async (deployer, network) => {
     if (network === 'test') {
@@ -7,7 +8,7 @@ module.exports = async (deployer, network) => {
         return;
     }
     const token = await Token.deployed();
-    console.log('This is token address', token.address);
+    const lpTokenAddress = getTokenWethPairAddress(token.address, network);
     const releaseTime = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30 * 6; // 6 months lockup
-    await deployer.deploy(LiquidityLock, token.address, releaseTime);
+    await deployer.deploy(LiquidityLock, lpTokenAddress, releaseTime);
 };
