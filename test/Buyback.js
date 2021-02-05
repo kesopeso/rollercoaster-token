@@ -112,5 +112,17 @@ contract('Buyback', (accounts) => {
             nextExecution = nextExecution.add(time.duration.days(1));
             expect((await buyback.nextBuyback()).toString()).to.eq(nextExecution.toString());
         });
+
+        it('should execute buyback until funds run out', async () => {
+            await time.increase(time.duration.days(1));
+
+            for (let i = 0; i < 10; i++) {
+                await buybackBuyback(bob);
+                expect((await buyback.boughtBackAmount()).toString()).to.eq(ether((i + 1).toString()).toString());
+                await time.increase(time.duration.days(1));
+            }
+
+            await expectRevert(buybackBuyback(bob), 'No more funds available.');
+        });
     });
 });
