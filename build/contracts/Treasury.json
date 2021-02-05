@@ -5,23 +5,23 @@
   "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220434ea10bfabe7a3eb10a69686c95916fddf6123bd11ee066cc26f49a5bf04e9d64736f6c634300060c0033",
   "deployedBytecode": "0x6080604052600080fdfea2646970667358221220434ea10bfabe7a3eb10a69686c95916fddf6123bd11ee066cc26f49a5bf04e9d64736f6c634300060c0033",
   "immutableReferences": {},
-  "sourceMap": "66:20:4:-:0;;;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "66:20:4:-:0;;;;;",
+  "sourceMap": "66:20:5:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "66:20:5:-:0;;;;;",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.9.0;\n\ncontract Treasury {}\n",
   "sourcePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/Treasury.sol",
   "ast": {
     "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/Treasury.sol",
     "exportedSymbols": {
       "Treasury": [
-        1224
+        1414
       ]
     },
-    "id": 1225,
+    "id": 1415,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1223,
+        "id": 1413,
         "literals": [
           "solidity",
           ">=",
@@ -32,7 +32,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "32:32:4"
+        "src": "32:32:5"
       },
       {
         "abstract": false,
@@ -41,25 +41,25 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 1224,
+        "id": 1414,
         "linearizedBaseContracts": [
-          1224
+          1414
         ],
         "name": "Treasury",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 1225,
-        "src": "66:20:4"
+        "scope": 1415,
+        "src": "66:20:5"
       }
     ],
-    "src": "32:55:4"
+    "src": "32:55:5"
   },
   "legacyAST": {
     "attributes": {
       "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/Treasury.sol",
       "exportedSymbols": {
         "Treasury": [
-          1224
+          1414
         ]
       },
       "license": "MIT"
@@ -77,9 +77,9 @@
             ".0"
           ]
         },
-        "id": 1223,
+        "id": 1413,
         "name": "PragmaDirective",
-        "src": "32:32:4"
+        "src": "32:32:5"
       },
       {
         "attributes": {
@@ -94,22 +94,22 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            1224
+            1414
           ],
           "name": "Treasury",
           "nodes": [
             null
           ],
-          "scope": 1225
+          "scope": 1415
         },
-        "id": 1224,
+        "id": 1414,
         "name": "ContractDefinition",
-        "src": "66:20:4"
+        "src": "66:20:5"
       }
     ],
-    "id": 1225,
+    "id": 1415,
     "name": "SourceUnit",
-    "src": "32:55:4"
+    "src": "32:55:5"
   },
   "compiler": {
     "name": "solc",
@@ -121,10 +121,23 @@
       "links": {},
       "address": "0xD3f746afEd6fD6C9b8715FB9faeBB03eb75b1Ccb",
       "transactionHash": "0x925e22e48dd581c1f9702979896662e7ff20db9d38cf442158d37595a51e4443"
+    },
+    "1612460708325": {
+      "events": {},
+      "links": {},
+      "address": "0x507F860A634109541558D605F1E3fb548453a077",
+      "transactionHash": "0x12e14a94e321234a36cd1bd1323dbc0107e89ecadf31da833ae0d9be620ce53c"
+    },
+    "1612467306363": {
+      "events": {},
+      "links": {},
+      "address": "0x98847087728531560b7C5d421bCBBFF08b340459",
+      "transactionHash": "0xa66dfa437263e79244f49d3f3036c660020daf58409db190c0fde2b57af45970"
     }
   },
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-02-03T15:07:35.255Z",
+  "updatedAt": "2021-02-04T19:35:54.651Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},

@@ -1,6 +1,6 @@
-const Token = artifacts.require('TokenMock');
+const Token = artifacts.require('Token');
 const Presale = artifacts.require('Presale');
-const { ether } = require('@openzeppelin/test-helpers');
+const { deployProxy } = require('@openzeppelin/truffle-upgrades');
 
 module.exports = async (deployer, network) => {
     if (network === 'test') {
@@ -8,6 +8,5 @@ module.exports = async (deployer, network) => {
         return;
     }
     const presale = await Presale.deployed();
-    const mintAmount = ether('3227');
-    await deployer.deploy(Token, presale.address, mintAmount);
+    await deployProxy(Token, ['RollerCoaster', 'ROLL', presale.address], { deployer });
 };

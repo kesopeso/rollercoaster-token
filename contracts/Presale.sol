@@ -3,6 +3,7 @@ pragma solidity >=0.4.22 <0.9.0;
 
 import "./interfaces/IBuyback.sol";
 import "./interfaces/IPresale.sol";
+import "./interfaces/ITokenDistributor.sol";
 import "./interfaces/IToken.sol";
 import "./interfaces/IUniswapV2Router02.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -10,7 +11,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/math/Math.sol";
 
-contract Presale is Ownable, IPresale {
+contract Presale is Ownable, IPresale, ITokenDistributor {
     event PresaleStarted();
     event FcfsActivated();
     event PresaleEnded();
@@ -75,6 +76,10 @@ contract Presale is Ownable, IPresale {
     modifier senderEligibleToContribute() {
         require(isFcfsActiveFlag || contributors[msg.sender], "Not eligible to participate.");
         _;
+    }
+
+    function getMaxSupply() external view override returns (uint256) {
+        return PRESALE_MAX_SUPPLY.add(LIQUIDITY_MAX_SUPPLY).add(RC_FARM_SUPPLY).add(RC_ETH_FARM_SUPPLY);
     }
 
     function tokenAddress() external view override returns (address) {
@@ -181,7 +186,7 @@ contract Presale is Ownable, IPresale {
     }
 
     function end(address payable _team) external override onlyOwner presaleActive {
-        IToken rollerCoaster = IToken(token);
+        IERC20 rollerCoaster = IERC20(token);
         uint256 totalCollected = address(this).balance;
 
         // calculate buyback and execute it
@@ -212,7 +217,7 @@ contract Presale is Ownable, IPresale {
         rollerCoaster.transfer(rcEthFarm, RC_ETH_FARM_SUPPLY);
 
         // burn the remaining balance and unlock token
-        rollerCoaster.burnDistributorTokensAndUnlock();
+        IToken(token).burnDistributorTokensAndUnlock();
 
         // end presale
         isPresaleActiveFlag = false;

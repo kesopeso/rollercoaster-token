@@ -96,6 +96,7 @@ contract('Presale', (accounts) => {
 
         it('should set variables correctly on start', async () => {
             await presaleStart([bob, curtis], alice);
+            expect((await presale.getMaxSupply()).eq(ether('3227'))).to.be.true;
             expect(await presale.tokenAddress()).to.equal(token.address);
             expect(await presale.buybackAddress()).to.equal(buyback.address);
             expect(await presale.liquidityLockAddress()).to.equal(liquidityLock.address);
