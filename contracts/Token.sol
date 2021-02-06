@@ -14,15 +14,19 @@ contract Token is ERC20Upgradeable, IToken {
     address private transferLimiter;
     address private uniswapPair;
     bool private isLocked;
+    mapping(address => bool) nonBurnableSenders;
+    mapping(address => bool) nonBurnableRecipients;
 
     function initialize(
         string memory _name,
         string memory _symbol,
         address _distributor,
         address _treasury,
-        address _transferLimiter
+        address _transferLimiter,
+        address _rcFarm,
+        address _rcEthFarm
     ) public initializer {
-        __Token_init(_name, _symbol, _distributor, _treasury, _transferLimiter);
+        __Token_init(_name, _symbol, _distributor, _treasury, _transferLimiter, _rcFarm, _rcEthFarm);
     }
 
     function __Token_init(
@@ -30,22 +34,35 @@ contract Token is ERC20Upgradeable, IToken {
         string memory _symbol,
         address _distributor,
         address _treasury,
-        address _transferLimiter
+        address _transferLimiter,
+        address _rcFarm,
+        address _rcEthFarm
     ) internal initializer {
         __Context_init_unchained();
         __ERC20_init_unchained(_name, _symbol);
-        __Token_init_unchained(_distributor, _treasury, _transferLimiter);
+        __Token_init_unchained(_distributor, _treasury, _transferLimiter, _rcFarm, _rcEthFarm);
     }
 
     function __Token_init_unchained(
         address _distributor,
         address _treasury,
-        address _transferLimiter
+        address _transferLimiter,
+        address _rcFarm,
+        address _rcEthFarm
     ) internal initializer {
         distributor = _distributor;
         treasury = _treasury;
         transferLimiter = _transferLimiter;
         isLocked = true;
+
+        nonBurnableSenders[_distributor] = true;
+        nonBurnableRecipients[_distributor] = true;
+        nonBurnableSenders[_treasury] = true;
+        nonBurnableRecipients[_treasury] = true;
+        nonBurnableSenders[_rcFarm] = true;
+        nonBurnableRecipients[_rcFarm] = true;
+        nonBurnableSenders[_rcEthFarm] = true;
+        nonBurnableRecipients[_rcEthFarm] = true;
 
         uint256 mintAmount = ITokenDistributor(distributor).getMaxSupply();
         _mint(distributor, mintAmount);
@@ -57,9 +74,11 @@ contract Token is ERC20Upgradeable, IToken {
     }
 
     modifier transferableAmount(address _to, uint256 _amount) {
+        // sell transfer
         if (_to == uniswapPair) {
             uint256 transferLimitPerETH = ITransferLimiter(transferLimiter).getTransferLimitPerETH();
             if (transferLimitPerETH > 0) {
+                // set transfer limit to amount of tokens for .5ETH
                 uint256 transferLimit = transferLimitPerETH.div(2);
                 require(_amount <= transferLimit, "Transfer amount is too big.");
             }
@@ -83,6 +102,7 @@ contract Token is ERC20Upgradeable, IToken {
 
     function setUniswapPair(address _uniswapPair) external override uniswapPairNotSet {
         uniswapPair = _uniswapPair;
+        nonBurnableSenders[uniswapPair] = true;
     }
 
     function burnDistributorTokensAndUnlock() external override onlyDistributor {
@@ -104,21 +124,14 @@ contract Token is ERC20Upgradeable, IToken {
         address recipient,
         uint256 amount
     ) internal virtual override {
-        bool shouldBurnTokens =
-            sender != distributor &&
-                recipient != distributor &&
-                sender != treasury &&
-                recipient != treasury &&
-                sender != uniswapPair;
-
+        bool shouldBurnTokens = !nonBurnableSenders[sender] && !nonBurnableRecipients[recipient];
         if (shouldBurnTokens) {
             uint256 burnAmount = amount.mul(BURN_PERCENT).div(100);
-            _burn(sender, burnAmount);
+            super._transfer(sender, treasury, burnAmount);
             amount = amount.sub(burnAmount);
         }
-
         super._transfer(sender, recipient, amount);
     }
 
-    uint256[45] private __gap;
+    uint256[44] private __gap;
 }

@@ -1,0 +1,721 @@
+{
+  "contractName": "TransferLimiterMock",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_transferLimit",
+          "type": "uint256"
+        }
+      ],
+      "name": "setTransferLimitPerETH",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTransferLimitPerETH",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getTransferLimitPerETH\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_transferLimit\",\"type\":\"uint256\"}],\"name\":\"setTransferLimitPerETH\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/keso/projects/crypto/rollercoaster-token/contracts/mocks/TransferLimitMock.sol\":\"TransferLimiterMock\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITransferLimiter.sol\":{\"keccak256\":\"0x419b6c0aa78e69d44343b23801c5ec39b6544e9013328a26b7e846acdf1a1d3e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://22299a4581e89049842fd6c7fbcb8bf9a7fe3e6f79b72c70a26784f1a440c5c9\",\"dweb:/ipfs/QmSna2dmM74rgSKFo5GUYPrRyxKoLiQQZQBW3FRmL84Lq2\"]},\"/home/keso/projects/crypto/rollercoaster-token/contracts/mocks/TransferLimitMock.sol\":{\"keccak256\":\"0x386e0b025d1471b515e409e11d47b8a2191b45f9a67a48828cc354ff13e2fbbc\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c75364310ed3f21a04cbc2e434c1908033eb5cfebb088b7a29dc45ab9ffc728a\",\"dweb:/ipfs/QmakgwSQzot9wQAZAc1xKZJJN9F8RFU6tFg2PVucub4mMM\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5060c78061001f6000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c8063197a03bc14603757806380ea6af2146053575b600080fd5b603d607e565b6040518082815260200191505060405180910390f35b607c60048036036020811015606757600080fd5b81019080803590602001909291905050506087565b005b60008054905090565b806000819055505056fea2646970667358221220fd13959e0e83b3dc862340be6a730690bc7cae6b466a1f74668f2b6632b382f764736f6c634300060c0033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060325760003560e01c8063197a03bc14603757806380ea6af2146053575b600080fd5b603d607e565b6040518082815260200191505060405180910390f35b607c60048036036020811015606757600080fd5b81019080803590602001909291905050506087565b005b60008054905090565b806000819055505056fea2646970667358221220fd13959e0e83b3dc862340be6a730690bc7cae6b466a1f74668f2b6632b382f764736f6c634300060c0033",
+  "immutableReferences": {},
+  "sourceMap": "112:323:16:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "112:323:16:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;321:112;;;:::i;:::-;;;;;;;;;;;;;;;;;;;203;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;321;387:7;413:13;;406:20;;321:112;:::o;203:::-;294:14;278:13;:30;;;;203:112;:::o",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.9.0;\n\nimport \"../interfaces/ITransferLimiter.sol\";\n\ncontract TransferLimiterMock is ITransferLimiter {\n    uint256 private transferLimit;\n\n    function setTransferLimitPerETH(uint256 _transferLimit) external {\n        transferLimit = _transferLimit;\n    }\n\n    function getTransferLimitPerETH() external view override returns (uint256) {\n        return transferLimit;\n    }\n}\n",
+  "sourcePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/mocks/TransferLimitMock.sol",
+  "ast": {
+    "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/mocks/TransferLimitMock.sol",
+    "exportedSymbols": {
+      "TransferLimiterMock": [
+        2180
+      ]
+    },
+    "id": 2181,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2155,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.9",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:32:16"
+      },
+      {
+        "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITransferLimiter.sol",
+        "file": "../interfaces/ITransferLimiter.sol",
+        "id": 2156,
+        "nodeType": "ImportDirective",
+        "scope": 2181,
+        "sourceUnit": 1926,
+        "src": "66:44:16",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 2157,
+              "name": "ITransferLimiter",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1925,
+              "src": "144:16:16",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_ITransferLimiter_$1925",
+                "typeString": "contract ITransferLimiter"
+              }
+            },
+            "id": 2158,
+            "nodeType": "InheritanceSpecifier",
+            "src": "144:16:16"
+          }
+        ],
+        "contractDependencies": [
+          1925
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 2180,
+        "linearizedBaseContracts": [
+          2180,
+          1925
+        ],
+        "name": "TransferLimiterMock",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 2160,
+            "mutability": "mutable",
+            "name": "transferLimit",
+            "nodeType": "VariableDeclaration",
+            "overrides": null,
+            "scope": 2180,
+            "src": "167:29:16",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 2159,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "167:7:16",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "private"
+          },
+          {
+            "body": {
+              "id": 2169,
+              "nodeType": "Block",
+              "src": "268:47:16",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 2167,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 2165,
+                      "name": "transferLimit",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2160,
+                      "src": "278:13:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 2166,
+                      "name": "_transferLimit",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2162,
+                      "src": "294:14:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "278:30:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 2168,
+                  "nodeType": "ExpressionStatement",
+                  "src": "278:30:16"
+                }
+              ]
+            },
+            "documentation": null,
+            "functionSelector": "80ea6af2",
+            "id": 2170,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setTransferLimitPerETH",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 2163,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2162,
+                  "mutability": "mutable",
+                  "name": "_transferLimit",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 2170,
+                  "src": "235:22:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2161,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "235:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "234:24:16"
+            },
+            "returnParameters": {
+              "id": 2164,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "268:0:16"
+            },
+            "scope": 2180,
+            "src": "203:112:16",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "baseFunctions": [
+              1924
+            ],
+            "body": {
+              "id": 2178,
+              "nodeType": "Block",
+              "src": "396:37:16",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 2176,
+                    "name": "transferLimit",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 2160,
+                    "src": "413:13:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 2175,
+                  "id": 2177,
+                  "nodeType": "Return",
+                  "src": "406:20:16"
+                }
+              ]
+            },
+            "documentation": null,
+            "functionSelector": "197a03bc",
+            "id": 2179,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTransferLimitPerETH",
+            "nodeType": "FunctionDefinition",
+            "overrides": {
+              "id": 2172,
+              "nodeType": "OverrideSpecifier",
+              "overrides": [],
+              "src": "369:8:16"
+            },
+            "parameters": {
+              "id": 2171,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "352:2:16"
+            },
+            "returnParameters": {
+              "id": 2175,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2174,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 2179,
+                  "src": "387:7:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2173,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "387:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "386:9:16"
+            },
+            "scope": 2180,
+            "src": "321:112:16",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 2181,
+        "src": "112:323:16"
+      }
+    ],
+    "src": "32:404:16"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/mocks/TransferLimitMock.sol",
+      "exportedSymbols": {
+        "TransferLimiterMock": [
+          2180
+        ]
+      },
+      "license": "MIT"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            ">=",
+            "0.4",
+            ".22",
+            "<",
+            "0.9",
+            ".0"
+          ]
+        },
+        "id": 2155,
+        "name": "PragmaDirective",
+        "src": "32:32:16"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 1926,
+          "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITransferLimiter.sol",
+          "file": "../interfaces/ITransferLimiter.sol",
+          "scope": 2181,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 2156,
+        "name": "ImportDirective",
+        "src": "66:44:16"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "contractDependencies": [
+            1925
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            2180,
+            1925
+          ],
+          "name": "TransferLimiterMock",
+          "scope": 2181
+        },
+        "children": [
+          {
+            "attributes": {
+              "arguments": null
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "ITransferLimiter",
+                  "referencedDeclaration": 1925,
+                  "type": "contract ITransferLimiter"
+                },
+                "id": 2157,
+                "name": "UserDefinedTypeName",
+                "src": "144:16:16"
+              }
+            ],
+            "id": 2158,
+            "name": "InheritanceSpecifier",
+            "src": "144:16:16"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "mutability": "mutable",
+              "name": "transferLimit",
+              "overrides": null,
+              "scope": 2180,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "value": null,
+              "visibility": "private"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 2159,
+                "name": "ElementaryTypeName",
+                "src": "167:7:16"
+              }
+            ],
+            "id": 2160,
+            "name": "VariableDeclaration",
+            "src": "167:29:16"
+          },
+          {
+            "attributes": {
+              "documentation": null,
+              "functionSelector": "80ea6af2",
+              "implemented": true,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "setTransferLimitPerETH",
+              "overrides": null,
+              "scope": 2180,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_transferLimit",
+                      "overrides": null,
+                      "scope": 2170,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2161,
+                        "name": "ElementaryTypeName",
+                        "src": "235:7:16"
+                      }
+                    ],
+                    "id": 2162,
+                    "name": "VariableDeclaration",
+                    "src": "235:22:16"
+                  }
+                ],
+                "id": 2163,
+                "name": "ParameterList",
+                "src": "234:24:16"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2164,
+                "name": "ParameterList",
+                "src": "268:0:16"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "=",
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2160,
+                              "type": "uint256",
+                              "value": "transferLimit"
+                            },
+                            "id": 2165,
+                            "name": "Identifier",
+                            "src": "278:13:16"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2162,
+                              "type": "uint256",
+                              "value": "_transferLimit"
+                            },
+                            "id": 2166,
+                            "name": "Identifier",
+                            "src": "294:14:16"
+                          }
+                        ],
+                        "id": 2167,
+                        "name": "Assignment",
+                        "src": "278:30:16"
+                      }
+                    ],
+                    "id": 2168,
+                    "name": "ExpressionStatement",
+                    "src": "278:30:16"
+                  }
+                ],
+                "id": 2169,
+                "name": "Block",
+                "src": "268:47:16"
+              }
+            ],
+            "id": 2170,
+            "name": "FunctionDefinition",
+            "src": "203:112:16"
+          },
+          {
+            "attributes": {
+              "baseFunctions": [
+                1924
+              ],
+              "documentation": null,
+              "functionSelector": "197a03bc",
+              "implemented": true,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getTransferLimitPerETH",
+              "scope": 2180,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "overrides": [
+                    null
+                  ]
+                },
+                "id": 2172,
+                "name": "OverrideSpecifier",
+                "src": "369:8:16"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2171,
+                "name": "ParameterList",
+                "src": "352:2:16"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "",
+                      "overrides": null,
+                      "scope": 2179,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2173,
+                        "name": "ElementaryTypeName",
+                        "src": "387:7:16"
+                      }
+                    ],
+                    "id": 2174,
+                    "name": "VariableDeclaration",
+                    "src": "387:7:16"
+                  }
+                ],
+                "id": 2175,
+                "name": "ParameterList",
+                "src": "386:9:16"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2175
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "overloadedDeclarations": [
+                            null
+                          ],
+                          "referencedDeclaration": 2160,
+                          "type": "uint256",
+                          "value": "transferLimit"
+                        },
+                        "id": 2176,
+                        "name": "Identifier",
+                        "src": "413:13:16"
+                      }
+                    ],
+                    "id": 2177,
+                    "name": "Return",
+                    "src": "406:20:16"
+                  }
+                ],
+                "id": 2178,
+                "name": "Block",
+                "src": "396:37:16"
+              }
+            ],
+            "id": 2179,
+            "name": "FunctionDefinition",
+            "src": "321:112:16"
+          }
+        ],
+        "id": 2180,
+        "name": "ContractDefinition",
+        "src": "112:323:16"
+      }
+    ],
+    "id": 2181,
+    "name": "SourceUnit",
+    "src": "32:404:16"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.6.12+commit.27d51765.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.3",
+  "updatedAt": "2021-02-06T19:49:51.527Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

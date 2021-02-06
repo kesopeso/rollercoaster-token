@@ -14,9 +14,23 @@ module.exports = async (deployer, network) => {
     const presale = await Presale.deployed();
     const treasury = await Treasury.deployed();
     const buyback = await Buyback.deployed();
-    await deployProxy(Token, ['RollerCoaster', 'ROLL', presale.address, treasury.address, buyback.address], {
-        deployer,
-    });
+    const rcFarm = { address: '0x' };
+    const rcEthFarm = { address: '0x' };
+    await deployProxy(
+        Token,
+        [
+            'RollerCoaster',
+            'ROLL',
+            presale.address,
+            treasury.address,
+            buyback.address,
+            rcFarm.address,
+            rcEthFarm.address,
+        ],
+        {
+            deployer,
+        }
+    );
 
     const token = await Token.deployed();
     const uniswapPairAddress = getTokenWethPairAddress(token.address, network);

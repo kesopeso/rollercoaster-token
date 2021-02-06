@@ -27,15 +27,15 @@
     "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITransferLimiter.sol",
     "exportedSymbols": {
       "ITransferLimiter": [
-        1854
+        1925
       ]
     },
-    "id": 1855,
+    "id": 1926,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1848,
+        "id": 1919,
         "literals": [
           "solidity",
           ">=",
@@ -55,9 +55,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 1854,
+        "id": 1925,
         "linearizedBaseContracts": [
-          1854
+          1925
         ],
         "name": "ITransferLimiter",
         "nodeType": "ContractDefinition",
@@ -66,7 +66,7 @@
             "body": null,
             "documentation": null,
             "functionSelector": "197a03bc",
-            "id": 1853,
+            "id": 1924,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -74,23 +74,23 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 1849,
+              "id": 1920,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "130:2:11"
             },
             "returnParameters": {
-              "id": 1852,
+              "id": 1923,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1851,
+                  "id": 1922,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1853,
+                  "scope": 1924,
                   "src": "156:7:11",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -99,7 +99,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1850,
+                    "id": 1921,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "156:7:11",
@@ -114,14 +114,14 @@
               ],
               "src": "155:9:11"
             },
-            "scope": 1854,
+            "scope": 1925,
             "src": "99:66:11",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 1855,
+        "scope": 1926,
         "src": "66:101:11"
       }
     ],
@@ -132,7 +132,7 @@
       "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITransferLimiter.sol",
       "exportedSymbols": {
         "ITransferLimiter": [
-          1854
+          1925
         ]
       },
       "license": "MIT"
@@ -150,7 +150,7 @@
             ".0"
           ]
         },
-        "id": 1848,
+        "id": 1919,
         "name": "PragmaDirective",
         "src": "32:32:11"
       },
@@ -167,10 +167,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            1854
+            1925
           ],
           "name": "ITransferLimiter",
-          "scope": 1855
+          "scope": 1926
         },
         "children": [
           {
@@ -186,7 +186,7 @@
               ],
               "name": "getTransferLimitPerETH",
               "overrides": null,
-              "scope": 1854,
+              "scope": 1925,
               "stateMutability": "view",
               "virtual": false,
               "visibility": "external"
@@ -199,7 +199,7 @@
                   ]
                 },
                 "children": [],
-                "id": 1849,
+                "id": 1920,
                 "name": "ParameterList",
                 "src": "130:2:11"
               },
@@ -211,7 +211,7 @@
                       "mutability": "mutable",
                       "name": "",
                       "overrides": null,
-                      "scope": 1853,
+                      "scope": 1924,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -224,32 +224,32 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 1850,
+                        "id": 1921,
                         "name": "ElementaryTypeName",
                         "src": "156:7:11"
                       }
                     ],
-                    "id": 1851,
+                    "id": 1922,
                     "name": "VariableDeclaration",
                     "src": "156:7:11"
                   }
                 ],
-                "id": 1852,
+                "id": 1923,
                 "name": "ParameterList",
                 "src": "155:9:11"
               }
             ],
-            "id": 1853,
+            "id": 1924,
             "name": "FunctionDefinition",
             "src": "99:66:11"
           }
         ],
-        "id": 1854,
+        "id": 1925,
         "name": "ContractDefinition",
         "src": "66:101:11"
       }
     ],
-    "id": 1855,
+    "id": 1926,
     "name": "SourceUnit",
     "src": "32:136:11"
   },
@@ -259,7 +259,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-02-05T15:13:37.267Z",
+  "updatedAt": "2021-02-06T19:49:51.504Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

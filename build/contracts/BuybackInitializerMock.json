@@ -55,15 +55,15 @@
     "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/mocks/BuybackInitializerMock.sol",
     "exportedSymbols": {
       "BuybackInitializerMock": [
-        1958
+        2029
       ]
     },
-    "id": 1959,
+    "id": 2030,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1895,
+        "id": 1966,
         "literals": [
           "solidity",
           ">=",
@@ -79,10 +79,10 @@
       {
         "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IBuybackInitializer.sol",
         "file": "../interfaces/IBuybackInitializer.sol",
-        "id": 1896,
+        "id": 1967,
         "nodeType": "ImportDirective",
-        "scope": 1959,
-        "sourceUnit": 1709,
+        "scope": 2030,
+        "sourceUnit": 1780,
         "src": "66:47:13",
         "symbolAliases": [],
         "unitAlias": ""
@@ -94,43 +94,43 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 1897,
+              "id": 1968,
               "name": "IBuybackInitializer",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1708,
+              "referencedDeclaration": 1779,
               "src": "150:19:13",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IBuybackInitializer_$1708",
+                "typeIdentifier": "t_contract$_IBuybackInitializer_$1779",
                 "typeString": "contract IBuybackInitializer"
               }
             },
-            "id": 1898,
+            "id": 1969,
             "nodeType": "InheritanceSpecifier",
             "src": "150:19:13"
           }
         ],
         "contractDependencies": [
-          1708
+          1779
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 1958,
+        "id": 2029,
         "linearizedBaseContracts": [
-          1958,
-          1708
+          2029,
+          1779
         ],
         "name": "BuybackInitializerMock",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 1900,
+            "id": 1971,
             "mutability": "mutable",
             "name": "msgValue",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 1958,
+            "scope": 2029,
             "src": "176:24:13",
             "stateVariable": true,
             "storageLocation": "default",
@@ -139,7 +139,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 1899,
+              "id": 1970,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "176:7:13",
@@ -153,12 +153,12 @@
           },
           {
             "constant": false,
-            "id": 1902,
+            "id": 1973,
             "mutability": "mutable",
             "name": "token",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 1958,
+            "scope": 2029,
             "src": "206:21:13",
             "stateVariable": true,
             "storageLocation": "default",
@@ -167,7 +167,7 @@
               "typeString": "address"
             },
             "typeName": {
-              "id": 1901,
+              "id": 1972,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "206:7:13",
@@ -182,12 +182,12 @@
           },
           {
             "constant": false,
-            "id": 1904,
+            "id": 1975,
             "mutability": "mutable",
             "name": "uniswapRouter",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 1958,
+            "scope": 2029,
             "src": "233:29:13",
             "stateVariable": true,
             "storageLocation": "default",
@@ -196,7 +196,7 @@
               "typeString": "address"
             },
             "typeName": {
-              "id": 1903,
+              "id": 1974,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "233:7:13",
@@ -211,7 +211,7 @@
           },
           {
             "body": {
-              "id": 1934,
+              "id": 2005,
               "nodeType": "Block",
               "src": "404:235:13",
               "statements": [
@@ -225,18 +225,18 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 1916,
+                        "id": 1987,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
                           "argumentTypes": null,
-                          "id": 1914,
+                          "id": 1985,
                           "name": "msgValue",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1900,
+                          "referencedDeclaration": 1971,
                           "src": "422:8:13",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -247,11 +247,11 @@
                         "operator": "==",
                         "rightExpression": {
                           "argumentTypes": null,
-                          "id": 1915,
+                          "id": 1986,
                           "name": "_msgValue",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1906,
+                          "referencedDeclaration": 1977,
                           "src": "434:9:13",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -267,7 +267,7 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "6d73672e76616c756520706172616d65746572206d6973736d617463682e",
-                        "id": 1917,
+                        "id": 1988,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -294,7 +294,7 @@
                           "typeString": "literal_string \"msg.value parameter missmatch.\""
                         }
                       ],
-                      "id": 1913,
+                      "id": 1984,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -308,7 +308,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 1918,
+                    "id": 1989,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -323,7 +323,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1919,
+                  "id": 1990,
                   "nodeType": "ExpressionStatement",
                   "src": "414:64:13"
                 },
@@ -337,18 +337,18 @@
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         },
-                        "id": 1923,
+                        "id": 1994,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
                           "argumentTypes": null,
-                          "id": 1921,
+                          "id": 1992,
                           "name": "token",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1902,
+                          "referencedDeclaration": 1973,
                           "src": "496:5:13",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
@@ -359,11 +359,11 @@
                         "operator": "==",
                         "rightExpression": {
                           "argumentTypes": null,
-                          "id": 1922,
+                          "id": 1993,
                           "name": "_token",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1908,
+                          "referencedDeclaration": 1979,
                           "src": "505:6:13",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
@@ -379,7 +379,7 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "5f746f6b656e20706172616d65746572206d6973736d617463682e",
-                        "id": 1924,
+                        "id": 1995,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -406,7 +406,7 @@
                           "typeString": "literal_string \"_token parameter missmatch.\""
                         }
                       ],
-                      "id": 1920,
+                      "id": 1991,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -420,7 +420,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 1925,
+                    "id": 1996,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -435,7 +435,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1926,
+                  "id": 1997,
                   "nodeType": "ExpressionStatement",
                   "src": "488:55:13"
                 },
@@ -449,18 +449,18 @@
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         },
-                        "id": 1930,
+                        "id": 2001,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
                           "argumentTypes": null,
-                          "id": 1928,
+                          "id": 1999,
                           "name": "uniswapRouter",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1904,
+                          "referencedDeclaration": 1975,
                           "src": "561:13:13",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
@@ -471,11 +471,11 @@
                         "operator": "==",
                         "rightExpression": {
                           "argumentTypes": null,
-                          "id": 1929,
+                          "id": 2000,
                           "name": "_uniswapRouter",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1910,
+                          "referencedDeclaration": 1981,
                           "src": "578:14:13",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
@@ -491,7 +491,7 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "5f756e6973776170526f7574657220706172616d65746572206d6973736d617463682e",
-                        "id": 1931,
+                        "id": 2002,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -518,7 +518,7 @@
                           "typeString": "literal_string \"_uniswapRouter parameter missmatch.\""
                         }
                       ],
-                      "id": 1927,
+                      "id": 1998,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -532,7 +532,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 1932,
+                    "id": 2003,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -547,7 +547,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1933,
+                  "id": 2004,
                   "nodeType": "ExpressionStatement",
                   "src": "553:79:13"
                 }
@@ -555,7 +555,7 @@
             },
             "documentation": null,
             "functionSelector": "0d73fe32",
-            "id": 1935,
+            "id": 2006,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -563,17 +563,17 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 1911,
+              "id": 1982,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1906,
+                  "id": 1977,
                   "mutability": "mutable",
                   "name": "_msgValue",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1935,
+                  "scope": 2006,
                   "src": "310:17:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -582,7 +582,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1905,
+                    "id": 1976,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "310:7:13",
@@ -596,12 +596,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1908,
+                  "id": 1979,
                   "mutability": "mutable",
                   "name": "_token",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1935,
+                  "scope": 2006,
                   "src": "337:14:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -610,7 +610,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1907,
+                    "id": 1978,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "337:7:13",
@@ -625,12 +625,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1910,
+                  "id": 1981,
                   "mutability": "mutable",
                   "name": "_uniswapRouter",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1935,
+                  "scope": 2006,
                   "src": "361:22:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -639,7 +639,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1909,
+                    "id": 1980,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "361:7:13",
@@ -656,12 +656,12 @@
               "src": "300:89:13"
             },
             "returnParameters": {
-              "id": 1912,
+              "id": 1983,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "404:0:13"
             },
-            "scope": 1958,
+            "scope": 2029,
             "src": "269:370:13",
             "stateMutability": "view",
             "virtual": false,
@@ -669,28 +669,28 @@
           },
           {
             "baseFunctions": [
-              1707
+              1778
             ],
             "body": {
-              "id": 1956,
+              "id": 2027,
               "nodeType": "Block",
               "src": "725:101:13",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1946,
+                    "id": 2017,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 1943,
+                      "id": 2014,
                       "name": "msgValue",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1900,
+                      "referencedDeclaration": 1971,
                       "src": "735:8:13",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -703,7 +703,7 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1944,
+                        "id": 2015,
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
@@ -714,7 +714,7 @@
                           "typeString": "msg"
                         }
                       },
-                      "id": 1945,
+                      "id": 2016,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -734,25 +734,25 @@
                       "typeString": "uint256"
                     }
                   },
-                  "id": 1947,
+                  "id": 2018,
                   "nodeType": "ExpressionStatement",
                   "src": "735:20:13"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1950,
+                    "id": 2021,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 1948,
+                      "id": 2019,
                       "name": "token",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1902,
+                      "referencedDeclaration": 1973,
                       "src": "765:5:13",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -763,11 +763,11 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 1949,
+                      "id": 2020,
                       "name": "_token",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1937,
+                      "referencedDeclaration": 2008,
                       "src": "773:6:13",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -780,25 +780,25 @@
                       "typeString": "address"
                     }
                   },
-                  "id": 1951,
+                  "id": 2022,
                   "nodeType": "ExpressionStatement",
                   "src": "765:14:13"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1954,
+                    "id": 2025,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 1952,
+                      "id": 2023,
                       "name": "uniswapRouter",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1904,
+                      "referencedDeclaration": 1975,
                       "src": "789:13:13",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -809,11 +809,11 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 1953,
+                      "id": 2024,
                       "name": "_uniswapRouter",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1939,
+                      "referencedDeclaration": 2010,
                       "src": "805:14:13",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -826,7 +826,7 @@
                       "typeString": "address"
                     }
                   },
-                  "id": 1955,
+                  "id": 2026,
                   "nodeType": "ExpressionStatement",
                   "src": "789:30:13"
                 }
@@ -834,30 +834,30 @@
             },
             "documentation": null,
             "functionSelector": "f09a4016",
-            "id": 1957,
+            "id": 2028,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "init",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 1941,
+              "id": 2012,
               "nodeType": "OverrideSpecifier",
               "overrides": [],
               "src": "716:8:13"
             },
             "parameters": {
-              "id": 1940,
+              "id": 2011,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1937,
+                  "id": 2008,
                   "mutability": "mutable",
                   "name": "_token",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1957,
+                  "scope": 2028,
                   "src": "659:14:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -866,7 +866,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1936,
+                    "id": 2007,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "659:7:13",
@@ -881,12 +881,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1939,
+                  "id": 2010,
                   "mutability": "mutable",
                   "name": "_uniswapRouter",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1957,
+                  "scope": 2028,
                   "src": "675:22:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -895,7 +895,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1938,
+                    "id": 2009,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "675:7:13",
@@ -912,19 +912,19 @@
               "src": "658:40:13"
             },
             "returnParameters": {
-              "id": 1942,
+              "id": 2013,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "725:0:13"
             },
-            "scope": 1958,
+            "scope": 2029,
             "src": "645:181:13",
             "stateMutability": "payable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 1959,
+        "scope": 2030,
         "src": "115:713:13"
       }
     ],
@@ -935,7 +935,7 @@
       "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/mocks/BuybackInitializerMock.sol",
       "exportedSymbols": {
         "BuybackInitializerMock": [
-          1958
+          2029
         ]
       },
       "license": "MIT"
@@ -953,22 +953,22 @@
             ".0"
           ]
         },
-        "id": 1895,
+        "id": 1966,
         "name": "PragmaDirective",
         "src": "32:32:13"
       },
       {
         "attributes": {
-          "SourceUnit": 1709,
+          "SourceUnit": 1780,
           "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IBuybackInitializer.sol",
           "file": "../interfaces/IBuybackInitializer.sol",
-          "scope": 1959,
+          "scope": 2030,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 1896,
+        "id": 1967,
         "name": "ImportDirective",
         "src": "66:47:13"
       },
@@ -976,17 +976,17 @@
         "attributes": {
           "abstract": false,
           "contractDependencies": [
-            1708
+            1779
           ],
           "contractKind": "contract",
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            1958,
-            1708
+            2029,
+            1779
           ],
           "name": "BuybackInitializerMock",
-          "scope": 1959
+          "scope": 2030
         },
         "children": [
           {
@@ -998,15 +998,15 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "IBuybackInitializer",
-                  "referencedDeclaration": 1708,
+                  "referencedDeclaration": 1779,
                   "type": "contract IBuybackInitializer"
                 },
-                "id": 1897,
+                "id": 1968,
                 "name": "UserDefinedTypeName",
                 "src": "150:19:13"
               }
             ],
-            "id": 1898,
+            "id": 1969,
             "name": "InheritanceSpecifier",
             "src": "150:19:13"
           },
@@ -1016,7 +1016,7 @@
               "mutability": "mutable",
               "name": "msgValue",
               "overrides": null,
-              "scope": 1958,
+              "scope": 2029,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "uint256",
@@ -1029,12 +1029,12 @@
                   "name": "uint256",
                   "type": "uint256"
                 },
-                "id": 1899,
+                "id": 1970,
                 "name": "ElementaryTypeName",
                 "src": "176:7:13"
               }
             ],
-            "id": 1900,
+            "id": 1971,
             "name": "VariableDeclaration",
             "src": "176:24:13"
           },
@@ -1044,7 +1044,7 @@
               "mutability": "mutable",
               "name": "token",
               "overrides": null,
-              "scope": 1958,
+              "scope": 2029,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "address",
@@ -1058,12 +1058,12 @@
                   "stateMutability": "nonpayable",
                   "type": "address"
                 },
-                "id": 1901,
+                "id": 1972,
                 "name": "ElementaryTypeName",
                 "src": "206:7:13"
               }
             ],
-            "id": 1902,
+            "id": 1973,
             "name": "VariableDeclaration",
             "src": "206:21:13"
           },
@@ -1073,7 +1073,7 @@
               "mutability": "mutable",
               "name": "uniswapRouter",
               "overrides": null,
-              "scope": 1958,
+              "scope": 2029,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "address",
@@ -1087,12 +1087,12 @@
                   "stateMutability": "nonpayable",
                   "type": "address"
                 },
-                "id": 1903,
+                "id": 1974,
                 "name": "ElementaryTypeName",
                 "src": "233:7:13"
               }
             ],
-            "id": 1904,
+            "id": 1975,
             "name": "VariableDeclaration",
             "src": "233:29:13"
           },
@@ -1108,7 +1108,7 @@
               ],
               "name": "initShouldBeCalledWith",
               "overrides": null,
-              "scope": 1958,
+              "scope": 2029,
               "stateMutability": "view",
               "virtual": false,
               "visibility": "external"
@@ -1122,7 +1122,7 @@
                       "mutability": "mutable",
                       "name": "_msgValue",
                       "overrides": null,
-                      "scope": 1935,
+                      "scope": 2006,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -1135,12 +1135,12 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 1905,
+                        "id": 1976,
                         "name": "ElementaryTypeName",
                         "src": "310:7:13"
                       }
                     ],
-                    "id": 1906,
+                    "id": 1977,
                     "name": "VariableDeclaration",
                     "src": "310:17:13"
                   },
@@ -1150,7 +1150,7 @@
                       "mutability": "mutable",
                       "name": "_token",
                       "overrides": null,
-                      "scope": 1935,
+                      "scope": 2006,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -1164,12 +1164,12 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 1907,
+                        "id": 1978,
                         "name": "ElementaryTypeName",
                         "src": "337:7:13"
                       }
                     ],
-                    "id": 1908,
+                    "id": 1979,
                     "name": "VariableDeclaration",
                     "src": "337:14:13"
                   },
@@ -1179,7 +1179,7 @@
                       "mutability": "mutable",
                       "name": "_uniswapRouter",
                       "overrides": null,
-                      "scope": 1935,
+                      "scope": 2006,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -1193,17 +1193,17 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 1909,
+                        "id": 1980,
                         "name": "ElementaryTypeName",
                         "src": "361:7:13"
                       }
                     ],
-                    "id": 1910,
+                    "id": 1981,
                     "name": "VariableDeclaration",
                     "src": "361:22:13"
                   }
                 ],
-                "id": 1911,
+                "id": 1982,
                 "name": "ParameterList",
                 "src": "300:89:13"
               },
@@ -1214,7 +1214,7 @@
                   ]
                 },
                 "children": [],
-                "id": 1912,
+                "id": 1983,
                 "name": "ParameterList",
                 "src": "404:0:13"
               },
@@ -1258,7 +1258,7 @@
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
-                            "id": 1913,
+                            "id": 1984,
                             "name": "Identifier",
                             "src": "414:7:13"
                           },
@@ -1283,11 +1283,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1900,
+                                  "referencedDeclaration": 1971,
                                   "type": "uint256",
                                   "value": "msgValue"
                                 },
-                                "id": 1914,
+                                "id": 1985,
                                 "name": "Identifier",
                                 "src": "422:8:13"
                               },
@@ -1297,16 +1297,16 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1906,
+                                  "referencedDeclaration": 1977,
                                   "type": "uint256",
                                   "value": "_msgValue"
                                 },
-                                "id": 1915,
+                                "id": 1986,
                                 "name": "Identifier",
                                 "src": "434:9:13"
                               }
                             ],
-                            "id": 1916,
+                            "id": 1987,
                             "name": "BinaryOperation",
                             "src": "422:21:13"
                           },
@@ -1323,17 +1323,17 @@
                               "type": "literal_string \"msg.value parameter missmatch.\"",
                               "value": "msg.value parameter missmatch."
                             },
-                            "id": 1917,
+                            "id": 1988,
                             "name": "Literal",
                             "src": "445:32:13"
                           }
                         ],
-                        "id": 1918,
+                        "id": 1989,
                         "name": "FunctionCall",
                         "src": "414:64:13"
                       }
                     ],
-                    "id": 1919,
+                    "id": 1990,
                     "name": "ExpressionStatement",
                     "src": "414:64:13"
                   },
@@ -1375,7 +1375,7 @@
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
-                            "id": 1920,
+                            "id": 1991,
                             "name": "Identifier",
                             "src": "488:7:13"
                           },
@@ -1400,11 +1400,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1902,
+                                  "referencedDeclaration": 1973,
                                   "type": "address",
                                   "value": "token"
                                 },
-                                "id": 1921,
+                                "id": 1992,
                                 "name": "Identifier",
                                 "src": "496:5:13"
                               },
@@ -1414,16 +1414,16 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1908,
+                                  "referencedDeclaration": 1979,
                                   "type": "address",
                                   "value": "_token"
                                 },
-                                "id": 1922,
+                                "id": 1993,
                                 "name": "Identifier",
                                 "src": "505:6:13"
                               }
                             ],
-                            "id": 1923,
+                            "id": 1994,
                             "name": "BinaryOperation",
                             "src": "496:15:13"
                           },
@@ -1440,17 +1440,17 @@
                               "type": "literal_string \"_token parameter missmatch.\"",
                               "value": "_token parameter missmatch."
                             },
-                            "id": 1924,
+                            "id": 1995,
                             "name": "Literal",
                             "src": "513:29:13"
                           }
                         ],
-                        "id": 1925,
+                        "id": 1996,
                         "name": "FunctionCall",
                         "src": "488:55:13"
                       }
                     ],
-                    "id": 1926,
+                    "id": 1997,
                     "name": "ExpressionStatement",
                     "src": "488:55:13"
                   },
@@ -1492,7 +1492,7 @@
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
-                            "id": 1927,
+                            "id": 1998,
                             "name": "Identifier",
                             "src": "553:7:13"
                           },
@@ -1517,11 +1517,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1904,
+                                  "referencedDeclaration": 1975,
                                   "type": "address",
                                   "value": "uniswapRouter"
                                 },
-                                "id": 1928,
+                                "id": 1999,
                                 "name": "Identifier",
                                 "src": "561:13:13"
                               },
@@ -1531,16 +1531,16 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1910,
+                                  "referencedDeclaration": 1981,
                                   "type": "address",
                                   "value": "_uniswapRouter"
                                 },
-                                "id": 1929,
+                                "id": 2000,
                                 "name": "Identifier",
                                 "src": "578:14:13"
                               }
                             ],
-                            "id": 1930,
+                            "id": 2001,
                             "name": "BinaryOperation",
                             "src": "561:31:13"
                           },
@@ -1557,34 +1557,34 @@
                               "type": "literal_string \"_uniswapRouter parameter missmatch.\"",
                               "value": "_uniswapRouter parameter missmatch."
                             },
-                            "id": 1931,
+                            "id": 2002,
                             "name": "Literal",
                             "src": "594:37:13"
                           }
                         ],
-                        "id": 1932,
+                        "id": 2003,
                         "name": "FunctionCall",
                         "src": "553:79:13"
                       }
                     ],
-                    "id": 1933,
+                    "id": 2004,
                     "name": "ExpressionStatement",
                     "src": "553:79:13"
                   }
                 ],
-                "id": 1934,
+                "id": 2005,
                 "name": "Block",
                 "src": "404:235:13"
               }
             ],
-            "id": 1935,
+            "id": 2006,
             "name": "FunctionDefinition",
             "src": "269:370:13"
           },
           {
             "attributes": {
               "baseFunctions": [
-                1707
+                1778
               ],
               "documentation": null,
               "functionSelector": "f09a4016",
@@ -1595,7 +1595,7 @@
                 null
               ],
               "name": "init",
-              "scope": 1958,
+              "scope": 2029,
               "stateMutability": "payable",
               "virtual": false,
               "visibility": "external"
@@ -1607,7 +1607,7 @@
                     null
                   ]
                 },
-                "id": 1941,
+                "id": 2012,
                 "name": "OverrideSpecifier",
                 "src": "716:8:13"
               },
@@ -1619,7 +1619,7 @@
                       "mutability": "mutable",
                       "name": "_token",
                       "overrides": null,
-                      "scope": 1957,
+                      "scope": 2028,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -1633,12 +1633,12 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 1936,
+                        "id": 2007,
                         "name": "ElementaryTypeName",
                         "src": "659:7:13"
                       }
                     ],
-                    "id": 1937,
+                    "id": 2008,
                     "name": "VariableDeclaration",
                     "src": "659:14:13"
                   },
@@ -1648,7 +1648,7 @@
                       "mutability": "mutable",
                       "name": "_uniswapRouter",
                       "overrides": null,
-                      "scope": 1957,
+                      "scope": 2028,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -1662,17 +1662,17 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 1938,
+                        "id": 2009,
                         "name": "ElementaryTypeName",
                         "src": "675:7:13"
                       }
                     ],
-                    "id": 1939,
+                    "id": 2010,
                     "name": "VariableDeclaration",
                     "src": "675:22:13"
                   }
                 ],
-                "id": 1940,
+                "id": 2011,
                 "name": "ParameterList",
                 "src": "658:40:13"
               },
@@ -1683,7 +1683,7 @@
                   ]
                 },
                 "children": [],
-                "id": 1942,
+                "id": 2013,
                 "name": "ParameterList",
                 "src": "725:0:13"
               },
@@ -1708,11 +1708,11 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1900,
+                              "referencedDeclaration": 1971,
                               "type": "uint256",
                               "value": "msgValue"
                             },
-                            "id": 1943,
+                            "id": 2014,
                             "name": "Identifier",
                             "src": "735:8:13"
                           },
@@ -1738,22 +1738,22 @@
                                   "type": "msg",
                                   "value": "msg"
                                 },
-                                "id": 1944,
+                                "id": 2015,
                                 "name": "Identifier",
                                 "src": "746:3:13"
                               }
                             ],
-                            "id": 1945,
+                            "id": 2016,
                             "name": "MemberAccess",
                             "src": "746:9:13"
                           }
                         ],
-                        "id": 1946,
+                        "id": 2017,
                         "name": "Assignment",
                         "src": "735:20:13"
                       }
                     ],
-                    "id": 1947,
+                    "id": 2018,
                     "name": "ExpressionStatement",
                     "src": "735:20:13"
                   },
@@ -1776,11 +1776,11 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1902,
+                              "referencedDeclaration": 1973,
                               "type": "address",
                               "value": "token"
                             },
-                            "id": 1948,
+                            "id": 2019,
                             "name": "Identifier",
                             "src": "765:5:13"
                           },
@@ -1790,21 +1790,21 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1937,
+                              "referencedDeclaration": 2008,
                               "type": "address",
                               "value": "_token"
                             },
-                            "id": 1949,
+                            "id": 2020,
                             "name": "Identifier",
                             "src": "773:6:13"
                           }
                         ],
-                        "id": 1950,
+                        "id": 2021,
                         "name": "Assignment",
                         "src": "765:14:13"
                       }
                     ],
-                    "id": 1951,
+                    "id": 2022,
                     "name": "ExpressionStatement",
                     "src": "765:14:13"
                   },
@@ -1827,11 +1827,11 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1904,
+                              "referencedDeclaration": 1975,
                               "type": "address",
                               "value": "uniswapRouter"
                             },
-                            "id": 1952,
+                            "id": 2023,
                             "name": "Identifier",
                             "src": "789:13:13"
                           },
@@ -1841,41 +1841,41 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1939,
+                              "referencedDeclaration": 2010,
                               "type": "address",
                               "value": "_uniswapRouter"
                             },
-                            "id": 1953,
+                            "id": 2024,
                             "name": "Identifier",
                             "src": "805:14:13"
                           }
                         ],
-                        "id": 1954,
+                        "id": 2025,
                         "name": "Assignment",
                         "src": "789:30:13"
                       }
                     ],
-                    "id": 1955,
+                    "id": 2026,
                     "name": "ExpressionStatement",
                     "src": "789:30:13"
                   }
                 ],
-                "id": 1956,
+                "id": 2027,
                 "name": "Block",
                 "src": "725:101:13"
               }
             ],
-            "id": 1957,
+            "id": 2028,
             "name": "FunctionDefinition",
             "src": "645:181:13"
           }
         ],
-        "id": 1958,
+        "id": 2029,
         "name": "ContractDefinition",
         "src": "115:713:13"
       }
     ],
-    "id": 1959,
+    "id": 2030,
     "name": "SourceUnit",
     "src": "32:797:13"
   },
@@ -1885,7 +1885,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-02-05T15:13:37.270Z",
+  "updatedAt": "2021-02-06T19:49:51.507Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
