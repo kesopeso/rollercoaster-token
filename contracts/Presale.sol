@@ -6,6 +6,7 @@ import "./interfaces/IPresale.sol";
 import "./interfaces/ITokenDistributor.sol";
 import "./interfaces/IToken.sol";
 import "./interfaces/IUniswapV2Router02.sol";
+import "./interfaces/IFarmActivator.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
@@ -40,6 +41,7 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
     uint256 private contributorTokensPerCollectedEth;
     uint256 private liquidityTokensPerCollectedEth;
     address private token;
+    address private uniswapPair;
     address private buyback;
     address private liquidityLock;
     address private uniswapRouter;
@@ -84,6 +86,10 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
 
     function tokenAddress() external view override returns (address) {
         return token;
+    }
+
+    function uniswapPairAddress() external view override returns (address) {
+        return uniswapPair;
     }
 
     function buybackAddress() external view override returns (address) {
@@ -154,6 +160,7 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         uint256 _hardcap,
         uint256 _maxContribution,
         address _token,
+        address _uniswapPair,
         address _buyback,
         address _liquidityLock,
         address _uniswapRouter,
@@ -168,6 +175,7 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         contributorTokensPerCollectedEth = PRESALE_MAX_SUPPLY.mul(10**18).div(hardcap);
         liquidityTokensPerCollectedEth = LIQUIDITY_MAX_SUPPLY.mul(10**18).div(hardcap);
         token = _token;
+        uniswapPair = _uniswapPair;
         buyback = _buyback;
         liquidityLock = _liquidityLock;
         uniswapRouter = _uniswapRouter;
@@ -215,6 +223,10 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         // transfer farm shares
         rollerCoaster.transfer(rcFarm, RC_FARM_SUPPLY);
         rollerCoaster.transfer(rcEthFarm, RC_ETH_FARM_SUPPLY);
+
+        // start farming
+        IFarmActivator(rcFarm).startFarming(token, token);
+        IFarmActivator(rcEthFarm).startFarming(token, uniswapPair);
 
         // burn the remaining balance and unlock token
         IToken(token).burnDistributorTokensAndUnlock();

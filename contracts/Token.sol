@@ -133,5 +133,5 @@ contract Token is ERC20Upgradeable, IToken {
         super._transfer(sender, recipient, amount);
     }
 
-    uint256[44] private __gap;
+    uint256[43] private __gap;
 }

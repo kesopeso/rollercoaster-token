@@ -4,6 +4,8 @@ pragma solidity >=0.4.22 <0.9.0;
 interface IPresale {
     function tokenAddress() external view returns (address);
 
+    function uniswapPairAddress() external view returns (address);
+
     function buybackAddress() external view returns (address);
 
     function liquidityLockAddress() external view returns (address);
@@ -36,6 +38,7 @@ interface IPresale {
         uint256 _hardcap,
         uint256 _maxContribution,
         address _token,
+        address _uniswapPair,
         address _buyback,
         address _liquidityLock,
         address _uniswapRouter,

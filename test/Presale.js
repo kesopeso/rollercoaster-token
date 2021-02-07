@@ -2,19 +2,21 @@ const Presale = artifacts.require('Presale');
 const UniswapV2Router02Mock = artifacts.require('UniswapV2Router02Mock');
 const TokenMock = artifacts.require('TokenMock');
 const BuybackInitializerMock = artifacts.require('BuybackInitializerMock');
+const FarmActivatorMock = artifacts.require('FarmActivatorMock');
 const { expect } = require('chai');
 const { send, balance, expectRevert, ether } = require('@openzeppelin/test-helpers');
 const { web3 } = require('@openzeppelin/test-helpers/src/setup');
 
 contract('Presale', (accounts) => {
-    const [alice, bob, curtis, dick, earl, frank, greg, howard] = accounts;
-    const rcFarmAddress = frank;
-    const rcEthFarmAddress = greg;
-    const liquidityLockAddress = howard;
+    const [alice, bob, curtis, dick, earl, frank, greg] = accounts;
+    const liquidityLockAddress = frank;
+    const uniswapPairAddress = greg;
     let presale;
     let token;
     let buyback;
     let uniswapRouter;
+    let rcFarm;
+    let rcEthFarm;
 
     const sendEther = (from, value) =>
         web3.eth.sendTransaction({ from, to: presale.address, value, gas: 150000, gasPrice: 0 });
@@ -24,11 +26,12 @@ contract('Presale', (accounts) => {
             ether('6'),
             ether('3'),
             token.address,
+            uniswapPairAddress,
             buyback.address,
             liquidityLockAddress,
             uniswapRouter.address,
-            rcFarmAddress,
-            rcEthFarmAddress,
+            rcFarm.address,
+            rcEthFarm.address,
             contributors,
             { from }
         );
@@ -44,6 +47,8 @@ contract('Presale', (accounts) => {
         token = await TokenMock.new(presale.address, ether('3227'));
         uniswapRouter = await UniswapV2Router02Mock.new();
         buyback = await BuybackInitializerMock.new();
+        rcFarm = await FarmActivatorMock.new();
+        rcEthFarm = await FarmActivatorMock.new();
     });
 
     context('non owners', () => {
@@ -94,11 +99,12 @@ contract('Presale', (accounts) => {
             await presaleStart([bob, curtis], alice);
             expect((await presale.getMaxSupply()).toString()).to.eq(ether('3227').toString());
             expect(await presale.tokenAddress()).to.equal(token.address);
+            expect(await presale.uniswapPairAddress()).to.equal(uniswapPairAddress);
             expect(await presale.buybackAddress()).to.equal(buyback.address);
             expect(await presale.liquidityLockAddress()).to.equal(liquidityLockAddress);
             expect(await presale.uniswapRouterAddress()).to.equal(uniswapRouter.address);
-            expect(await presale.rcFarmAddress()).to.equal(rcFarmAddress);
-            expect(await presale.rcEthFarmAddress()).to.equal(rcEthFarmAddress);
+            expect(await presale.rcFarmAddress()).to.equal(rcFarm.address);
+            expect(await presale.rcEthFarmAddress()).to.equal(rcEthFarm.address);
             expect((await presale.collectedAmount()).toString()).to.eq(ether('0').toString());
             expect((await presale.hardcapAmount()).toString()).to.eq(ether('6').toString());
             expect((await presale.maxContributionAmount()).toString()).to.eq(ether('3').toString());
@@ -209,9 +215,11 @@ contract('Presale', (accounts) => {
                 liquidityLockAddress
             );
             await token.burnDistributorTokensAndUnlockShouldBeCalled();
+            await rcFarm.startFarmingShouldBeCalledWith(token.address, token.address);
+            await rcEthFarm.startFarmingShouldBeCalledWith(token.address, uniswapPairAddress);
 
-            expect((await token.balanceOf(rcFarmAddress)).toString()).to.eq(ether('1000').toString());
-            expect((await token.balanceOf(rcEthFarmAddress)).toString()).to.eq(ether('1600').toString());
+            expect((await token.balanceOf(rcFarm.address)).toString()).to.eq(ether('1000').toString());
+            expect((await token.balanceOf(rcEthFarm.address)).toString()).to.eq(ether('1600').toString());
 
             const teamDelta = await teamTracker.delta();
             const teamEthAmount = ether(teamEths.toString());

@@ -47,15 +47,15 @@
     "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IToken.sol",
     "exportedSymbols": {
       "IToken": [
-        1909
+        2249
       ]
     },
-    "id": 1910,
+    "id": 2250,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1894,
+        "id": 2234,
         "literals": [
           "solidity",
           ">=",
@@ -66,16 +66,16 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "32:32:9"
+        "src": "32:32:14"
       },
       {
         "absolutePath": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
         "file": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-        "id": 1895,
+        "id": 2235,
         "nodeType": "ImportDirective",
-        "scope": 1910,
-        "sourceUnit": 4764,
-        "src": "66:56:9",
+        "scope": 2250,
+        "sourceUnit": 5153,
+        "src": "66:56:14",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -86,9 +86,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 1909,
+        "id": 2249,
         "linearizedBaseContracts": [
-          1909
+          2249
         ],
         "name": "IToken",
         "nodeType": "ContractDefinition",
@@ -97,7 +97,7 @@
             "body": null,
             "documentation": null,
             "functionSelector": "bd3733fe",
-            "id": 1900,
+            "id": 2240,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -105,24 +105,24 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 1896,
+              "id": 2236,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "174:2:9"
+              "src": "174:2:14"
             },
             "returnParameters": {
-              "id": 1899,
+              "id": 2239,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1898,
+                  "id": 2238,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1900,
-                  "src": "200:7:9",
+                  "scope": 2240,
+                  "src": "200:7:14",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -130,10 +130,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1897,
+                    "id": 2237,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "200:7:9",
+                    "src": "200:7:14",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -144,10 +144,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "199:9:9"
+              "src": "199:9:14"
             },
-            "scope": 1909,
-            "src": "147:62:9",
+            "scope": 2249,
+            "src": "147:62:14",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
@@ -156,7 +156,7 @@
             "body": null,
             "documentation": null,
             "functionSelector": "d5aed6bf",
-            "id": 1905,
+            "id": 2245,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -164,18 +164,18 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 1903,
+              "id": 2243,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1902,
+                  "id": 2242,
                   "mutability": "mutable",
                   "name": "_uniswapPair",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1905,
-                  "src": "239:20:9",
+                  "scope": 2245,
+                  "src": "239:20:14",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -183,10 +183,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1901,
+                    "id": 2241,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "239:7:9",
+                    "src": "239:7:14",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -197,16 +197,16 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "238:22:9"
+              "src": "238:22:14"
             },
             "returnParameters": {
-              "id": 1904,
+              "id": 2244,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "269:0:9"
+              "src": "269:0:14"
             },
-            "scope": 1909,
-            "src": "215:55:9",
+            "scope": 2249,
+            "src": "215:55:14",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
@@ -215,7 +215,7 @@
             "body": null,
             "documentation": null,
             "functionSelector": "aa2d9f0b",
-            "id": 1908,
+            "id": 2248,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -223,36 +223,36 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 1906,
+              "id": 2246,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "315:2:9"
+              "src": "315:2:14"
             },
             "returnParameters": {
-              "id": 1907,
+              "id": 2247,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "326:0:9"
+              "src": "326:0:14"
             },
-            "scope": 1909,
-            "src": "276:51:9",
+            "scope": 2249,
+            "src": "276:51:14",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 1910,
-        "src": "124:205:9"
+        "scope": 2250,
+        "src": "124:205:14"
       }
     ],
-    "src": "32:298:9"
+    "src": "32:298:14"
   },
   "legacyAST": {
     "attributes": {
       "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IToken.sol",
       "exportedSymbols": {
         "IToken": [
-          1909
+          2249
         ]
       },
       "license": "MIT"
@@ -270,24 +270,24 @@
             ".0"
           ]
         },
-        "id": 1894,
+        "id": 2234,
         "name": "PragmaDirective",
-        "src": "32:32:9"
+        "src": "32:32:14"
       },
       {
         "attributes": {
-          "SourceUnit": 4764,
+          "SourceUnit": 5153,
           "absolutePath": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
           "file": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-          "scope": 1910,
+          "scope": 2250,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 1895,
+        "id": 2235,
         "name": "ImportDirective",
-        "src": "66:56:9"
+        "src": "66:56:14"
       },
       {
         "attributes": {
@@ -302,10 +302,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            1909
+            2249
           ],
           "name": "IToken",
-          "scope": 1910
+          "scope": 2250
         },
         "children": [
           {
@@ -321,7 +321,7 @@
               ],
               "name": "uniswapPairAddress",
               "overrides": null,
-              "scope": 1909,
+              "scope": 2249,
               "stateMutability": "view",
               "virtual": false,
               "visibility": "external"
@@ -334,9 +334,9 @@
                   ]
                 },
                 "children": [],
-                "id": 1896,
+                "id": 2236,
                 "name": "ParameterList",
-                "src": "174:2:9"
+                "src": "174:2:14"
               },
               {
                 "children": [
@@ -346,7 +346,7 @@
                       "mutability": "mutable",
                       "name": "",
                       "overrides": null,
-                      "scope": 1900,
+                      "scope": 2240,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -360,24 +360,24 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 1897,
+                        "id": 2237,
                         "name": "ElementaryTypeName",
-                        "src": "200:7:9"
+                        "src": "200:7:14"
                       }
                     ],
-                    "id": 1898,
+                    "id": 2238,
                     "name": "VariableDeclaration",
-                    "src": "200:7:9"
+                    "src": "200:7:14"
                   }
                 ],
-                "id": 1899,
+                "id": 2239,
                 "name": "ParameterList",
-                "src": "199:9:9"
+                "src": "199:9:14"
               }
             ],
-            "id": 1900,
+            "id": 2240,
             "name": "FunctionDefinition",
-            "src": "147:62:9"
+            "src": "147:62:14"
           },
           {
             "attributes": {
@@ -392,7 +392,7 @@
               ],
               "name": "setUniswapPair",
               "overrides": null,
-              "scope": 1909,
+              "scope": 2249,
               "stateMutability": "nonpayable",
               "virtual": false,
               "visibility": "external"
@@ -406,7 +406,7 @@
                       "mutability": "mutable",
                       "name": "_uniswapPair",
                       "overrides": null,
-                      "scope": 1905,
+                      "scope": 2245,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -420,19 +420,19 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 1901,
+                        "id": 2241,
                         "name": "ElementaryTypeName",
-                        "src": "239:7:9"
+                        "src": "239:7:14"
                       }
                     ],
-                    "id": 1902,
+                    "id": 2242,
                     "name": "VariableDeclaration",
-                    "src": "239:20:9"
+                    "src": "239:20:14"
                   }
                 ],
-                "id": 1903,
+                "id": 2243,
                 "name": "ParameterList",
-                "src": "238:22:9"
+                "src": "238:22:14"
               },
               {
                 "attributes": {
@@ -441,14 +441,14 @@
                   ]
                 },
                 "children": [],
-                "id": 1904,
+                "id": 2244,
                 "name": "ParameterList",
-                "src": "269:0:9"
+                "src": "269:0:14"
               }
             ],
-            "id": 1905,
+            "id": 2245,
             "name": "FunctionDefinition",
-            "src": "215:55:9"
+            "src": "215:55:14"
           },
           {
             "attributes": {
@@ -463,7 +463,7 @@
               ],
               "name": "burnDistributorTokensAndUnlock",
               "overrides": null,
-              "scope": 1909,
+              "scope": 2249,
               "stateMutability": "nonpayable",
               "virtual": false,
               "visibility": "external"
@@ -476,9 +476,9 @@
                   ]
                 },
                 "children": [],
-                "id": 1906,
+                "id": 2246,
                 "name": "ParameterList",
-                "src": "315:2:9"
+                "src": "315:2:14"
               },
               {
                 "attributes": {
@@ -487,24 +487,24 @@
                   ]
                 },
                 "children": [],
-                "id": 1907,
+                "id": 2247,
                 "name": "ParameterList",
-                "src": "326:0:9"
+                "src": "326:0:14"
               }
             ],
-            "id": 1908,
+            "id": 2248,
             "name": "FunctionDefinition",
-            "src": "276:51:9"
+            "src": "276:51:14"
           }
         ],
-        "id": 1909,
+        "id": 2249,
         "name": "ContractDefinition",
-        "src": "124:205:9"
+        "src": "124:205:14"
       }
     ],
-    "id": 1910,
+    "id": 2250,
     "name": "SourceUnit",
-    "src": "32:298:9"
+    "src": "32:298:14"
   },
   "compiler": {
     "name": "solc",
@@ -512,7 +512,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-02-06T19:49:51.498Z",
+  "updatedAt": "2021-02-08T09:54:57.899Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

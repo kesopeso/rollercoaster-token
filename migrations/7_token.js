@@ -2,6 +2,8 @@ const Token = artifacts.require('Token');
 const Presale = artifacts.require('Presale');
 const Treasury = artifacts.require('Treasury');
 const Buyback = artifacts.require('Buyback');
+const RcFarm = artifacts.require('RcFarm');
+const RcEthFarm = artifacts.require('RcEthFarm');
 const { deployProxy } = require('@openzeppelin/truffle-upgrades');
 const { getTokenWethPairAddress } = require('../lib/uniswap');
 
@@ -14,8 +16,9 @@ module.exports = async (deployer, network) => {
     const presale = await Presale.deployed();
     const treasury = await Treasury.deployed();
     const buyback = await Buyback.deployed();
-    const rcFarm = { address: '0x' };
-    const rcEthFarm = { address: '0x' };
+    const rcFarm = await RcFarm.deployed();
+    const rcEthFarm = await RcEthFarm.deployed();
+
     await deployProxy(
         Token,
         [

@@ -27,15 +27,15 @@
     "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITokenDistributor.sol",
     "exportedSymbols": {
       "ITokenDistributor": [
-        1917
+        2257
       ]
     },
-    "id": 1918,
+    "id": 2258,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1911,
+        "id": 2251,
         "literals": [
           "solidity",
           ">=",
@@ -46,7 +46,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "32:32:10"
+        "src": "32:32:15"
       },
       {
         "abstract": false,
@@ -55,9 +55,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 1917,
+        "id": 2257,
         "linearizedBaseContracts": [
-          1917
+          2257
         ],
         "name": "ITokenDistributor",
         "nodeType": "ContractDefinition",
@@ -66,7 +66,7 @@
             "body": null,
             "documentation": null,
             "functionSelector": "4c0f38c2",
-            "id": 1916,
+            "id": 2256,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -74,24 +74,24 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 1912,
+              "id": 2252,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "121:2:10"
+              "src": "121:2:15"
             },
             "returnParameters": {
-              "id": 1915,
+              "id": 2255,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1914,
+                  "id": 2254,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1916,
-                  "src": "147:7:10",
+                  "scope": 2256,
+                  "src": "147:7:15",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -99,10 +99,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1913,
+                    "id": 2253,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "147:7:10",
+                    "src": "147:7:15",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -112,27 +112,27 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "146:9:10"
+              "src": "146:9:15"
             },
-            "scope": 1917,
-            "src": "100:56:10",
+            "scope": 2257,
+            "src": "100:56:15",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 1918,
-        "src": "66:92:10"
+        "scope": 2258,
+        "src": "66:92:15"
       }
     ],
-    "src": "32:127:10"
+    "src": "32:127:15"
   },
   "legacyAST": {
     "attributes": {
       "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITokenDistributor.sol",
       "exportedSymbols": {
         "ITokenDistributor": [
-          1917
+          2257
         ]
       },
       "license": "MIT"
@@ -150,9 +150,9 @@
             ".0"
           ]
         },
-        "id": 1911,
+        "id": 2251,
         "name": "PragmaDirective",
-        "src": "32:32:10"
+        "src": "32:32:15"
       },
       {
         "attributes": {
@@ -167,10 +167,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            1917
+            2257
           ],
           "name": "ITokenDistributor",
-          "scope": 1918
+          "scope": 2258
         },
         "children": [
           {
@@ -186,7 +186,7 @@
               ],
               "name": "getMaxSupply",
               "overrides": null,
-              "scope": 1917,
+              "scope": 2257,
               "stateMutability": "view",
               "virtual": false,
               "visibility": "external"
@@ -199,9 +199,9 @@
                   ]
                 },
                 "children": [],
-                "id": 1912,
+                "id": 2252,
                 "name": "ParameterList",
-                "src": "121:2:10"
+                "src": "121:2:15"
               },
               {
                 "children": [
@@ -211,7 +211,7 @@
                       "mutability": "mutable",
                       "name": "",
                       "overrides": null,
-                      "scope": 1916,
+                      "scope": 2256,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -224,34 +224,34 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 1913,
+                        "id": 2253,
                         "name": "ElementaryTypeName",
-                        "src": "147:7:10"
+                        "src": "147:7:15"
                       }
                     ],
-                    "id": 1914,
+                    "id": 2254,
                     "name": "VariableDeclaration",
-                    "src": "147:7:10"
+                    "src": "147:7:15"
                   }
                 ],
-                "id": 1915,
+                "id": 2255,
                 "name": "ParameterList",
-                "src": "146:9:10"
+                "src": "146:9:15"
               }
             ],
-            "id": 1916,
+            "id": 2256,
             "name": "FunctionDefinition",
-            "src": "100:56:10"
+            "src": "100:56:15"
           }
         ],
-        "id": 1917,
+        "id": 2257,
         "name": "ContractDefinition",
-        "src": "66:92:10"
+        "src": "66:92:15"
       }
     ],
-    "id": 1918,
+    "id": 2258,
     "name": "SourceUnit",
-    "src": "32:127:10"
+    "src": "32:127:15"
   },
   "compiler": {
     "name": "solc",
@@ -259,7 +259,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-02-06T19:49:51.499Z",
+  "updatedAt": "2021-02-08T09:54:57.899Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

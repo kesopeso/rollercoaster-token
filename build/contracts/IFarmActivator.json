@@ -1,46 +1,46 @@
 {
-  "contractName": "IBuybackInitializer",
+  "contractName": "IFarmActivator",
   "abi": [
     {
       "inputs": [
         {
           "internalType": "address",
-          "name": "_token",
+          "name": "_rewardToken",
           "type": "address"
         },
         {
           "internalType": "address",
-          "name": "_uniswapRouter",
+          "name": "_farmToken",
           "type": "address"
         }
       ],
-      "name": "init",
+      "name": "startFarming",
       "outputs": [],
-      "stateMutability": "payable",
+      "stateMutability": "nonpayable",
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_uniswapRouter\",\"type\":\"address\"}],\"name\":\"init\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IBuybackInitializer.sol\":\"IBuybackInitializer\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IBuybackInitializer.sol\":{\"keccak256\":\"0xea07eec0b9e54a4704e73f1ed5c4d12ea8b10504075e17cad5b97d1c97070f99\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://d28969cf52edf9e38cb14916d259613269fcc642780fe607990e9f4b19cedee9\",\"dweb:/ipfs/QmUPN9aEDRiDbM8Cq62SZRsbM9vwCkTSEBbJrdw2AVbDma\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_rewardToken\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_farmToken\",\"type\":\"address\"}],\"name\":\"startFarming\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IFarmActivator.sol\":\"IFarmActivator\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IFarmActivator.sol\":{\"keccak256\":\"0xeb521b31b8d64f20b1d5657d368c4a587c21fc16a0418929e69feb6a00a543ca\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ab19b6ab9ae6883d37b09981822e34833094d1cadfa0b30772fbed9e83bddfd6\",\"dweb:/ipfs/QmP2AZnogaxhTBHchTWZ6ythZDtb8dF162gbeaHwaUDerD\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.9.0;\n\ninterface IBuybackInitializer {\n    function init(address _token, address _uniswapRouter) external payable;\n}\n",
-  "sourcePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IBuybackInitializer.sol",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.9.0;\n\ninterface IFarmActivator {\n    function startFarming(address _rewardToken, address _farmToken) external;\n}\n",
+  "sourcePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IFarmActivator.sol",
   "ast": {
-    "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IBuybackInitializer.sol",
+    "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IFarmActivator.sol",
     "exportedSymbols": {
-      "IBuybackInitializer": [
-        2068
+      "IFarmActivator": [
+        2112
       ]
     },
-    "id": 2069,
+    "id": 2113,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2060,
+        "id": 2104,
         "literals": [
           "solidity",
           ">=",
@@ -51,7 +51,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "32:32:10"
+        "src": "32:32:12"
       },
       {
         "abstract": false,
@@ -60,37 +60,37 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 2068,
+        "id": 2112,
         "linearizedBaseContracts": [
-          2068
+          2112
         ],
-        "name": "IBuybackInitializer",
+        "name": "IFarmActivator",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": null,
             "documentation": null,
-            "functionSelector": "f09a4016",
-            "id": 2067,
+            "functionSelector": "224d5ab5",
+            "id": 2111,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
-            "name": "init",
+            "name": "startFarming",
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 2065,
+              "id": 2109,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2062,
+                  "id": 2106,
                   "mutability": "mutable",
-                  "name": "_token",
+                  "name": "_rewardToken",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 2067,
-                  "src": "116:14:10",
+                  "scope": 2111,
+                  "src": "119:20:12",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -98,10 +98,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2061,
+                    "id": 2105,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "116:7:10",
+                    "src": "119:7:12",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -113,13 +113,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 2064,
+                  "id": 2108,
                   "mutability": "mutable",
-                  "name": "_uniswapRouter",
+                  "name": "_farmToken",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 2067,
-                  "src": "132:22:10",
+                  "scope": 2111,
+                  "src": "141:18:12",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -127,10 +127,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2063,
+                    "id": 2107,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "132:7:10",
+                    "src": "141:7:12",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -141,33 +141,33 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "115:40:10"
+              "src": "118:42:12"
             },
             "returnParameters": {
-              "id": 2066,
+              "id": 2110,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "172:0:10"
+              "src": "169:0:12"
             },
-            "scope": 2068,
-            "src": "102:71:10",
-            "stateMutability": "payable",
+            "scope": 2112,
+            "src": "97:73:12",
+            "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 2069,
-        "src": "66:109:10"
+        "scope": 2113,
+        "src": "66:106:12"
       }
     ],
-    "src": "32:144:10"
+    "src": "32:141:12"
   },
   "legacyAST": {
     "attributes": {
-      "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IBuybackInitializer.sol",
+      "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/IFarmActivator.sol",
       "exportedSymbols": {
-        "IBuybackInitializer": [
-          2068
+        "IFarmActivator": [
+          2112
         ]
       },
       "license": "MIT"
@@ -185,9 +185,9 @@
             ".0"
           ]
         },
-        "id": 2060,
+        "id": 2104,
         "name": "PragmaDirective",
-        "src": "32:32:10"
+        "src": "32:32:12"
       },
       {
         "attributes": {
@@ -202,27 +202,27 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            2068
+            2112
           ],
-          "name": "IBuybackInitializer",
-          "scope": 2069
+          "name": "IFarmActivator",
+          "scope": 2113
         },
         "children": [
           {
             "attributes": {
               "body": null,
               "documentation": null,
-              "functionSelector": "f09a4016",
+              "functionSelector": "224d5ab5",
               "implemented": false,
               "isConstructor": false,
               "kind": "function",
               "modifiers": [
                 null
               ],
-              "name": "init",
+              "name": "startFarming",
               "overrides": null,
-              "scope": 2068,
-              "stateMutability": "payable",
+              "scope": 2112,
+              "stateMutability": "nonpayable",
               "virtual": false,
               "visibility": "external"
             },
@@ -233,9 +233,9 @@
                     "attributes": {
                       "constant": false,
                       "mutability": "mutable",
-                      "name": "_token",
+                      "name": "_rewardToken",
                       "overrides": null,
-                      "scope": 2067,
+                      "scope": 2111,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -249,22 +249,22 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 2061,
+                        "id": 2105,
                         "name": "ElementaryTypeName",
-                        "src": "116:7:10"
+                        "src": "119:7:12"
                       }
                     ],
-                    "id": 2062,
+                    "id": 2106,
                     "name": "VariableDeclaration",
-                    "src": "116:14:10"
+                    "src": "119:20:12"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "mutability": "mutable",
-                      "name": "_uniswapRouter",
+                      "name": "_farmToken",
                       "overrides": null,
-                      "scope": 2067,
+                      "scope": 2111,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -278,19 +278,19 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 2063,
+                        "id": 2107,
                         "name": "ElementaryTypeName",
-                        "src": "132:7:10"
+                        "src": "141:7:12"
                       }
                     ],
-                    "id": 2064,
+                    "id": 2108,
                     "name": "VariableDeclaration",
-                    "src": "132:22:10"
+                    "src": "141:18:12"
                   }
                 ],
-                "id": 2065,
+                "id": 2109,
                 "name": "ParameterList",
-                "src": "115:40:10"
+                "src": "118:42:12"
               },
               {
                 "attributes": {
@@ -299,24 +299,24 @@
                   ]
                 },
                 "children": [],
-                "id": 2066,
+                "id": 2110,
                 "name": "ParameterList",
-                "src": "172:0:10"
+                "src": "169:0:12"
               }
             ],
-            "id": 2067,
+            "id": 2111,
             "name": "FunctionDefinition",
-            "src": "102:71:10"
+            "src": "97:73:12"
           }
         ],
-        "id": 2068,
+        "id": 2112,
         "name": "ContractDefinition",
-        "src": "66:109:10"
+        "src": "66:106:12"
       }
     ],
-    "id": 2069,
+    "id": 2113,
     "name": "SourceUnit",
-    "src": "32:144:10"
+    "src": "32:141:12"
   },
   "compiler": {
     "name": "solc",
@@ -324,7 +324,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-02-08T09:54:57.861Z",
+  "updatedAt": "2021-02-08T09:54:57.874Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

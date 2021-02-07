@@ -5,23 +5,23 @@
   "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220434ea10bfabe7a3eb10a69686c95916fddf6123bd11ee066cc26f49a5bf04e9d64736f6c634300060c0033",
   "deployedBytecode": "0x6080604052600080fdfea2646970667358221220434ea10bfabe7a3eb10a69686c95916fddf6123bd11ee066cc26f49a5bf04e9d64736f6c634300060c0033",
   "immutableReferences": {},
-  "sourceMap": "66:20:5:-:0;;;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "66:20:5:-:0;;;;;",
+  "sourceMap": "66:20:8:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "66:20:8:-:0;;;;;",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.9.0;\n\ncontract Treasury {}\n",
   "sourcePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/Treasury.sol",
   "ast": {
     "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/Treasury.sol",
     "exportedSymbols": {
       "Treasury": [
-        1713
+        2002
       ]
     },
-    "id": 1714,
+    "id": 2003,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1712,
+        "id": 2001,
         "literals": [
           "solidity",
           ">=",
@@ -32,7 +32,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "32:32:5"
+        "src": "32:32:8"
       },
       {
         "abstract": false,
@@ -41,25 +41,25 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 1713,
+        "id": 2002,
         "linearizedBaseContracts": [
-          1713
+          2002
         ],
         "name": "Treasury",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 1714,
-        "src": "66:20:5"
+        "scope": 2003,
+        "src": "66:20:8"
       }
     ],
-    "src": "32:55:5"
+    "src": "32:55:8"
   },
   "legacyAST": {
     "attributes": {
       "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/Treasury.sol",
       "exportedSymbols": {
         "Treasury": [
-          1713
+          2002
         ]
       },
       "license": "MIT"
@@ -77,9 +77,9 @@
             ".0"
           ]
         },
-        "id": 1712,
+        "id": 2001,
         "name": "PragmaDirective",
-        "src": "32:32:5"
+        "src": "32:32:8"
       },
       {
         "attributes": {
@@ -94,72 +94,38 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            1713
+            2002
           ],
           "name": "Treasury",
           "nodes": [
             null
           ],
-          "scope": 1714
+          "scope": 2003
         },
-        "id": 1713,
+        "id": 2002,
         "name": "ContractDefinition",
-        "src": "66:20:5"
+        "src": "66:20:8"
       }
     ],
-    "id": 1714,
+    "id": 2003,
     "name": "SourceUnit",
-    "src": "32:55:5"
+    "src": "32:55:8"
   },
   "compiler": {
     "name": "solc",
     "version": "0.6.12+commit.27d51765.Emscripten.clang"
   },
   "networks": {
-    "4": {
+    "1612778030602": {
       "events": {},
       "links": {},
-      "address": "0x763D4fA427f556B859624e8680eA82e9fD4dB816",
-      "transactionHash": "0x07874c37a54c7cbcf65222c3cee70ce99b8373b0e124a28c09f1fe5aede4844d"
-    },
-    "1612314134652": {
-      "events": {},
-      "links": {},
-      "address": "0xD3f746afEd6fD6C9b8715FB9faeBB03eb75b1Ccb",
-      "transactionHash": "0x925e22e48dd581c1f9702979896662e7ff20db9d38cf442158d37595a51e4443"
-    },
-    "1612460708325": {
-      "events": {},
-      "links": {},
-      "address": "0x507F860A634109541558D605F1E3fb548453a077",
-      "transactionHash": "0x12e14a94e321234a36cd1bd1323dbc0107e89ecadf31da833ae0d9be620ce53c"
-    },
-    "1612467306363": {
-      "events": {},
-      "links": {},
-      "address": "0x98847087728531560b7C5d421bCBBFF08b340459",
-      "transactionHash": "0xa66dfa437263e79244f49d3f3036c660020daf58409db190c0fde2b57af45970"
-    },
-    "1612525337839": {
-      "events": {},
-      "links": {},
-      "address": "0xe78246F7075D7009cf0574fFEb203c2739b50d43"
-    },
-    "1612525630282": {
-      "events": {},
-      "links": {},
-      "address": "0x25BFA848587Fe578c0D48CC3B9Fe0E802FB3a25d",
-      "transactionHash": "0x2b54b9f6902645008fae521a02d5fbb2e5442766bd99bfc72bd5ab9d26ec7d2e"
-    },
-    "1612534845938": {
-      "events": {},
-      "links": {},
-      "address": "0x3F8f728625A5AD092bc919596DEDa0D65695fc6c",
-      "transactionHash": "0xb857089f273292186076a56196d5c896692854afadb4ad9ab5ff595e49e5bbcc"
+      "address": "0x10d28cbe949dE5045B6125F407Bb5F611d52Ff83",
+      "transactionHash": "0xe4f9d60af91aaf3ee8ec10eb84515cd950539047bfcd976548038bf8ac0fbf03"
     }
   },
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-02-06T19:49:51.475Z",
+  "updatedAt": "2021-02-08T09:55:18.284Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},

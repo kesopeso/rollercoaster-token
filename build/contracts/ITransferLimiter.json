@@ -27,15 +27,15 @@
     "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITransferLimiter.sol",
     "exportedSymbols": {
       "ITransferLimiter": [
-        1925
+        2265
       ]
     },
-    "id": 1926,
+    "id": 2266,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1919,
+        "id": 2259,
         "literals": [
           "solidity",
           ">=",
@@ -46,7 +46,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "32:32:11"
+        "src": "32:32:16"
       },
       {
         "abstract": false,
@@ -55,9 +55,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 1925,
+        "id": 2265,
         "linearizedBaseContracts": [
-          1925
+          2265
         ],
         "name": "ITransferLimiter",
         "nodeType": "ContractDefinition",
@@ -66,7 +66,7 @@
             "body": null,
             "documentation": null,
             "functionSelector": "197a03bc",
-            "id": 1924,
+            "id": 2264,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -74,24 +74,24 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 1920,
+              "id": 2260,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "130:2:11"
+              "src": "130:2:16"
             },
             "returnParameters": {
-              "id": 1923,
+              "id": 2263,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1922,
+                  "id": 2262,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1924,
-                  "src": "156:7:11",
+                  "scope": 2264,
+                  "src": "156:7:16",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -99,10 +99,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1921,
+                    "id": 2261,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "156:7:11",
+                    "src": "156:7:16",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -112,27 +112,27 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "155:9:11"
+              "src": "155:9:16"
             },
-            "scope": 1925,
-            "src": "99:66:11",
+            "scope": 2265,
+            "src": "99:66:16",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 1926,
-        "src": "66:101:11"
+        "scope": 2266,
+        "src": "66:101:16"
       }
     ],
-    "src": "32:136:11"
+    "src": "32:136:16"
   },
   "legacyAST": {
     "attributes": {
       "absolutePath": "/home/keso/projects/crypto/rollercoaster-token/contracts/interfaces/ITransferLimiter.sol",
       "exportedSymbols": {
         "ITransferLimiter": [
-          1925
+          2265
         ]
       },
       "license": "MIT"
@@ -150,9 +150,9 @@
             ".0"
           ]
         },
-        "id": 1919,
+        "id": 2259,
         "name": "PragmaDirective",
-        "src": "32:32:11"
+        "src": "32:32:16"
       },
       {
         "attributes": {
@@ -167,10 +167,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            1925
+            2265
           ],
           "name": "ITransferLimiter",
-          "scope": 1926
+          "scope": 2266
         },
         "children": [
           {
@@ -186,7 +186,7 @@
               ],
               "name": "getTransferLimitPerETH",
               "overrides": null,
-              "scope": 1925,
+              "scope": 2265,
               "stateMutability": "view",
               "virtual": false,
               "visibility": "external"
@@ -199,9 +199,9 @@
                   ]
                 },
                 "children": [],
-                "id": 1920,
+                "id": 2260,
                 "name": "ParameterList",
-                "src": "130:2:11"
+                "src": "130:2:16"
               },
               {
                 "children": [
@@ -211,7 +211,7 @@
                       "mutability": "mutable",
                       "name": "",
                       "overrides": null,
-                      "scope": 1924,
+                      "scope": 2264,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -224,34 +224,34 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 1921,
+                        "id": 2261,
                         "name": "ElementaryTypeName",
-                        "src": "156:7:11"
+                        "src": "156:7:16"
                       }
                     ],
-                    "id": 1922,
+                    "id": 2262,
                     "name": "VariableDeclaration",
-                    "src": "156:7:11"
+                    "src": "156:7:16"
                   }
                 ],
-                "id": 1923,
+                "id": 2263,
                 "name": "ParameterList",
-                "src": "155:9:11"
+                "src": "155:9:16"
               }
             ],
-            "id": 1924,
+            "id": 2264,
             "name": "FunctionDefinition",
-            "src": "99:66:11"
+            "src": "99:66:16"
           }
         ],
-        "id": 1925,
+        "id": 2265,
         "name": "ContractDefinition",
-        "src": "66:101:11"
+        "src": "66:101:16"
       }
     ],
-    "id": 1926,
+    "id": 2266,
     "name": "SourceUnit",
-    "src": "32:136:11"
+    "src": "32:136:16"
   },
   "compiler": {
     "name": "solc",
@@ -259,7 +259,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-02-06T19:49:51.504Z",
+  "updatedAt": "2021-02-08T09:54:57.900Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
