@@ -14,8 +14,6 @@ contract Farm is Initializable, IFarm, IFarmActivator {
 
     uint256 public constant REWARD_HALVING_INTERVAL = 10 days;
     uint256 public constant HARVEST_INTERVAL = 1 days;
-    uint256 public constant HARVEST_PERCENT_STEP = 10;
-    uint256 public constant HARVEST_CHUNKS_COUNT = 10;
 
     struct TotalSnapshots {
         uint256 count;
@@ -32,6 +30,7 @@ contract Farm is Initializable, IFarm, IFarmActivator {
 
     struct Harvests {
         uint256 count;
+        uint256 firstUnclaimedId;
         uint256[] singleSnapshotIds;
         uint256[] totalSnapshotIds;
         uint256[] timestamps;
@@ -186,7 +185,27 @@ contract Farm is Initializable, IFarm, IFarmActivator {
     }
 
     function claim() external override farmingStarted {
-        // TODO: claims
+        uint256 claimableAmount = 0;
+        uint256 idOffset = harvests[msg.sender].firstUnclaimedId;
+        uint256[] memory parts = claimableHarvests(msg.sender);
+
+        for (uint256 i = 0; i < parts.length; i++) {
+            if (parts[i] == 0) {
+                break;
+            }
+
+            uint256 id = i.add(idOffset);
+            harvests[msg.sender].claimed[id] = harvests[msg.sender].claimed[id].add(parts[i]);
+            if (harvests[msg.sender].claimed[id] >= harvests[msg.sender].total[id]) {
+                harvests[msg.sender].firstUnclaimedId++;
+            }
+
+            claimableAmount = claimableAmount.add(parts[i]);
+        }
+
+        if (claimableAmount > 0) {
+            rewardToken.transfer(msg.sender, claimableAmount);
+        }
     }
 
     function harvestable(address _staker) public view override returns (uint256) {
@@ -213,6 +232,7 @@ contract Farm is Initializable, IFarm, IFarmActivator {
             if (staked == 0) {
                 continue;
             }
+
             uint256 j = i == firstSSS ? firstTSS : singleSnapshots[_staker].totalSnapshotIds[i];
             uint256 toTSS = i < lastSSS ? singleSnapshots[_staker].totalSnapshotIds[i + 1] : totalSnapshots.count;
             for (j; j < toTSS; j++) {
@@ -229,8 +249,41 @@ contract Farm is Initializable, IFarm, IFarmActivator {
         return harvestableAmount;
     }
 
-    function claimable(address _staker) public view override returns (uint256) {
-        return 0;
+    function claimable(address _staker) external view override returns (uint256) {
+        uint256[] memory parts = claimableHarvests(_staker);
+        uint256 claimableAmount = 0;
+        for (uint256 i = 0; i < parts.length; i++) {
+            claimableAmount = claimableAmount.add(parts[i]);
+        }
+        return claimableAmount;
+    }
+
+    function harvested(address _staker) external view override returns (uint256) {
+        uint256 harvestedAmount = 0;
+        for (uint256 i = harvests[_staker].firstUnclaimedId; i < harvests[_staker].count; i++) {
+            harvestedAmount = harvestedAmount.add(harvests[_staker].total[i].sub(harvests[_staker].claimed[i]));
+        }
+        return harvestedAmount;
+    }
+
+    function claimableHarvests(address _staker) private view returns (uint256[] memory) {
+        if (harvests[_staker].count == 0 || harvests[_staker].firstUnclaimedId >= harvests[_staker].count) {
+            return new uint256[](0);
+        }
+
+        uint256 count = harvests[_staker].count.sub(harvests[_staker].firstUnclaimedId);
+        uint256[] memory parts = new uint256[](count);
+
+        for (uint256 i = harvests[_staker].firstUnclaimedId; i < harvests[_staker].count; i++) {
+            uint256 daysSinceHarvest = block.timestamp.sub(harvests[_staker].timestamps[i]).div(HARVEST_INTERVAL);
+            uint256 percentClaimable = daysSinceHarvest >= 10 ? 100 : daysSinceHarvest.mul(10);
+            uint256 totalClaimableAmount = harvests[_staker].total[i].mul(percentClaimable).div(100);
+            parts[i] = harvests[_staker].claimed[i] < totalClaimableAmount
+                ? totalClaimableAmount.sub(harvests[_staker].claimed[i])
+                : 0;
+        }
+
+        return parts;
     }
 
     function addIntervalSnapshots(bool shouldAddOnEqualTimestamps) private {

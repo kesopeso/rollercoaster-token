@@ -27,4 +27,6 @@ interface IFarm {
     function harvestable(address _staker) external view returns (uint256);
 
     function claimable(address _staker) external view returns (uint256);
+
+    function harvested(address _staker) external view returns (uint256);
 }
