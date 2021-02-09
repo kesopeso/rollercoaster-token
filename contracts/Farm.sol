@@ -9,6 +9,9 @@ import "./interfaces/IFarm.sol";
 import "./interfaces/IFarmActivator.sol";
 
 contract Farm is Initializable, IFarm, IFarmActivator {
+    event HarvestCreated(address indexed _staker, uint256 _idx, uint256 _timestamp, uint256 _amount);
+    event RewardClaimed(address indexed _staker, uint256 indexed _harvestChunkIdx, uint256 _timestamp, uint256 _amount);
+
     using AddressUpgradeable for address;
     using SafeMathUpgradeable for uint256;
 
@@ -177,11 +180,13 @@ contract Farm is Initializable, IFarm, IFarmActivator {
             return;
         }
 
+        harvests[msg.sender].count++;
         harvests[msg.sender].claimed.push(0);
         harvests[msg.sender].timestamps.push(block.timestamp);
         harvests[msg.sender].total.push(harvestableAmount);
         harvests[msg.sender].singleSnapshotIds.push(singleSnapshots[msg.sender].count - 1);
         harvests[msg.sender].totalSnapshotIds.push(totalSnapshots.count - 1);
+        emit HarvestCreated(msg.sender, harvests[msg.sender].count - 1, block.timestamp, harvestableAmount);
     }
 
     function claim() external override farmingStarted {
@@ -201,6 +206,7 @@ contract Farm is Initializable, IFarm, IFarmActivator {
             }
 
             claimableAmount = claimableAmount.add(parts[i]);
+            emit RewardClaimed(msg.sender, id, block.timestamp, parts[i]);
         }
 
         if (claimableAmount > 0) {
