@@ -3,28 +3,51 @@ pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol";
 import "./interfaces/IFarm.sol";
 import "./interfaces/IFarmActivator.sol";
 
 contract Farm is Initializable, IFarm, IFarmActivator {
-    uint256 private totalReward;
-    address private activator;
-    IERC20 private rewardToken;
-    IERC20 private farmToken;
-    bool private isFarmingStarted;
+    using AddressUpgradeable for address;
+    using SafeMathUpgradeable for uint256;
 
-    struct Snapshots {
-        uint256[] timestamp;
-        uint256[] amount;
+    uint256 public constant REWARD_HALVING_INTERVAL = 10 days;
+    uint256 public constant HARVEST_INTERVAL = 1 days;
+    uint256 public constant HARVEST_PERCENT_STEP = 10;
+    uint256 public constant HARVEST_CHUNKS_COUNT = 10;
+
+    struct TotalSnapshots {
+        uint256 count;
+        uint256[] timestamps;
+        uint256[] staked;
+        uint256[] reward;
+    }
+
+    struct SingleSnapshots {
+        uint256 count;
+        uint256[] totalSnapshotIds;
+        uint256[] staked;
     }
 
     struct Harvests {
-        uint256[] timestamp;
+        uint256 count;
+        uint256[] singleSnapshotIds;
+        uint256[] totalSnapshotIds;
+        uint256[] timestamps;
         uint256[] claimed;
-        uint256[] amount;
+        uint256[] total;
     }
 
-    mapping(address => Harvests) private harvestHistory;
+    address private activator;
+    bool private isFarmingStarted;
+    uint256 private totalReward;
+    uint256 private currentReward;
+    IERC20 private rewardToken;
+    IERC20 private farmToken;
+    TotalSnapshots private totalSnapshots;
+    mapping(address => SingleSnapshots) private singleSnapshots;
+    mapping(address => Harvests) private harvests;
 
     function initialize(address _activator) external initializer {
         __Farm_init(_activator);
@@ -36,7 +59,6 @@ contract Farm is Initializable, IFarm, IFarmActivator {
 
     function __Farm_init_unchained(address _activator) internal initializer {
         activator = _activator;
-        isFarmingStarted = false;
     }
 
     modifier onlyActivator() {
@@ -60,8 +82,45 @@ contract Farm is Initializable, IFarm, IFarmActivator {
         _;
     }
 
+    modifier stakeAddressNotContract() {
+        require(!address(msg.sender).isContract(), "Staking from contracts is not allowed.");
+        _;
+    }
+
+    modifier stakeAmountValid(uint256 _amount) {
+        require(_amount > 0, "Staking amount must be bigger than 0.");
+        require(
+            _amount <= farmToken.allowance(msg.sender, address(this)),
+            "Farm is not allowed to transfer the desired staking amount."
+        );
+        _;
+    }
+
+    modifier withdrawAmountValid(uint256 _amount) {
+        require(_amount <= singleStaked(msg.sender), "Withdraw amount too big.");
+        _;
+    }
+
     function totalRewardSupply() external view override returns (uint256) {
         return totalReward;
+    }
+
+    function intervalReward() external view override returns (uint256) {
+        if (totalSnapshots.count == 0) {
+            return 0;
+        }
+        uint256 intervalIdx = block.timestamp.sub(totalSnapshots.timestamps[0]).div(REWARD_HALVING_INTERVAL);
+        return totalReward.div(2**intervalIdx.add(1));
+    }
+
+    function nextIntervalTimestamp() external view override returns (uint256) {
+        if (totalSnapshots.count == 0) {
+            return 0;
+        }
+        uint256 secondsElapsedInCurrentInterval =
+            block.timestamp.sub(totalSnapshots.timestamps[0]).mod(REWARD_HALVING_INTERVAL);
+        uint256 secondsUntilNextInterval = REWARD_HALVING_INTERVAL.sub(secondsElapsedInCurrentInterval);
+        return block.timestamp.add(secondsUntilNextInterval);
     }
 
     function rewardTokenAddress() external view override returns (address) {
@@ -70,6 +129,16 @@ contract Farm is Initializable, IFarm, IFarmActivator {
 
     function farmTokenAddress() external view override returns (address) {
         return address(farmToken);
+    }
+
+    function singleStaked(address _staker) public view override returns (uint256) {
+        uint256 count = singleSnapshots[_staker].count;
+        return count > 0 ? singleSnapshots[_staker].staked[count - 1] : 0;
+    }
+
+    function totalStaked() public view override returns (uint256) {
+        uint256 count = totalSnapshots.count;
+        return count > 0 ? totalSnapshots.staked[count - 1] : 0;
     }
 
     function startFarming(address _rewardToken, address _farmToken)
@@ -82,26 +151,127 @@ contract Farm is Initializable, IFarm, IFarmActivator {
         rewardToken = IERC20(_rewardToken);
         farmToken = IERC20(_farmToken);
         totalReward = rewardToken.balanceOf(address(this));
+        currentReward = totalReward.div(2);
+        addTotalSnapshot(block.timestamp, 0);
         isFarmingStarted = true;
     }
 
-    function stake(uint256 _amount) external override {
-        // transfer tokens
-        // update snapshots
+    function stake(uint256 _amount) external override farmingStarted stakeAddressNotContract stakeAmountValid(_amount) {
+        farmToken.transferFrom(msg.sender, address(this), _amount);
+        addIntervalSnapshots(false);
+        addTotalSnapshot(block.timestamp, totalStaked().add(_amount));
+        addSingleSnapshot(singleStaked(msg.sender).add(_amount));
     }
 
-    function withdraw(uint256 _amount) external override {
-        // transfer tokens
-        // update snapshots
+    function withdraw(uint256 _amount) external override farmingStarted withdrawAmountValid(_amount) {
+        farmToken.transfer(msg.sender, _amount);
+        addIntervalSnapshots(false);
+        addTotalSnapshot(block.timestamp, totalStaked().sub(_amount));
+        addSingleSnapshot(singleStaked(msg.sender).sub(_amount));
     }
 
-    function harvest() external override {
-        // check last harvest
+    function harvest() external override farmingStarted {
+        addIntervalSnapshots(true);
+
+        uint256 harvestableAmount = harvestable(msg.sender);
+        if (harvestableAmount == 0) {
+            return;
+        }
+
+        harvests[msg.sender].claimed.push(0);
+        harvests[msg.sender].timestamps.push(block.timestamp);
+        harvests[msg.sender].total.push(harvestableAmount);
+        harvests[msg.sender].singleSnapshotIds.push(singleSnapshots[msg.sender].count - 1);
+        harvests[msg.sender].totalSnapshotIds.push(totalSnapshots.count - 1);
     }
 
-    function claim() external override {
-        // check claimable and claim
+    function claim() external override farmingStarted {
+        // TODO: claims
     }
 
-    uint256[43] private __gap;
+    function harvestable(address _staker) public view override returns (uint256) {
+        if (singleSnapshots[_staker].count == 0) {
+            return 0;
+        }
+
+        // SSS = single snapshop, TSS = total snapshot, TS = timestamp
+        uint256 firstSSS = 0;
+        uint256 firstTSS = singleSnapshots[_staker].totalSnapshotIds[firstSSS];
+        uint256 firstTS = totalSnapshots.timestamps[firstTSS];
+        if (harvests[_staker].count > 0) {
+            uint256 lastHarvestId = harvests[_staker].count - 1;
+            firstSSS = harvests[_staker].singleSnapshotIds[lastHarvestId];
+            firstTSS = harvests[_staker].totalSnapshotIds[lastHarvestId];
+            firstTS = harvests[_staker].timestamps[lastHarvestId];
+        }
+        uint256 lastSSS = singleSnapshots[_staker].count - 1;
+        uint256 lastTSS = totalSnapshots.count - 1;
+
+        uint256 harvestableAmount = 0;
+        for (uint256 i = firstSSS; i < singleSnapshots[_staker].count; i++) {
+            uint256 staked = singleSnapshots[_staker].staked[i];
+            if (staked == 0) {
+                continue;
+            }
+            uint256 j = i == firstSSS ? firstTSS : singleSnapshots[_staker].totalSnapshotIds[i];
+            uint256 toTSS = i < lastSSS ? singleSnapshots[_staker].totalSnapshotIds[i + 1] : totalSnapshots.count;
+            for (j; j < toTSS; j++) {
+                uint256 startTime = j > firstTSS ? totalSnapshots.timestamps[j] : firstTS;
+                uint256 endTime = j < lastTSS ? totalSnapshots.timestamps[j + 1] : block.timestamp;
+                uint256 snapshotHarvestableAmount =
+                    totalSnapshots.reward[j].mul(endTime.sub(startTime)).mul(staked).div(
+                        REWARD_HALVING_INTERVAL.mul(totalSnapshots.staked[j])
+                    );
+                harvestableAmount = harvestableAmount.add(snapshotHarvestableAmount);
+            }
+        }
+
+        return harvestableAmount;
+    }
+
+    function claimable(address _staker) public view override returns (uint256) {
+        return 0;
+    }
+
+    function addIntervalSnapshots(bool shouldAddOnEqualTimestamps) private {
+        uint256 firstSnapshotTimestamp = totalSnapshots.timestamps[0];
+        uint256 lastSnapshotTimestamp = totalSnapshots.timestamps[totalSnapshots.count - 1];
+        uint256 currentTotalStaked = totalStaked();
+
+        while (true) {
+            uint256 timeElapsed = lastSnapshotTimestamp.sub(firstSnapshotTimestamp);
+            uint256 intervalElapsed = timeElapsed.mod(REWARD_HALVING_INTERVAL);
+            uint256 timeUntilNextSnapshot = REWARD_HALVING_INTERVAL.sub(intervalElapsed);
+            lastSnapshotTimestamp = lastSnapshotTimestamp.add(timeUntilNextSnapshot);
+
+            if (lastSnapshotTimestamp > block.timestamp) {
+                return;
+            }
+
+            currentReward = currentReward.div(2);
+
+            if (shouldAddOnEqualTimestamps || lastSnapshotTimestamp < block.timestamp) {
+                addTotalSnapshot(lastSnapshotTimestamp, currentTotalStaked);
+            }
+
+            if (lastSnapshotTimestamp == block.timestamp) {
+                return;
+            }
+        }
+    }
+
+    function addTotalSnapshot(uint256 _timestamp, uint256 _staked) private {
+        totalSnapshots.count++;
+        totalSnapshots.timestamps.push(_timestamp);
+        totalSnapshots.staked.push(_staked);
+        totalSnapshots.reward.push(currentReward);
+    }
+
+    function addSingleSnapshot(uint256 _amount) private {
+        singleSnapshots[msg.sender].count++;
+        singleSnapshots[msg.sender].staked.push(_amount);
+        singleSnapshots[msg.sender].totalSnapshotIds.push(totalSnapshots.count - 1);
+    }
+
+    uint256[38] private __gap;
 }

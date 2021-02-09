@@ -4,9 +4,17 @@ pragma solidity >=0.4.22 <0.9.0;
 interface IFarm {
     function totalRewardSupply() external view returns (uint256);
 
+    function intervalReward() external view returns (uint256);
+
+    function nextIntervalTimestamp() external view returns (uint256);
+
     function rewardTokenAddress() external view returns (address);
 
     function farmTokenAddress() external view returns (address);
+
+    function singleStaked(address _staker) external view returns (uint256);
+
+    function totalStaked() external view returns (uint256);
 
     function stake(uint256 _amount) external;
 
@@ -15,4 +23,8 @@ interface IFarm {
     function harvest() external;
 
     function claim() external;
+
+    function harvestable(address _staker) external view returns (uint256);
+
+    function claimable(address _staker) external view returns (uint256);
 }

@@ -70,8 +70,7 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
 
     modifier sufficientSupply(address _token) {
         uint256 supply = IERC20(_token).balanceOf(address(this));
-        uint256 minSupply = PRESALE_MAX_SUPPLY.add(LIQUIDITY_MAX_SUPPLY).add(RC_FARM_SUPPLY).add(RC_ETH_FARM_SUPPLY);
-        require(supply >= minSupply, "Insufficient supply.");
+        require(supply >= getMaxSupply(), "Insufficient supply.");
         _;
     }
 
@@ -80,7 +79,7 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         _;
     }
 
-    function getMaxSupply() external view override returns (uint256) {
+    function getMaxSupply() public view override returns (uint256) {
         return PRESALE_MAX_SUPPLY.add(LIQUIDITY_MAX_SUPPLY).add(RC_FARM_SUPPLY).add(RC_ETH_FARM_SUPPLY);
     }
 
