@@ -2,9 +2,13 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 interface IFarm {
-    event HarvestCreated(address indexed _staker, uint256 _idx, uint256 _timestamp, uint256 _amount);
+    event SnapshotAdded(uint256 _id, uint256 _intervalId, uint256 _timestamp, uint256 _totalAmount);
 
-    event RewardClaimed(address indexed _staker, uint256 indexed _harvestChunkIdx, uint256 _timestamp, uint256 _amount);
+    event HarvestCreated(address indexed _staker, uint256 _id, uint256 _timestamp, uint256 _amount);
+
+    event RewardClaimed(address indexed _staker, uint256 indexed _harvestId, uint256 _timestamp, uint256 _amount);
+
+    function farmingActive() external view returns (bool);
 
     function totalRewardSupply() external view returns (uint256);
 

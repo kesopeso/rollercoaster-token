@@ -9,8 +9,9 @@ import "./interfaces/IFarm.sol";
 import "./interfaces/IFarmActivator.sol";
 
 contract Farm is Initializable, IFarm, IFarmActivator {
-    event HarvestCreated(address indexed _staker, uint256 _idx, uint256 _timestamp, uint256 _amount);
-    event RewardClaimed(address indexed _staker, uint256 indexed _harvestChunkIdx, uint256 _timestamp, uint256 _amount);
+    event SnapshotAdded(uint256 _id, uint256 _intervalId, uint256 _timestamp, uint256 _totalAmount);
+    event HarvestCreated(address indexed _staker, uint256 _id, uint256 _timestamp, uint256 _amount);
+    event RewardClaimed(address indexed _staker, uint256 indexed _harvestId, uint256 _timestamp, uint256 _amount);
 
     using AddressUpgradeable for address;
     using SafeMathUpgradeable for uint256;
@@ -45,6 +46,7 @@ contract Farm is Initializable, IFarm, IFarmActivator {
     bool private isFarmingStarted;
     uint256 private totalReward;
     uint256 private currentReward;
+    uint256 private currentIntervalId;
     IERC20 private rewardToken;
     IERC20 private farmToken;
     TotalSnapshots private totalSnapshots;
@@ -101,6 +103,10 @@ contract Farm is Initializable, IFarm, IFarmActivator {
     modifier withdrawAmountValid(uint256 _amount) {
         require(_amount <= singleStaked(msg.sender), "Withdraw amount too big.");
         _;
+    }
+
+    function farmingActive() external view override returns (bool) {
+        return isFarmingStarted;
     }
 
     function totalRewardSupply() external view override returns (uint256) {
@@ -308,6 +314,7 @@ contract Farm is Initializable, IFarm, IFarmActivator {
             }
 
             currentReward = currentReward.div(2);
+            currentIntervalId++;
 
             if (shouldAddOnEqualTimestamps || lastSnapshotTimestamp < block.timestamp) {
                 addTotalSnapshot(lastSnapshotTimestamp, currentTotalStaked);
@@ -324,6 +331,7 @@ contract Farm is Initializable, IFarm, IFarmActivator {
         totalSnapshots.timestamps.push(_timestamp);
         totalSnapshots.staked.push(_staked);
         totalSnapshots.reward.push(currentReward);
+        emit SnapshotAdded(totalSnapshots.count - 1, currentIntervalId, _timestamp, _staked);
     }
 
     function addSingleSnapshot(uint256 _amount) private {
