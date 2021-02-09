@@ -21,7 +21,7 @@ contract('Farm', (accounts) => {
         await farm.startFarming(token.address, token.address);
     });
 
-    xit('should set rewards correctly', async () => {
+    it('should set rewards correctly', async () => {
         let expectedReward = ether('50');
         for (let i = 0; i < 10; i++) {
             const actualReward = await farm.intervalReward();
@@ -31,7 +31,7 @@ contract('Farm', (accounts) => {
         }
     });
 
-    xit('should set next interval correctly', async () => {
+    it('should set next interval correctly', async () => {
         let expectedNextInterval = await farm.nextIntervalTimestamp();
         for (let i = 0; i < 10; i++) {
             expectedNextInterval = expectedNextInterval.add(new BN('864000'));
@@ -41,7 +41,7 @@ contract('Farm', (accounts) => {
         }
     });
 
-    xit('should calculate harvestable reward correctly', async () => {
+    it('should calculate harvestable reward correctly', async () => {
         await farm.stake(ether('1'), { from: bob });
         await time.increase(time.duration.days(5));
         await farm.stake(ether('1'), { from: curtis });
@@ -53,29 +53,44 @@ contract('Farm', (accounts) => {
     });
 
     it('should consume normal amount of gas', async () => {
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 30; i++) {
             const { receipt: stakeReceipt } = await farm.stake(ether('0.0001'), { from: bob });
             console.log('stake gas', stakeReceipt.gasUsed);
             await time.increase(time.duration.hours(1));
         }
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 30; i++) {
             const { receipt: withdrawReceipt } = await farm.withdraw(ether('0.0001'), { from: bob });
             console.log('withdraw gas', withdrawReceipt.gasUsed);
             await time.increase(time.duration.hours(1));
         }
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 20; i++) {
             const { receipt: harvestReceipt } = await farm.harvest({ from: bob });
             console.log('harvest gas', harvestReceipt.gasUsed);
-            await time.increase(time.duration.hours(3));
+            await time.increase(time.duration.hours(12));
         }
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 20; i++) {
             const { receipt: claimReceipt } = await farm.claim({ from: bob });
             console.log('claim gas', claimReceipt.gasUsed);
-            await time.increase(time.duration.hours(3));
+            await time.increase(time.duration.hours(12));
+        }
+        for (let i = 0; i < 10; i++) {
+            const { receipt: stakeReceipt } = await farm.stake(ether('0.0001'), { from: bob });
+            console.log('stake gas', stakeReceipt.gasUsed);
+            await time.increase(time.duration.hours(20));
+        }
+        for (let i = 0; i < 10; i++) {
+            const { receipt: withdrawReceipt } = await farm.withdraw(ether('0.0001'), { from: bob });
+            console.log('withdraw gas', withdrawReceipt.gasUsed);
+            await time.increase(time.duration.hours(20));
+        }
+        for (let i = 0; i < 3; i++) {
+            const { receipt: harvestReceipt } = await farm.harvest({ from: bob });
+            console.log('harvest gas', harvestReceipt.gasUsed);
+            await time.increase(time.duration.hours(12));
         }
     });
 
-    xit('should simulate farming successfully', async () => {
+    it('should simulate farming successfully', async () => {
         let result = await farm.stake(ether('1'), { from: bob });
         logEvents('bob staked', result);
 

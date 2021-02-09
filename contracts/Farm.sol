@@ -251,10 +251,10 @@ contract Farm is Initializable, IFarm, IFarmActivator {
                 uint256 startTime = j > firstTSS ? totalSnapshots.timestamps[j] : firstTS;
                 uint256 endTime = j < lastTSS ? totalSnapshots.timestamps[j + 1] : block.timestamp;
                 uint256 snapshotHarvestableAmount =
-                    totalSnapshots.reward[j].mul(endTime.sub(startTime)).mul(staked).div(
-                        REWARD_HALVING_INTERVAL.mul(totalSnapshots.staked[j])
-                    );
-                harvestableAmount = harvestableAmount.add(snapshotHarvestableAmount);
+                    (totalSnapshots.reward[j] * (endTime - startTime) * staked) /
+                        REWARD_HALVING_INTERVAL /
+                        totalSnapshots.staked[j];
+                harvestableAmount += snapshotHarvestableAmount;
             }
         }
 
