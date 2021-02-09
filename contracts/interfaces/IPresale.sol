@@ -2,6 +2,21 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 interface IPresale {
+    event PresaleStarted();
+
+    event FcfsActivated();
+
+    event PresaleEnded();
+
+    event ContributionAccepted(
+        address indexed _contributor,
+        uint256 _contribution,
+        uint256 _receivedTokens,
+        uint256 _contributions
+    );
+
+    event ContributionRefunded(address indexed _contributor, uint256 _contribution);
+
     function tokenAddress() external view returns (address);
 
     function uniswapPairAddress() external view returns (address);
