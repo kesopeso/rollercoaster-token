@@ -4,7 +4,7 @@ const TokenMock = artifacts.require('TokenMock');
 const BuybackInitializerMock = artifacts.require('BuybackInitializerMock');
 const FarmActivatorMock = artifacts.require('FarmActivatorMock');
 const { expect } = require('chai');
-const { send, balance, expectRevert, ether } = require('@openzeppelin/test-helpers');
+const { send, balance, expectRevert, expectEvent, ether } = require('@openzeppelin/test-helpers');
 const { web3 } = require('@openzeppelin/test-helpers/src/setup');
 
 contract('Presale', (accounts) => {
@@ -18,8 +18,7 @@ contract('Presale', (accounts) => {
     let rcFarm;
     let rcEthFarm;
 
-    const sendEther = (from, value) =>
-        web3.eth.sendTransaction({ from, to: presale.address, value, gas: 150000, gasPrice: 0 });
+    const sendEther = (from, value) => presale.send(value, { from, gas: 150000, gasPrice: 0 });
 
     const presaleStart = (contributors, from) =>
         presale.start(
@@ -134,7 +133,13 @@ contract('Presale', (accounts) => {
         });
 
         it('should allow investment from whitelisted address', async () => {
-            await sendEther(bob, ether('3'));
+            const result = await sendEther(bob, ether('3'));
+            expectEvent(result, 'ContributionAccepted', {
+                _contributor: bob,
+                _contribution: ether('3'),
+                _receivedTokens: ether('300'),
+                _contributions: ether('3'),
+            });
             const balance = await token.balanceOf(bob);
             expect(balance.toString()).to.eq(ether('300').toString());
         });
