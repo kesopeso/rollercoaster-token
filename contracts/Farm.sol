@@ -9,7 +9,7 @@ import "./interfaces/IFarm.sol";
 import "./interfaces/IFarmActivator.sol";
 
 contract Farm is Initializable, IFarm, IFarmActivator {
-    event SnapshotAdded(uint256 _id, uint256 _intervalId, uint256 _timestamp, uint256 _totalAmount);
+    event SnapshotAdded(uint256 _id, uint256 _timestamp, uint256 _totalAmount);
     event HarvestCreated(address indexed _staker, uint256 _id, uint256 _timestamp, uint256 _amount);
     event RewardClaimed(address indexed _staker, uint256 indexed _harvestId, uint256 _timestamp, uint256 _amount);
 
@@ -35,8 +35,7 @@ contract Farm is Initializable, IFarm, IFarmActivator {
     struct Harvests {
         uint256 count;
         uint256 firstUnclaimedId;
-        uint256[] singleSnapshotIds;
-        uint256[] totalSnapshotIds;
+        uint256 totalSnapshotId;
         uint256[] timestamps;
         uint256[] claimed;
         uint256[] total;
@@ -46,7 +45,6 @@ contract Farm is Initializable, IFarm, IFarmActivator {
     bool private isFarmingStarted;
     uint256 private totalReward;
     uint256 private currentReward;
-    uint256 private currentIntervalId;
     IERC20 private rewardToken;
     IERC20 private farmToken;
     TotalSnapshots private totalSnapshots;
@@ -178,10 +176,10 @@ contract Farm is Initializable, IFarm, IFarmActivator {
         addSingleSnapshot(singleStaked(msg.sender).sub(_amount));
     }
 
-    function harvest() external override farmingStarted {
+    function harvest(uint256 _maxSnapshots) external override farmingStarted {
         addIntervalSnapshots(true);
 
-        uint256 harvestableAmount = harvestable(msg.sender);
+        (uint256 harvestableAmount, uint256 snapshotId) = harvestableToTake(msg.sender, _maxSnapshots);
         if (harvestableAmount == 0) {
             return;
         }
@@ -190,8 +188,7 @@ contract Farm is Initializable, IFarm, IFarmActivator {
         harvests[msg.sender].claimed.push(0);
         harvests[msg.sender].timestamps.push(block.timestamp);
         harvests[msg.sender].total.push(harvestableAmount);
-        harvests[msg.sender].singleSnapshotIds.push(singleSnapshots[msg.sender].count - 1);
-        harvests[msg.sender].totalSnapshotIds.push(totalSnapshots.count - 1);
+        harvests[msg.sender].totalSnapshotId = snapshotId;
         emit HarvestCreated(msg.sender, harvests[msg.sender].count - 1, block.timestamp, harvestableAmount);
     }
 
@@ -220,45 +217,39 @@ contract Farm is Initializable, IFarm, IFarmActivator {
         }
     }
 
-    function harvestable(address _staker) public view override returns (uint256) {
+    function harvestable(address _staker) external view override returns (uint256) {
         if (singleSnapshots[_staker].count == 0) {
             return 0;
         }
 
-        // SSS = single snapshop, TSS = total snapshot, TS = timestamp
-        uint256 firstSSS = 0;
-        uint256 firstTSS = singleSnapshots[_staker].totalSnapshotIds[firstSSS];
-        uint256 firstTS = totalSnapshots.timestamps[firstTSS];
-        if (harvests[_staker].count > 0) {
-            uint256 lastHarvestId = harvests[_staker].count - 1;
-            firstSSS = harvests[_staker].singleSnapshotIds[lastHarvestId];
-            firstTSS = harvests[_staker].totalSnapshotIds[lastHarvestId];
-            firstTS = harvests[_staker].timestamps[lastHarvestId];
-        }
-        uint256 lastSSS = singleSnapshots[_staker].count - 1;
-        uint256 lastTSS = totalSnapshots.count - 1;
+        uint256 amount = 0;
+        uint256 lastSingleSnapshotId = singleSnapshots[_staker].count - 1;
+        uint256 lastTotalSnapshotId = totalSnapshots.count - 1;
 
-        uint256 harvestableAmount = 0;
-        for (uint256 i = firstSSS; i < singleSnapshots[_staker].count; i++) {
+        for (uint256 i = 0; i < singleSnapshots[_staker].count; i++) {
             uint256 staked = singleSnapshots[_staker].staked[i];
             if (staked == 0) {
                 continue;
             }
-
-            uint256 j = i == firstSSS ? firstTSS : singleSnapshots[_staker].totalSnapshotIds[i];
-            uint256 toTSS = i < lastSSS ? singleSnapshots[_staker].totalSnapshotIds[i + 1] : totalSnapshots.count;
-            for (j; j < toTSS; j++) {
-                uint256 startTime = j > firstTSS ? totalSnapshots.timestamps[j] : firstTS;
-                uint256 endTime = j < lastTSS ? totalSnapshots.timestamps[j + 1] : block.timestamp;
-                uint256 snapshotHarvestableAmount =
-                    (totalSnapshots.reward[j] * (endTime - startTime) * staked) /
-                        REWARD_HALVING_INTERVAL /
-                        totalSnapshots.staked[j];
-                harvestableAmount += snapshotHarvestableAmount;
+            uint256 startSnapshotId =
+                singleSnapshots[_staker].totalSnapshotIds[i] > harvests[_staker].totalSnapshotId
+                    ? singleSnapshots[_staker].totalSnapshotIds[i]
+                    : harvests[_staker].totalSnapshotId;
+            uint256 endSnapshotId =
+                i < lastSingleSnapshotId ? singleSnapshots[_staker].totalSnapshotIds[i + 1] : totalSnapshots.count;
+            for (uint256 j = startSnapshotId; j < endSnapshotId; j++) {
+                uint256 endTime = j < lastTotalSnapshotId ? totalSnapshots.timestamps[j + 1] : block.timestamp;
+                amount = amount.add(
+                    totalSnapshots.reward[j]
+                        .mul(endTime - totalSnapshots.timestamps[j])
+                        .mul(staked)
+                        .div(REWARD_HALVING_INTERVAL)
+                        .div(totalSnapshots.staked[j])
+                );
             }
         }
 
-        return harvestableAmount;
+        return amount;
     }
 
     function claimable(address _staker) external view override returns (uint256) {
@@ -276,6 +267,74 @@ contract Farm is Initializable, IFarm, IFarmActivator {
             harvestedAmount = harvestedAmount.add(harvests[_staker].total[i].sub(harvests[_staker].claimed[i]));
         }
         return harvestedAmount;
+    }
+
+    function snapshotsCount() external view override returns (uint256) {
+        return totalSnapshots.count;
+    }
+
+    function snapshotTimestamp(uint256 _snapshotId) external view override returns (uint256) {
+        return totalSnapshots.timestamps[_snapshotId];
+    }
+
+    function harvestSnapshotId(address _staker) external view override returns (uint256) {
+        if (singleSnapshots[_staker].count == 0) {
+            return 0;
+        }
+
+        if (harvests[_staker].count == 0) {
+            return singleSnapshots[_staker].totalSnapshotIds[0];
+        }
+
+        return harvests[_staker].totalSnapshotId;
+    }
+
+    function harvestableToTake(address _staker, uint256 _maxSnapshots)
+        private
+        view
+        returns (uint256 amount, uint256 snapshotId)
+    {
+        amount = 0;
+        snapshotId = harvests[_staker].totalSnapshotId;
+
+        if (singleSnapshots[_staker].count == 0) {
+            return (amount, snapshotId);
+        }
+
+        uint256 lastSingleSnapshotId = singleSnapshots[_staker].count - 1;
+        uint256 lastTotalSnapshotId = totalSnapshots.count - 1;
+        uint256 maxSnapshots = _maxSnapshots == 0 ? 2**256 - 1 : _maxSnapshots;
+        uint256 snapshotsExecuted = 0;
+
+        for (uint256 i = 0; i < singleSnapshots[_staker].count; i++) {
+            uint256 staked = singleSnapshots[_staker].staked[i];
+            if (staked == 0) {
+                continue;
+            }
+            uint256 startSnapshotId =
+                singleSnapshots[_staker].totalSnapshotIds[i] > harvests[_staker].totalSnapshotId
+                    ? singleSnapshots[_staker].totalSnapshotIds[i]
+                    : harvests[_staker].totalSnapshotId;
+            uint256 endSnapshotId =
+                i < lastSingleSnapshotId ? singleSnapshots[_staker].totalSnapshotIds[i + 1] : lastTotalSnapshotId;
+            for (uint256 j = startSnapshotId; j < endSnapshotId; j++) {
+                if (snapshotsExecuted >= maxSnapshots) {
+                    break;
+                }
+                uint256 endTime = j < lastTotalSnapshotId ? totalSnapshots.timestamps[j + 1] : block.timestamp;
+                amount = amount.add(
+                    totalSnapshots.reward[j]
+                        .mul(endTime - totalSnapshots.timestamps[j])
+                        .mul(staked)
+                        .div(REWARD_HALVING_INTERVAL)
+                        .div(totalSnapshots.staked[j])
+                );
+                snapshotId = j + 1;
+                snapshotsExecuted++;
+            }
+        }
+
+        return (amount, snapshotId);
     }
 
     function claimableHarvests(address _staker) private view returns (uint256[] memory) {
@@ -314,7 +373,6 @@ contract Farm is Initializable, IFarm, IFarmActivator {
             }
 
             currentReward = currentReward.div(2);
-            currentIntervalId++;
 
             if (shouldAddOnEqualTimestamps || lastSnapshotTimestamp < block.timestamp) {
                 addTotalSnapshot(lastSnapshotTimestamp, currentTotalStaked);
@@ -331,7 +389,7 @@ contract Farm is Initializable, IFarm, IFarmActivator {
         totalSnapshots.timestamps.push(_timestamp);
         totalSnapshots.staked.push(_staked);
         totalSnapshots.reward.push(currentReward);
-        emit SnapshotAdded(totalSnapshots.count - 1, currentIntervalId, _timestamp, _staked);
+        emit SnapshotAdded(totalSnapshots.count - 1, _timestamp, _staked);
     }
 
     function addSingleSnapshot(uint256 _amount) private {
