@@ -289,6 +289,22 @@ contract Farm is Initializable, IFarm, IFarmActivator {
         return harvests[_staker].totalSnapshotId;
     }
 
+    function harvestChunk(address _staker, uint56 _id)
+        external
+        view
+        override
+        returns (
+            uint256 timestamp,
+            uint256 claimed,
+            uint256 total
+        )
+    {
+        bool harvestExists = harvests[_staker].count > _id;
+        timestamp = harvestExists ? harvests[_staker].timestamps[_id] : 0;
+        claimed = harvestExists ? harvests[_staker].claimed[_id] : 0;
+        total = harvestExists ? harvests[_staker].total[_id] : 0;
+    }
+
     function harvestableToTake(address _staker, uint256 _maxSnapshots)
         private
         view

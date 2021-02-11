@@ -43,4 +43,13 @@ interface IFarm {
     function snapshotTimestamp(uint256 _snapshotId) external view returns (uint256);
 
     function harvestSnapshotId(address _staker) external view returns (uint256);
+
+    function harvestChunk(address _staker, uint56 _id)
+        external
+        view
+        returns (
+            uint256 timestamp,
+            uint256 claimed,
+            uint256 total
+        );
 }
