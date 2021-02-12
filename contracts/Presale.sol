@@ -18,7 +18,8 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
     event PresaleEnded();
     event ContributionAccepted(
         address indexed _contributor,
-        uint256 _contribution,
+        uint256 _partialContribution,
+        uint256 _totalContribution,
         uint256 _receivedTokens,
         uint256 _contributions
     );
@@ -249,7 +250,13 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
             uint256 tokensToTransfer = contributorTokensPerCollectedEth.mul(valueToAccept).div(10**18);
             IERC20(token).transfer(msg.sender, tokensToTransfer);
 
-            emit ContributionAccepted(msg.sender, valueToAccept, tokensToTransfer, collected);
+            emit ContributionAccepted(
+                msg.sender,
+                valueToAccept,
+                contributions[msg.sender],
+                tokensToTransfer,
+                collected
+            );
         }
 
         uint256 valueToRefund = msg.value.sub(valueToAccept);

@@ -136,7 +136,8 @@ contract('Presale', (accounts) => {
             const result = await sendEther(bob, ether('3'));
             expectEvent(result, 'ContributionAccepted', {
                 _contributor: bob,
-                _contribution: ether('3'),
+                _partialContribution: ether('3'),
+                _totalContribution: ether('3'),
                 _receivedTokens: ether('300'),
                 _contributions: ether('3'),
             });

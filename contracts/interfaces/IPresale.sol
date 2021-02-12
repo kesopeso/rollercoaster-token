@@ -10,7 +10,8 @@ interface IPresale {
 
     event ContributionAccepted(
         address indexed _contributor,
-        uint256 _contribution,
+        uint256 _partialContribution,
+        uint256 _totalContribution,
         uint256 _receivedTokens,
         uint256 _contributions
     );
