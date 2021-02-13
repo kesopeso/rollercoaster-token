@@ -2,11 +2,13 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 interface IFarm {
-    event SnapshotAdded(uint256 _id, uint256 _timestamp, uint256 _totalAmount);
+    event Stake(address indexed _staker, uint256 _timestamp, uint256 _amount);
 
-    event HarvestCreated(address indexed _staker, uint256 _id, uint256 _timestamp, uint256 _amount);
+    event Withdraw(address indexed _staker, uint256 _timestamp, uint256 _amount);
 
-    event RewardClaimed(address indexed _staker, uint256 indexed _harvestId, uint256 _timestamp, uint256 _amount);
+    event Harvest(address indexed _staker, uint256 _id, uint256 _timestamp, uint256 _amount);
+
+    event Claim(address indexed _staker, uint256 indexed _harvestId, uint256 _timestamp, uint256 _amount);
 
     function farmingActive() external view returns (bool);
 
@@ -28,7 +30,7 @@ interface IFarm {
 
     function withdraw(uint256 _amount) external;
 
-    function harvest(uint256 _maxSnapshots) external;
+    function harvest() external;
 
     function claim() external;
 
@@ -37,12 +39,6 @@ interface IFarm {
     function claimable(address _staker) external view returns (uint256);
 
     function harvested(address _staker) external view returns (uint256);
-
-    function snapshotsCount() external view returns (uint256);
-
-    function snapshotTimestamp(uint256 _snapshotId) external view returns (uint256);
-
-    function harvestSnapshotId(address _staker) external view returns (uint256);
 
     function harvestChunk(address _staker, uint56 _id)
         external

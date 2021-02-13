@@ -5,13 +5,15 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/math/MathUpgradeable.sol";
 import "./interfaces/IFarm.sol";
 import "./interfaces/IFarmActivator.sol";
 
 contract Farm is Initializable, IFarm, IFarmActivator {
-    event SnapshotAdded(uint256 _id, uint256 _timestamp, uint256 _totalAmount);
-    event HarvestCreated(address indexed _staker, uint256 _id, uint256 _timestamp, uint256 _amount);
-    event RewardClaimed(address indexed _staker, uint256 indexed _harvestId, uint256 _timestamp, uint256 _amount);
+    event Stake(address indexed _staker, uint256 _timestamp, uint256 _amount);
+    event Withdraw(address indexed _staker, uint256 _timestamp, uint256 _amount);
+    event Harvest(address indexed _staker, uint256 _id, uint256 _timestamp, uint256 _amount);
+    event Claim(address indexed _staker, uint256 indexed _harvestId, uint256 _timestamp, uint256 _amount);
 
     using AddressUpgradeable for address;
     using SafeMathUpgradeable for uint256;
@@ -19,23 +21,9 @@ contract Farm is Initializable, IFarm, IFarmActivator {
     uint256 public constant REWARD_HALVING_INTERVAL = 10 days;
     uint256 public constant HARVEST_INTERVAL = 1 days;
 
-    struct TotalSnapshots {
-        uint256 count;
-        uint256[] timestamps;
-        uint256[] staked;
-        uint256[] reward;
-    }
-
-    struct SingleSnapshots {
-        uint256 count;
-        uint256[] totalSnapshotIds;
-        uint256[] staked;
-    }
-
     struct Harvests {
         uint256 count;
         uint256 firstUnclaimedId;
-        uint256 totalSnapshotId;
         uint256[] timestamps;
         uint256[] claimed;
         uint256[] total;
@@ -45,10 +33,16 @@ contract Farm is Initializable, IFarm, IFarmActivator {
     bool private isFarmingStarted;
     uint256 private totalReward;
     uint256 private currentReward;
+    uint256 public currentRewardPerSecond;
     IERC20 private rewardToken;
     IERC20 private farmToken;
-    TotalSnapshots private totalSnapshots;
-    mapping(address => SingleSnapshots) private singleSnapshots;
+    uint256 public nextInterval;
+    uint256 public lastUpdate;
+    uint256 public cumulativeRewardPerToken;
+    uint256 private totalBalance;
+    mapping(address => uint256) private balances;
+    mapping(address => uint256) private unharvestedRewards;
+    mapping(address => uint256) private lastCumulativeRewardsPerToken;
     mapping(address => Harvests) private harvests;
 
     function initialize(address _activator) external initializer {
@@ -99,7 +93,8 @@ contract Farm is Initializable, IFarm, IFarmActivator {
     }
 
     modifier withdrawAmountValid(uint256 _amount) {
-        require(_amount <= singleStaked(msg.sender), "Withdraw amount too big.");
+        require(_amount > 0, "Withdraw amount is zero.");
+        require(_amount <= balances[msg.sender], "Withdraw amount too big.");
         _;
     }
 
@@ -112,21 +107,11 @@ contract Farm is Initializable, IFarm, IFarmActivator {
     }
 
     function intervalReward() external view override returns (uint256) {
-        if (totalSnapshots.count == 0) {
-            return 0;
-        }
-        uint256 intervalIdx = block.timestamp.sub(totalSnapshots.timestamps[0]).div(REWARD_HALVING_INTERVAL);
-        return totalReward.div(2**intervalIdx.add(1));
+        return currentReward.div(block.timestamp >= nextInterval ? 2 : 1);
     }
 
     function nextIntervalTimestamp() external view override returns (uint256) {
-        if (totalSnapshots.count == 0) {
-            return 0;
-        }
-        uint256 secondsElapsedInCurrentInterval =
-            block.timestamp.sub(totalSnapshots.timestamps[0]).mod(REWARD_HALVING_INTERVAL);
-        uint256 secondsUntilNextInterval = REWARD_HALVING_INTERVAL.sub(secondsElapsedInCurrentInterval);
-        return block.timestamp.add(secondsUntilNextInterval);
+        return nextInterval.add(block.timestamp >= nextInterval ? REWARD_HALVING_INTERVAL : 0);
     }
 
     function rewardTokenAddress() external view override returns (address) {
@@ -137,14 +122,12 @@ contract Farm is Initializable, IFarm, IFarmActivator {
         return address(farmToken);
     }
 
-    function singleStaked(address _staker) public view override returns (uint256) {
-        uint256 count = singleSnapshots[_staker].count;
-        return count > 0 ? singleSnapshots[_staker].staked[count - 1] : 0;
+    function singleStaked(address _staker) external view override returns (uint256) {
+        return balances[_staker];
     }
 
-    function totalStaked() public view override returns (uint256) {
-        uint256 count = totalSnapshots.count;
-        return count > 0 ? totalSnapshots.staked[count - 1] : 0;
+    function totalStaked() external view override returns (uint256) {
+        return totalBalance;
     }
 
     function startFarming(address _rewardToken, address _farmToken)
@@ -158,38 +141,40 @@ contract Farm is Initializable, IFarm, IFarmActivator {
         farmToken = IERC20(_farmToken);
         totalReward = rewardToken.balanceOf(address(this));
         currentReward = totalReward.div(2);
-        addTotalSnapshot(block.timestamp, 0);
+        currentRewardPerSecond = currentReward.div(REWARD_HALVING_INTERVAL);
         isFarmingStarted = true;
+        lastUpdate = block.timestamp;
+        nextInterval = block.timestamp.add(REWARD_HALVING_INTERVAL);
     }
 
     function stake(uint256 _amount) external override farmingStarted stakeAddressNotContract stakeAmountValid(_amount) {
+        update();
         farmToken.transferFrom(msg.sender, address(this), _amount);
-        addIntervalSnapshots(false);
-        addTotalSnapshot(block.timestamp, totalStaked().add(_amount));
-        addSingleSnapshot(singleStaked(msg.sender).add(_amount));
+        balances[msg.sender] = balances[msg.sender].add(_amount);
+        totalBalance = totalBalance.add(_amount);
+        emit Stake(msg.sender, block.timestamp, _amount);
     }
 
     function withdraw(uint256 _amount) external override farmingStarted withdrawAmountValid(_amount) {
+        update();
         farmToken.transfer(msg.sender, _amount);
-        addIntervalSnapshots(false);
-        addTotalSnapshot(block.timestamp, totalStaked().sub(_amount));
-        addSingleSnapshot(singleStaked(msg.sender).sub(_amount));
+        balances[msg.sender] = balances[msg.sender].sub(_amount);
+        totalBalance = totalBalance.sub(_amount);
+        emit Withdraw(msg.sender, block.timestamp, _amount);
     }
 
-    function harvest(uint256 _maxSnapshots) external override farmingStarted {
-        addIntervalSnapshots(true);
-
-        (uint256 harvestableAmount, uint256 snapshotId) = harvestableToTake(msg.sender, _maxSnapshots);
-        if (harvestableAmount == 0) {
+    function harvest() external override farmingStarted {
+        update();
+        uint256 rewardToHarvest = unharvestedRewards[msg.sender];
+        if (rewardToHarvest == 0) {
             return;
         }
-
+        unharvestedRewards[msg.sender] = 0;
         harvests[msg.sender].count++;
         harvests[msg.sender].claimed.push(0);
         harvests[msg.sender].timestamps.push(block.timestamp);
-        harvests[msg.sender].total.push(harvestableAmount);
-        harvests[msg.sender].totalSnapshotId = snapshotId;
-        emit HarvestCreated(msg.sender, harvests[msg.sender].count - 1, block.timestamp, harvestableAmount);
+        harvests[msg.sender].total.push(rewardToHarvest);
+        emit Harvest(msg.sender, harvests[msg.sender].count - 1, block.timestamp, rewardToHarvest);
     }
 
     function claim() external override farmingStarted {
@@ -209,7 +194,7 @@ contract Farm is Initializable, IFarm, IFarmActivator {
             }
 
             claimableAmount = claimableAmount.add(parts[i]);
-            emit RewardClaimed(msg.sender, id, block.timestamp, parts[i]);
+            emit Claim(msg.sender, id, block.timestamp, parts[i]);
         }
 
         if (claimableAmount > 0) {
@@ -218,38 +203,38 @@ contract Farm is Initializable, IFarm, IFarmActivator {
     }
 
     function harvestable(address _staker) external view override returns (uint256) {
-        if (singleSnapshots[_staker].count == 0) {
-            return 0;
+        uint256 checkpointToTimestamp = MathUpgradeable.min(block.timestamp, nextInterval);
+        uint256 toCumulativeRewardPerToken =
+            getCumulativeRewardPerToken(
+                lastUpdate,
+                checkpointToTimestamp,
+                cumulativeRewardPerToken,
+                currentRewardPerSecond
+            );
+        uint256 unharvestedReward =
+            getUnharvestedReward(
+                _staker,
+                lastCumulativeRewardsPerToken[_staker],
+                toCumulativeRewardPerToken,
+                unharvestedRewards[_staker]
+            );
+
+        if (block.timestamp > checkpointToTimestamp) {
+            uint256 fromCumulativeRewardPerToken = toCumulativeRewardPerToken;
+            toCumulativeRewardPerToken = getCumulativeRewardPerToken(
+                checkpointToTimestamp,
+                block.timestamp,
+                fromCumulativeRewardPerToken,
+                currentRewardPerSecond.div(2)
+            );
+            unharvestedReward = getUnharvestedReward(
+                _staker,
+                fromCumulativeRewardPerToken,
+                toCumulativeRewardPerToken,
+                unharvestedReward
+            );
         }
-
-        uint256 amount = 0;
-        uint256 lastSingleSnapshotId = singleSnapshots[_staker].count - 1;
-        uint256 lastTotalSnapshotId = totalSnapshots.count - 1;
-
-        for (uint256 i = 0; i < singleSnapshots[_staker].count; i++) {
-            uint256 staked = singleSnapshots[_staker].staked[i];
-            if (staked == 0) {
-                continue;
-            }
-            uint256 startSnapshotId =
-                singleSnapshots[_staker].totalSnapshotIds[i] > harvests[_staker].totalSnapshotId
-                    ? singleSnapshots[_staker].totalSnapshotIds[i]
-                    : harvests[_staker].totalSnapshotId;
-            uint256 endSnapshotId =
-                i < lastSingleSnapshotId ? singleSnapshots[_staker].totalSnapshotIds[i + 1] : totalSnapshots.count;
-            for (uint256 j = startSnapshotId; j < endSnapshotId; j++) {
-                uint256 endTime = j < lastTotalSnapshotId ? totalSnapshots.timestamps[j + 1] : block.timestamp;
-                amount = amount.add(
-                    totalSnapshots.reward[j]
-                        .mul(endTime - totalSnapshots.timestamps[j])
-                        .mul(staked)
-                        .div(REWARD_HALVING_INTERVAL)
-                        .div(totalSnapshots.staked[j])
-                );
-            }
-        }
-
-        return amount;
+        return unharvestedReward;
     }
 
     function claimable(address _staker) external view override returns (uint256) {
@@ -269,26 +254,6 @@ contract Farm is Initializable, IFarm, IFarmActivator {
         return harvestedAmount;
     }
 
-    function snapshotsCount() external view override returns (uint256) {
-        return totalSnapshots.count;
-    }
-
-    function snapshotTimestamp(uint256 _snapshotId) external view override returns (uint256) {
-        return totalSnapshots.timestamps[_snapshotId];
-    }
-
-    function harvestSnapshotId(address _staker) external view override returns (uint256) {
-        if (singleSnapshots[_staker].count == 0) {
-            return 0;
-        }
-
-        if (harvests[_staker].count == 0) {
-            return singleSnapshots[_staker].totalSnapshotIds[0];
-        }
-
-        return harvests[_staker].totalSnapshotId;
-    }
-
     function harvestChunk(address _staker, uint56 _id)
         external
         view
@@ -303,54 +268,6 @@ contract Farm is Initializable, IFarm, IFarmActivator {
         timestamp = harvestExists ? harvests[_staker].timestamps[_id] : 0;
         claimed = harvestExists ? harvests[_staker].claimed[_id] : 0;
         total = harvestExists ? harvests[_staker].total[_id] : 0;
-    }
-
-    function harvestableToTake(address _staker, uint256 _maxSnapshots)
-        private
-        view
-        returns (uint256 amount, uint256 snapshotId)
-    {
-        amount = 0;
-        snapshotId = harvests[_staker].totalSnapshotId;
-
-        if (singleSnapshots[_staker].count == 0) {
-            return (amount, snapshotId);
-        }
-
-        uint256 lastSingleSnapshotId = singleSnapshots[_staker].count - 1;
-        uint256 lastTotalSnapshotId = totalSnapshots.count - 1;
-        uint256 maxSnapshots = _maxSnapshots == 0 ? 2**256 - 1 : _maxSnapshots;
-        uint256 snapshotsExecuted = 0;
-
-        for (uint256 i = 0; i < singleSnapshots[_staker].count; i++) {
-            uint256 staked = singleSnapshots[_staker].staked[i];
-            if (staked == 0) {
-                continue;
-            }
-            uint256 startSnapshotId =
-                singleSnapshots[_staker].totalSnapshotIds[i] > harvests[_staker].totalSnapshotId
-                    ? singleSnapshots[_staker].totalSnapshotIds[i]
-                    : harvests[_staker].totalSnapshotId;
-            uint256 endSnapshotId =
-                i < lastSingleSnapshotId ? singleSnapshots[_staker].totalSnapshotIds[i + 1] : lastTotalSnapshotId;
-            for (uint256 j = startSnapshotId; j < endSnapshotId; j++) {
-                if (snapshotsExecuted >= maxSnapshots) {
-                    break;
-                }
-                uint256 endTime = j < lastTotalSnapshotId ? totalSnapshots.timestamps[j + 1] : block.timestamp;
-                amount = amount.add(
-                    totalSnapshots.reward[j]
-                        .mul(endTime - totalSnapshots.timestamps[j])
-                        .mul(staked)
-                        .div(REWARD_HALVING_INTERVAL)
-                        .div(totalSnapshots.staked[j])
-                );
-                snapshotId = j + 1;
-                snapshotsExecuted++;
-            }
-        }
-
-        return (amount, snapshotId);
     }
 
     function claimableHarvests(address _staker) private view returns (uint256[] memory) {
@@ -373,46 +290,69 @@ contract Farm is Initializable, IFarm, IFarmActivator {
         return parts;
     }
 
-    function addIntervalSnapshots(bool shouldAddOnEqualTimestamps) private {
-        uint256 firstSnapshotTimestamp = totalSnapshots.timestamps[0];
-        uint256 lastSnapshotTimestamp = totalSnapshots.timestamps[totalSnapshots.count - 1];
-        uint256 currentTotalStaked = totalStaked();
+    function update() private {
+        updateUnharvestedReward();
+        updateNextIntervalAndUnharvestedReward();
+    }
 
-        while (true) {
-            uint256 timeElapsed = lastSnapshotTimestamp.sub(firstSnapshotTimestamp);
-            uint256 intervalElapsed = timeElapsed.mod(REWARD_HALVING_INTERVAL);
-            uint256 timeUntilNextSnapshot = REWARD_HALVING_INTERVAL.sub(intervalElapsed);
-            lastSnapshotTimestamp = lastSnapshotTimestamp.add(timeUntilNextSnapshot);
+    function updateUnharvestedReward() private {
+        uint256 updateToTimestamp = MathUpgradeable.min(block.timestamp, nextInterval);
+        cumulativeRewardPerToken = getCumulativeRewardPerToken(
+            lastUpdate,
+            updateToTimestamp,
+            cumulativeRewardPerToken,
+            currentRewardPerSecond
+        );
+        lastUpdate = updateToTimestamp;
+        unharvestedRewards[msg.sender] = getUnharvestedReward(
+            msg.sender,
+            lastCumulativeRewardsPerToken[msg.sender],
+            cumulativeRewardPerToken,
+            unharvestedRewards[msg.sender]
+        );
+        lastCumulativeRewardsPerToken[msg.sender] = cumulativeRewardPerToken;
+    }
 
-            if (lastSnapshotTimestamp > block.timestamp) {
-                return;
-            }
-
-            currentReward = currentReward.div(2);
-
-            if (shouldAddOnEqualTimestamps || lastSnapshotTimestamp < block.timestamp) {
-                addTotalSnapshot(lastSnapshotTimestamp, currentTotalStaked);
-            }
-
-            if (lastSnapshotTimestamp == block.timestamp) {
-                return;
-            }
+    function updateNextIntervalAndUnharvestedReward() private {
+        if (block.timestamp < nextInterval) {
+            return;
         }
+        currentReward = currentReward.div(2);
+        currentRewardPerSecond = currentRewardPerSecond.div(2);
+        nextInterval = nextInterval.add(REWARD_HALVING_INTERVAL);
+        updateUnharvestedReward();
     }
 
-    function addTotalSnapshot(uint256 _timestamp, uint256 _staked) private {
-        totalSnapshots.count++;
-        totalSnapshots.timestamps.push(_timestamp);
-        totalSnapshots.staked.push(_staked);
-        totalSnapshots.reward.push(currentReward);
-        emit SnapshotAdded(totalSnapshots.count - 1, _timestamp, _staked);
+    function getCumulativeRewardPerToken(
+        uint256 _fromTimestamp,
+        uint256 _toTimestamp,
+        uint256 _fromCumulativeRewardPerToken,
+        uint256 _rewardPerSecond
+    ) private view returns (uint256) {
+        if (totalBalance == 0) {
+            return _fromCumulativeRewardPerToken;
+        }
+        return
+            _fromCumulativeRewardPerToken.add(
+                _toTimestamp
+                    .sub(_fromTimestamp)
+                    .mul(1 ether) // we must multiply it, since number would be decimal otherwise
+                    .mul(_rewardPerSecond)
+                    .div(totalBalance)
+            );
     }
 
-    function addSingleSnapshot(uint256 _amount) private {
-        singleSnapshots[msg.sender].count++;
-        singleSnapshots[msg.sender].staked.push(_amount);
-        singleSnapshots[msg.sender].totalSnapshotIds.push(totalSnapshots.count - 1);
+    function getUnharvestedReward(
+        address _staker,
+        uint256 _fromCumulativeRewardPerToken,
+        uint256 _toCumulativeRewardPerToken,
+        uint256 _fromUnharvestedReward
+    ) private view returns (uint256) {
+        return
+            balances[_staker].mul(_toCumulativeRewardPerToken.sub(_fromCumulativeRewardPerToken)).div(1 ether).add(
+                _fromUnharvestedReward
+            );
     }
 
-    uint256[38] private __gap;
+    uint256[34] private __gap;
 }
