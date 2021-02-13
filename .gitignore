@@ -3,4 +3,5 @@ node_modules/
 .env
 .openzeppelin/dev-*.json
 .openzeppelin/unknown-*.json
+.openzeppelin/rinkeby.json
 .openzeppelin/.session
