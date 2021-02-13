@@ -18,8 +18,8 @@ contract Farm is Initializable, IFarm, IFarmActivator {
     using AddressUpgradeable for address;
     using SafeMathUpgradeable for uint256;
 
-    uint256 public constant REWARD_HALVING_INTERVAL = 10 days;
-    uint256 public constant HARVEST_INTERVAL = 1 days;
+    uint256 private constant REWARD_HALVING_INTERVAL = 10 days;
+    uint256 private constant HARVEST_INTERVAL = 1 days;
 
     struct Harvests {
         uint256 count;
@@ -108,6 +108,14 @@ contract Farm is Initializable, IFarm, IFarmActivator {
 
     function intervalReward() external view override returns (uint256) {
         return currentReward.div(block.timestamp >= nextInterval ? 2 : 1);
+    }
+
+    function rewardIntervalLength() external view override returns (uint256) {
+        return REWARD_HALVING_INTERVAL;
+    }
+
+    function harvestIntervalLength() external view override returns (uint256) {
+        return HARVEST_INTERVAL;
     }
 
     function nextIntervalTimestamp() external view override returns (uint256) {

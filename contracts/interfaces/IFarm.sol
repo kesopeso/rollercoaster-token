@@ -16,6 +16,10 @@ interface IFarm {
 
     function intervalReward() external view returns (uint256);
 
+    function rewardIntervalLength() external view returns (uint256);
+
+    function harvestIntervalLength() external view returns (uint256);
+
     function nextIntervalTimestamp() external view returns (uint256);
 
     function rewardTokenAddress() external view returns (address);
