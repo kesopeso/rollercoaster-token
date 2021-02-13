@@ -27,12 +27,12 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
 
     using SafeMath for uint256;
 
-    uint256 public constant BUYBACK_ALLOCATION_PERCENT = 50;
-    uint256 public constant LIQUIDITY_ALLOCATION_PERCENT = 10;
-    uint256 public constant PRESALE_MAX_SUPPLY = 600 * 10**18; // if 600 eth collected, otherwise leftover burned
-    uint256 public constant LIQUIDITY_MAX_SUPPLY = 27 * 10**18; // if 600 eth collected (360 eth for liquidity), otherwise leftover burned
-    uint256 public constant RC_FARM_SUPPLY = 1000 * 10**18;
-    uint256 public constant RC_ETH_FARM_SUPPLY = 1600 * 10**18;
+    uint256 public constant BUYBACK_ALLOCATION_PERCENT = 40;
+    uint256 public constant LIQUIDITY_ALLOCATION_PERCENT = 20;
+    uint256 public constant PRESALE_MAX_SUPPLY = 60000 * 10**18; // if hardcap reached, otherwise leftover burned
+    uint256 public constant LIQUIDITY_MAX_SUPPLY = 5400 * 10**18; // if hardcap reached, otherwise leftover burned
+    uint256 public constant RC_FARM_SUPPLY = 100000 * 10**18;
+    uint256 public constant RC_ETH_FARM_SUPPLY = 160000 * 10**18;
 
     uint256 private hardcap;
     uint256 private collected;
@@ -199,7 +199,8 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
 
         // calculate buyback and execute it
         uint256 buybackEths = totalCollected.mul(BUYBACK_ALLOCATION_PERCENT).div(100);
-        IBuybackInitializer(buyback).init{ value: buybackEths }(token, uniswapRouter);
+        uint256 minTokensToHoldForBuybackCall = maxContribution.mul(contributorTokensPerCollectedEth).div(10**18);
+        IBuybackInitializer(buyback).init{ value: buybackEths }(token, uniswapRouter, minTokensToHoldForBuybackCall);
 
         // calculate liquidity share
         uint256 liquidityEths = totalCollected.mul(LIQUIDITY_ALLOCATION_PERCENT).div(100);

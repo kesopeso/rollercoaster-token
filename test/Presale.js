@@ -5,7 +5,6 @@ const BuybackInitializerMock = artifacts.require('BuybackInitializerMock');
 const FarmActivatorMock = artifacts.require('FarmActivatorMock');
 const { expect } = require('chai');
 const { send, balance, expectRevert, expectEvent, ether } = require('@openzeppelin/test-helpers');
-const { web3 } = require('@openzeppelin/test-helpers/src/setup');
 
 contract('Presale', (accounts) => {
     const [alice, bob, curtis, dick, earl, frank, greg] = accounts;
@@ -43,7 +42,7 @@ contract('Presale', (accounts) => {
 
     beforeEach(async () => {
         presale = await Presale.new();
-        token = await TokenMock.new(presale.address, ether('3227'));
+        token = await TokenMock.new(presale.address, ether('325400'));
         uniswapRouter = await UniswapV2Router02Mock.new();
         buyback = await BuybackInitializerMock.new();
         rcFarm = await FarmActivatorMock.new();
@@ -82,7 +81,7 @@ contract('Presale', (accounts) => {
         });
 
         it('should not allow start if insufficient token supply', async () => {
-            token = await TokenMock.new(presale.address, ether('3226'));
+            token = await TokenMock.new(presale.address, ether('325000'));
             await expectRevert(presaleStart([], alice), 'Insufficient supply.');
         });
 
@@ -96,7 +95,7 @@ contract('Presale', (accounts) => {
 
         it('should set variables correctly on start', async () => {
             await presaleStart([bob, curtis], alice);
-            expect((await presale.getMaxSupply()).toString()).to.eq(ether('3227').toString());
+            expect((await presale.getMaxSupply()).toString()).to.eq(ether('325400').toString());
             expect(await presale.tokenAddress()).to.equal(token.address);
             expect(await presale.uniswapPairAddress()).to.equal(uniswapPairAddress);
             expect(await presale.buybackAddress()).to.equal(buyback.address);
@@ -138,18 +137,18 @@ contract('Presale', (accounts) => {
                 _contributor: bob,
                 _partialContribution: ether('3'),
                 _totalContribution: ether('3'),
-                _receivedTokens: ether('300'),
+                _receivedTokens: ether('30000'),
                 _contributions: ether('3'),
             });
             const balance = await token.balanceOf(bob);
-            expect(balance.toString()).to.eq(ether('300').toString());
+            expect(balance.toString()).to.eq(ether('30000').toString());
         });
 
         it('should allow multiple investments from whitelisted address', async () => {
             await sendEther(bob, ether('1'));
             await sendEther(bob, ether('1'));
             const balance = await token.balanceOf(bob);
-            expect(balance.toString()).to.eq(ether('200').toString());
+            expect(balance.toString()).to.eq(ether('20000').toString());
         });
 
         it('should allow multiple investments up to max from whitelisted address', async () => {
@@ -157,7 +156,7 @@ contract('Presale', (accounts) => {
             await sendEther(bob, ether('1'));
             await sendEther(bob, ether('1'));
             const balance = await token.balanceOf(bob);
-            expect(balance.toString()).to.eq(ether('300').toString());
+            expect(balance.toString()).to.eq(ether('30000').toString());
         });
 
         it('should allow multiple investments over max and return the excess from whitelisted address', async () => {
@@ -178,7 +177,7 @@ contract('Presale', (accounts) => {
             expect(delta.toString()).to.eq(ether('-3').toString());
 
             const bobTokenBalance = await token.balanceOf(bob);
-            expect(bobTokenBalance.toString()).to.eq(ether('300').toString());
+            expect(bobTokenBalance.toString()).to.eq(ether('30000').toString());
         });
 
         it('should start fcfs correctly', async () => {
@@ -220,12 +219,19 @@ contract('Presale', (accounts) => {
                 liquidityEthAmount,
                 liquidityLockAddress
             );
+            const minTokensToHoldForBuybackCall = ether('30000');
+            await buyback.initShouldBeCalledWith(
+                buybackEthAmount,
+                token.address,
+                uniswapRouter.address,
+                minTokensToHoldForBuybackCall
+            );
             await token.burnDistributorTokensAndUnlockShouldBeCalled();
             await rcFarm.startFarmingShouldBeCalledWith(token.address, token.address);
             await rcEthFarm.startFarmingShouldBeCalledWith(token.address, uniswapPairAddress);
 
-            expect((await token.balanceOf(rcFarm.address)).toString()).to.eq(ether('1000').toString());
-            expect((await token.balanceOf(rcEthFarm.address)).toString()).to.eq(ether('1600').toString());
+            expect((await token.balanceOf(rcFarm.address)).toString()).to.eq(ether('100000').toString());
+            expect((await token.balanceOf(rcEthFarm.address)).toString()).to.eq(ether('160000').toString());
 
             const teamDelta = await teamTracker.delta();
             const teamEthAmount = ether(teamEths.toString());
@@ -246,15 +252,15 @@ contract('Presale', (accounts) => {
             expect(delta.toString()).to.eq(ether('-2').toString());
 
             const dickTokenBalance = await token.balanceOf(dick);
-            expect(dickTokenBalance.toString()).to.eq(ether('200').toString());
+            expect(dickTokenBalance.toString()).to.eq(ether('20000').toString());
         });
 
         it('should end presale successfully', async () => {
-            await testEndPresaleSuccessfully(3, 3, 3, 0.6, 27, 2.4);
+            await testEndPresaleSuccessfully(3, 3, 2.4, 1.2, 5400, 2.4);
         });
 
         it('should end presale successfully with partially collected funds', async () => {
-            await testEndPresaleSuccessfully(1.5, 1.5, 1.5, 0.3, 13.5, 1.2);
+            await testEndPresaleSuccessfully(1.5, 1.5, 1.2, 0.6, 2700, 1.2);
         });
     });
 

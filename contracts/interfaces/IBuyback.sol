@@ -2,8 +2,8 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 interface IBuyback {
-    event BuybackInitialized(uint256 _totalAmount, uint256 _singleAmount);
-    
+    event BuybackInitialized(uint256 _totalAmount, uint256 _singleAmount, uint256 _minTokensToHold);
+
     event SingleBuybackExecuted(address _sender, uint256 _senderRewardAmount, uint256 _buybackAmount);
 
     function initializerAddress() external view returns (address);
@@ -25,6 +25,8 @@ interface IBuyback {
     function lastBuyback() external view returns (uint256);
 
     function nextBuyback() external view returns (uint256);
+
+    function minTokensForBuybackCall() external view returns (uint256);
 
     function buyback() external;
 }

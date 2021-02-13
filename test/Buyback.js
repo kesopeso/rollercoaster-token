@@ -10,17 +10,21 @@ contract('Buyback', (accounts) => {
     let treasury;
     let uniswapRouter;
     let token;
-    const [alice, bob] = accounts;
+    const [alice, bob, curtis] = accounts;
 
     beforeEach(async () => {
         treasury = await Treasury.new();
         buyback = await Buyback.new(alice, treasury.address, constants.ZERO_ADDRESS);
         uniswapRouter = await UniswapV2Router02Mock.new();
         token = await TokenMock.new(alice, ether('1000'));
+        await token.transfer(bob, ether('300'));
     });
 
     const buybackInit = (from, amount) =>
-        buyback.init(token.address, uniswapRouter.address, { from, value: ether(amount.toString()) });
+        buyback.init(token.address, uniswapRouter.address, ether('300'), {
+            from,
+            value: ether(amount.toString()),
+        });
 
     const buybackBuyback = (from) => buyback.buyback({ from });
 
@@ -54,6 +58,7 @@ contract('Buyback', (accounts) => {
                 (await time.latest()).add(time.duration.days(1)).toString()
             );
             expect((await buyback.getTransferLimitPerETH()).toString()).to.eq(ether('0').toString());
+            expect((await buyback.minTokensForBuybackCall()).toString()).to.eq(ether('300').toString());
         });
     });
 
@@ -65,6 +70,12 @@ contract('Buyback', (accounts) => {
         it('should not allow unscheduled buyback from anybody', async () => {
             await expectRevert(buybackBuyback(alice), 'Not scheduled yet.');
             await expectRevert(buybackBuyback(bob), 'Not scheduled yet.');
+        });
+
+        it('should not allow buyback from user not holding enough tokens', async () => {
+            await token.transfer(curtis, ether('299'));
+            await time.increase(time.duration.days(1));
+            await expectRevert(buybackBuyback(curtis), 'Insufficient token balance.');
         });
 
         it('should execute buyback successfully if scheduled', async () => {

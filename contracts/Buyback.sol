@@ -5,12 +5,13 @@ import "./interfaces/IBuyback.sol";
 import "./interfaces/IBuybackInitializer.sol";
 import "./interfaces/ITransferLimiter.sol";
 import "./interfaces/IUniswapV2Router02.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/math/Math.sol";
 import "@openzeppelin/contracts/GSN/Context.sol";
 
 contract Buyback is Context, IBuyback, IBuybackInitializer, ITransferLimiter {
-    event BuybackInitialized(uint256 _totalAmount, uint256 _singleAmount);
+    event BuybackInitialized(uint256 _totalAmount, uint256 _singleAmount, uint256 _minTokensToHold);
     event SingleBuybackExecuted(address _sender, uint256 _senderRewardAmount, uint256 _buybackAmount);
 
     using SafeMath for uint256;
@@ -28,6 +29,7 @@ contract Buyback is Context, IBuyback, IBuybackInitializer, ITransferLimiter {
     uint256 private nextBuybackTimestamp;
     uint256 private lastBuybackBlockNumber;
     uint256 private lastBuybackAmount;
+    uint256 private minTokensToHold;
 
     constructor(
         address _initializer,
@@ -61,6 +63,11 @@ contract Buyback is Context, IBuyback, IBuybackInitializer, ITransferLimiter {
 
     modifier available() {
         require(totalBuyback > alreadyBoughtBack, "No more funds available.");
+        _;
+    }
+
+    modifier enoughTokens() {
+        require(IERC20(token).balanceOf(msg.sender) >= minTokensToHold, "Insufficient token balance.");
         _;
     }
 
@@ -111,18 +118,27 @@ contract Buyback is Context, IBuyback, IBuybackInitializer, ITransferLimiter {
         return lastBuybackAmount.mul(10**18).div(singleBuyback);
     }
 
-    function init(address _token, address _uniswapRouter) external payable override notInitialized onlyInitializer {
+    function init(
+        address _token,
+        address _uniswapRouter,
+        uint256 _minTokensToHold
+    ) external payable override notInitialized onlyInitializer {
         token = _token;
         uniswapRouter = _uniswapRouter;
         totalBuyback = msg.value;
         singleBuyback = totalBuyback.div(10);
+        minTokensToHold = _minTokensToHold;
         updateBuybackTimestamps(true);
 
         isInitialized = true;
-        emit BuybackInitialized(totalBuyback, singleBuyback);
+        emit BuybackInitialized(totalBuyback, singleBuyback, minTokensToHold);
     }
 
-    function buyback() external override scheduled initialized available {
+    function minTokensForBuybackCall() external view override returns (uint256) {
+        return minTokensToHold;
+    }
+
+    function buyback() external override scheduled initialized available enoughTokens {
         uint256 fundsLeft = totalBuyback.sub(alreadyBoughtBack);
         uint256 actualBuyback = Math.min(fundsLeft, singleBuyback);
 
