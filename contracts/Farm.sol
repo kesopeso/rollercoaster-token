@@ -18,7 +18,8 @@ contract Farm is Initializable, IFarm, IFarmActivator {
     using AddressUpgradeable for address;
     using SafeMathUpgradeable for uint256;
 
-    uint256 private constant REWARD_HALVING_INTERVAL = 10 days;
+    uint256 private constant REWARD_REDUCTION_PERCENT = 20;
+    uint256 private constant REWARD_REDUCTION_INTERVAL = 10 days;
     uint256 private constant HARVEST_INTERVAL = 1 days;
 
     struct Harvests {
@@ -32,6 +33,7 @@ contract Farm is Initializable, IFarm, IFarmActivator {
     address private activator;
     bool private isFarmingStarted;
     uint256 private totalReward;
+    uint256 private rewardLeftover;
     uint256 private currentReward;
     uint256 public currentRewardPerSecond;
     IERC20 private rewardToken;
@@ -107,11 +109,14 @@ contract Farm is Initializable, IFarm, IFarmActivator {
     }
 
     function intervalReward() external view override returns (uint256) {
-        return currentReward.div(block.timestamp >= nextInterval ? 2 : 1);
+        if (block.timestamp < nextInterval) {
+            return currentReward;
+        }
+        return getReward(getNextRewardLeftover(rewardLeftover, currentReward));
     }
 
     function rewardIntervalLength() external view override returns (uint256) {
-        return REWARD_HALVING_INTERVAL;
+        return REWARD_REDUCTION_INTERVAL;
     }
 
     function harvestIntervalLength() external view override returns (uint256) {
@@ -119,7 +124,7 @@ contract Farm is Initializable, IFarm, IFarmActivator {
     }
 
     function nextIntervalTimestamp() external view override returns (uint256) {
-        return nextInterval.add(block.timestamp >= nextInterval ? REWARD_HALVING_INTERVAL : 0);
+        return nextInterval.add(block.timestamp >= nextInterval ? REWARD_REDUCTION_INTERVAL : 0);
     }
 
     function rewardTokenAddress() external view override returns (address) {
@@ -148,11 +153,12 @@ contract Farm is Initializable, IFarm, IFarmActivator {
         rewardToken = IERC20(_rewardToken);
         farmToken = IERC20(_farmToken);
         totalReward = rewardToken.balanceOf(address(this));
-        currentReward = totalReward.div(2);
-        currentRewardPerSecond = currentReward.div(REWARD_HALVING_INTERVAL);
+        rewardLeftover = totalReward;
+        currentReward = getReward(rewardLeftover);
+        currentRewardPerSecond = getRewardPerSecond(currentReward);
         isFarmingStarted = true;
         lastUpdate = block.timestamp;
-        nextInterval = block.timestamp.add(REWARD_HALVING_INTERVAL);
+        nextInterval = block.timestamp.add(REWARD_REDUCTION_INTERVAL);
     }
 
     function stake(uint256 _amount) external override farmingStarted stakeAddressNotContract stakeAmountValid(_amount) {
@@ -229,11 +235,13 @@ contract Farm is Initializable, IFarm, IFarmActivator {
 
         if (block.timestamp > checkpointToTimestamp) {
             uint256 fromCumulativeRewardPerToken = toCumulativeRewardPerToken;
+            uint256 newRewardPerSecond =
+                getRewardPerSecond(getReward(getNextRewardLeftover(rewardLeftover, currentReward)));
             toCumulativeRewardPerToken = getCumulativeRewardPerToken(
                 checkpointToTimestamp,
                 block.timestamp,
                 fromCumulativeRewardPerToken,
-                currentRewardPerSecond.div(2)
+                newRewardPerSecond
             );
             unharvestedReward = getUnharvestedReward(
                 _staker,
@@ -325,9 +333,10 @@ contract Farm is Initializable, IFarm, IFarmActivator {
         if (block.timestamp < nextInterval) {
             return;
         }
-        currentReward = currentReward.div(2);
-        currentRewardPerSecond = currentRewardPerSecond.div(2);
-        nextInterval = nextInterval.add(REWARD_HALVING_INTERVAL);
+        rewardLeftover = getNextRewardLeftover(rewardLeftover, currentReward);
+        currentReward = getReward(rewardLeftover);
+        currentRewardPerSecond = getRewardPerSecond(currentReward);
+        nextInterval = nextInterval.add(REWARD_REDUCTION_INTERVAL);
         updateUnharvestedReward();
     }
 
@@ -362,5 +371,17 @@ contract Farm is Initializable, IFarm, IFarmActivator {
             );
     }
 
-    uint256[34] private __gap;
+    function getNextRewardLeftover(uint256 _rewardLeftover, uint256 _reward) private pure returns (uint256) {
+        return _rewardLeftover.sub(_reward);
+    }
+
+    function getReward(uint256 _rewardLeftover) private pure returns (uint256) {
+        return _rewardLeftover.mul(REWARD_REDUCTION_PERCENT).div(100);
+    }
+
+    function getRewardPerSecond(uint256 _reward) private pure returns (uint256) {
+        return _reward.div(REWARD_REDUCTION_INTERVAL);
+    }
+
+    uint256[33] private __gap;
 }
