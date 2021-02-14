@@ -37,8 +37,6 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
     uint256 private hardcap;
     uint256 private collected;
     uint256 private maxContribution;
-    uint256 private maxContributorsCount;
-    uint256 private contributorsCount;
     uint256 private contributorTokensPerCollectedEth;
     uint256 private liquidityTokensPerCollectedEth;
     address private token;
@@ -144,14 +142,12 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         return contributions[_contributor];
     }
 
-    function addContributors(address[] memory _contributors) public override onlyOwner presaleActive {
+    function addContributors(address[] memory _contributors) public override onlyOwner {
         for (uint256 i; i < _contributors.length; i++) {
             bool isAlreadyAdded = contributors[_contributors[i]];
             if (isAlreadyAdded) {
                 continue;
             }
-            require(contributorsCount < maxContributorsCount, "Max contributors reached.");
-            contributorsCount++;
             contributors[_contributors[i]] = true;
         }
     }
@@ -171,7 +167,6 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         isPresaleActiveFlag = true;
         hardcap = _hardcap;
         maxContribution = _maxContribution;
-        maxContributorsCount = hardcap.div(maxContribution);
         contributorTokensPerCollectedEth = PRESALE_MAX_SUPPLY.mul(10**18).div(hardcap);
         liquidityTokensPerCollectedEth = LIQUIDITY_MAX_SUPPLY.mul(10**18).div(hardcap);
         token = _token;

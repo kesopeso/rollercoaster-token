@@ -76,10 +76,6 @@ contract('Presale', (accounts) => {
             await expectRevert(presaleEnd(alice, dick), 'Presale is not active.');
         });
 
-        it('should now allow adding contributors if not started yet', async () => {
-            await expectRevert(presaleAddContributors([], alice), 'Presale is not active.');
-        });
-
         it('should not allow start if insufficient token supply', async () => {
             token = await TokenMock.new(presale.address, ether('325000'));
             await expectRevert(presaleStart([], alice), 'Insufficient supply.');
@@ -87,10 +83,6 @@ contract('Presale', (accounts) => {
 
         it('should not allow investments', async () => {
             await expectRevert(send.ether(bob, presale.address, ether('3')), 'Presale is not active.');
-        });
-
-        it('should not allowed setting more contributors than allowed', async () => {
-            await expectRevert(presaleStart([bob, curtis, dick], alice), 'Max contributors reached.');
         });
 
         it('should set variables correctly on start', async () => {
