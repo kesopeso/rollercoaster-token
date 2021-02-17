@@ -3,7 +3,7 @@ const etherscanApiKey = process.env.ETHERSCAN_API_KEY;
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const getNetworkDeploymentConfig = (network, networkId) => {
     const ownerPrivateKey = process.env[`${network.toUpperCase()}_OWNER_PRIVATE_KEY`];
-    const providerUrl = `https://${network}.infura.io/v3/${process.env.INFURA_KEY}`;
+    const providerUrl = `wss://${network}.infura.io/ws/v3/${process.env.INFURA_KEY}`;
     const provider = new HDWalletProvider(ownerPrivateKey, providerUrl);
     const network_id = networkId;
     const gas = Number(process.env.DEPLOY_GAS);
