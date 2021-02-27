@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-interface IUniswapV2Router02 {
+interface IPancakeswapRouter {
     function addLiquidityETH(
         address token,
         uint256 amountTokenDesired,

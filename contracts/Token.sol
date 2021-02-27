@@ -12,7 +12,7 @@ contract Token is ERC20Upgradeable, IToken {
     address private distributor;
     address private treasury;
     address private transferLimiter;
-    address private uniswapPair;
+    address private pancakeswapPair;
     bool private isLocked;
     mapping(address => bool) nonBurnableSenders;
     mapping(address => bool) nonBurnableRecipients;
@@ -75,7 +75,7 @@ contract Token is ERC20Upgradeable, IToken {
 
     modifier transferableAmount(address _to, uint256 _amount) {
         // sell transfer
-        if (_to == uniswapPair) {
+        if (_to == pancakeswapPair) {
             uint256 transferLimitPerETH = ITransferLimiter(transferLimiter).getTransferLimitPerETH();
             if (transferLimitPerETH > 0) {
                 // set transfer limit to amount of tokens for .5ETH
@@ -91,18 +91,18 @@ contract Token is ERC20Upgradeable, IToken {
         _;
     }
 
-    modifier uniswapPairNotSet() {
-        require(uniswapPair == address(0), "Uniswap pair is already set.");
+    modifier pancakeswapPairNotSet() {
+        require(pancakeswapPair == address(0), "Pancakeswap pair is already set.");
         _;
     }
 
-    function uniswapPairAddress() external view override returns (address) {
-        return uniswapPair;
+    function pancakeswapPairAddress() external view override returns (address) {
+        return pancakeswapPair;
     }
 
-    function setUniswapPair(address _uniswapPair) external override uniswapPairNotSet {
-        uniswapPair = _uniswapPair;
-        nonBurnableSenders[uniswapPair] = true;
+    function setpancakeswapPair(address _pancakeswapPair) external override pancakeswapPairNotSet {
+        pancakeswapPair = _pancakeswapPair;
+        nonBurnableSenders[pancakeswapPair] = true;
     }
 
     function burnDistributorTokensAndUnlock() external override onlyDistributor {

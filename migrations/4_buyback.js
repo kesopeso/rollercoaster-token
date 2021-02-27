@@ -1,7 +1,7 @@
 const Presale = artifacts.require('Presale');
 const Treasury = artifacts.require('Treasury');
 const Buyback = artifacts.require('Buyback');
-const { getWethAddress } = require('../lib/uniswap');
+const { getWethAddress } = require('../lib/pancakeswap');
 
 module.exports = async (deployer, network) => {
     if (network === 'test') {

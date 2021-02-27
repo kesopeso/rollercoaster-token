@@ -11,11 +11,11 @@ contract TokenMock is ERC20, IToken {
         _mint(_beneficiary, _amount);
     }
 
-    function uniswapPairAddress() external view override returns (address) {
+    function pancakeswapPairAddress() external view override returns (address) {
         return address(0);
     }
 
-    function setUniswapPair(address _uniswapPair) external override {}
+    function setpancakeswapPair(address _pancakeswapPair) external override {}
 
     function burnDistributorTokensAndUnlockShouldBeCalled() external view {
         require(wasBurnDistributorTokensAndUnlockCalled, "burnDistributorTokensAndUnlock function was not called.");

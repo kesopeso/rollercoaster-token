@@ -1,5 +1,5 @@
 const Presale = artifacts.require('Presale');
-const UniswapV2Router02Mock = artifacts.require('UniswapV2Router02Mock');
+const PancakeswapRouterMock = artifacts.require('PancakeswapRouterMock');
 const TokenMock = artifacts.require('TokenMock');
 const BuybackInitializerMock = artifacts.require('BuybackInitializerMock');
 const FarmActivatorMock = artifacts.require('FarmActivatorMock');
@@ -9,11 +9,11 @@ const { send, balance, expectRevert, expectEvent, ether } = require('@openzeppel
 contract('Presale', (accounts) => {
     const [alice, bob, curtis, dick, earl, frank, greg] = accounts;
     const liquidityLockAddress = frank;
-    const uniswapPairAddress = greg;
+    const pancakeswapPairAddress = greg;
     let presale;
     let token;
     let buyback;
-    let uniswapRouter;
+    let pancakeswapRouter;
     let rcFarm;
     let rcEthFarm;
 
@@ -24,10 +24,10 @@ contract('Presale', (accounts) => {
             ether('6'),
             ether('3'),
             token.address,
-            uniswapPairAddress,
+            pancakeswapPairAddress,
             buyback.address,
             liquidityLockAddress,
-            uniswapRouter.address,
+            pancakeswapRouter.address,
             rcFarm.address,
             rcEthFarm.address,
             contributors,
@@ -43,7 +43,7 @@ contract('Presale', (accounts) => {
     beforeEach(async () => {
         presale = await Presale.new();
         token = await TokenMock.new(presale.address, ether('325400'));
-        uniswapRouter = await UniswapV2Router02Mock.new();
+        pancakeswapRouter = await PancakeswapRouterMock.new();
         buyback = await BuybackInitializerMock.new();
         rcFarm = await FarmActivatorMock.new();
         rcEthFarm = await FarmActivatorMock.new();
@@ -89,10 +89,10 @@ contract('Presale', (accounts) => {
             await presaleStart([bob, curtis], alice);
             expect((await presale.getMaxSupply()).toString()).to.eq(ether('325400').toString());
             expect(await presale.tokenAddress()).to.equal(token.address);
-            expect(await presale.uniswapPairAddress()).to.equal(uniswapPairAddress);
+            expect(await presale.pancakeswapPairAddress()).to.equal(pancakeswapPairAddress);
             expect(await presale.buybackAddress()).to.equal(buyback.address);
             expect(await presale.liquidityLockAddress()).to.equal(liquidityLockAddress);
-            expect(await presale.uniswapRouterAddress()).to.equal(uniswapRouter.address);
+            expect(await presale.pancakeswapRouterAddress()).to.equal(pancakeswapRouter.address);
             expect(await presale.rcFarmAddress()).to.equal(rcFarm.address);
             expect(await presale.rcEthFarmAddress()).to.equal(rcEthFarm.address);
             expect((await presale.collectedAmount()).toString()).to.eq(ether('0').toString());
@@ -203,7 +203,7 @@ contract('Presale', (accounts) => {
 
             const liquidityEthAmount = ether(liquidityEths.toString());
             const liquidityTokenAmount = ether(liquidityTokens.toString());
-            await uniswapRouter.addLiquidityETHShouldBeCalledWith(
+            await pancakeswapRouter.addLiquidityETHShouldBeCalledWith(
                 liquidityEthAmount,
                 token.address,
                 liquidityTokenAmount,
@@ -215,12 +215,12 @@ contract('Presale', (accounts) => {
             await buyback.initShouldBeCalledWith(
                 buybackEthAmount,
                 token.address,
-                uniswapRouter.address,
+                pancakeswapRouter.address,
                 minTokensToHoldForBuybackCall
             );
             await token.burnDistributorTokensAndUnlockShouldBeCalled();
             await rcFarm.startFarmingShouldBeCalledWith(token.address, token.address);
-            await rcEthFarm.startFarmingShouldBeCalledWith(token.address, uniswapPairAddress);
+            await rcEthFarm.startFarmingShouldBeCalledWith(token.address, pancakeswapPairAddress);
 
             expect((await token.balanceOf(rcFarm.address)).toString()).to.eq(ether('100000').toString());
             expect((await token.balanceOf(rcEthFarm.address)).toString()).to.eq(ether('160000').toString());

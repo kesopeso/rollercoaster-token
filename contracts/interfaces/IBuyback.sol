@@ -10,7 +10,7 @@ interface IBuyback {
 
     function tokenAddress() external view returns (address);
 
-    function uniswapRouterAddress() external view returns (address);
+    function pancakeswapRouterAddress() external view returns (address);
 
     function treasuryAddress() external view returns (address);
 

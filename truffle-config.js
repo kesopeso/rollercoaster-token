@@ -1,10 +1,9 @@
 require('dotenv').config();
 const etherscanApiKey = process.env.ETHERSCAN_API_KEY;
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-const getNetworkDeploymentConfig = (network, networkId) => {
+const getNetworkDeploymentConfig = (network, url, networkId) => {
     const ownerPrivateKey = process.env[`${network.toUpperCase()}_OWNER_PRIVATE_KEY`];
-    const providerUrl = `wss://${network}.infura.io/ws/v3/${process.env.INFURA_KEY}`;
-    const provider = new HDWalletProvider(ownerPrivateKey, providerUrl);
+    const provider = new HDWalletProvider(ownerPrivateKey, url);
     const network_id = networkId;
     const gas = Number(process.env.DEPLOY_GAS);
     const gasPrice = Number(`${process.env[`${network.toUpperCase()}_DEPLOY_GAS_PRICE_IN_GWEI`]}000000000`);
@@ -12,8 +11,6 @@ const getNetworkDeploymentConfig = (network, networkId) => {
     return {
         provider,
         network_id,
-        gas,
-        gasPrice,
         skipDryRun,
     };
 };
@@ -30,9 +27,8 @@ module.exports = {
             port: 8545,
             network_id: '*',
         },
-        rinkeby: getNetworkDeploymentConfig('rinkeby', 4),
-        kovan: getNetworkDeploymentConfig('kovan', 42),
-        mainnet: getNetworkDeploymentConfig('mainnet', 1),
+        bsctestnet: getNetworkDeploymentConfig('testnet', 'https://data-seed-prebsc-1-s1.binance.org:8545/', 97),
+        bscmainnet: getNetworkDeploymentConfig('mainnet', 'https://bsc-dataseed.binance.org/', 56),
     },
 
     // Set default mocha options here, use special reporters etc.

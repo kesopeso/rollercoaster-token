@@ -20,13 +20,13 @@ interface IPresale {
 
     function tokenAddress() external view returns (address);
 
-    function uniswapPairAddress() external view returns (address);
+    function pancakeswapPairAddress() external view returns (address);
 
     function buybackAddress() external view returns (address);
 
     function liquidityLockAddress() external view returns (address);
 
-    function uniswapRouterAddress() external view returns (address);
+    function pancakeswapRouterAddress() external view returns (address);
 
     function rcFarmAddress() external view returns (address);
 
@@ -59,10 +59,10 @@ interface IPresale {
         uint256 _privateMaxContribution,
         uint256 _maxContribution,
         address _token,
-        address _uniswapPair,
+        address _pancakeswapPair,
         address _buyback,
         address _liquidityLock,
-        address _uniswapRouter,
+        address _pancakeswapRouter,
         address _rcFarm,
         address _rcEthFarm,
         address[] calldata _privateContributors,

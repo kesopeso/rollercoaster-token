@@ -11,7 +11,7 @@ contract('Token', (accounts) => {
     let token;
     const [alice, bob, curtis, dick, earl, frank] = accounts;
     const treasuryAddress = frank;
-    const uniswapPairAddress = curtis;
+    const pancakeswapPairAddress = curtis;
     const rcFarmAddress = dick;
     const rcEthFarmAddress = earl;
 
@@ -28,7 +28,7 @@ contract('Token', (accounts) => {
             rcFarmAddress,
             rcEthFarmAddress
         );
-        await token.setUniswapPair(uniswapPairAddress);
+        await token.setpancakeswapPair(pancakeswapPairAddress);
     });
 
     context('proxy', () => {
@@ -61,8 +61,8 @@ contract('Token', (accounts) => {
             await expectRevert(token.transfer(bob, ether('1')), 'Tokens are not transferable.');
         });
 
-        it('should not allow setting uniswap pair twice', async () => {
-            await expectRevert(token.setUniswapPair(bob), 'Uniswap pair is already set.');
+        it('should not allow setting pancakeswap pair twice', async () => {
+            await expectRevert(token.setpancakeswapPair(bob), 'Pancakeswap pair is already set.');
         });
 
         it('should burn distributor tokens and unlock transfers', async () => {
@@ -86,14 +86,14 @@ contract('Token', (accounts) => {
         });
 
         it('should limit sell transactions', async () => {
-            await tokenDistributor.transfer(token.address, uniswapPairAddress, ether('1'));
+            await tokenDistributor.transfer(token.address, pancakeswapPairAddress, ether('1'));
             await expectRevert(
-                tokenDistributor.transfer(token.address, uniswapPairAddress, ether('1.1')),
+                tokenDistributor.transfer(token.address, pancakeswapPairAddress, ether('1.1')),
                 'Transfer amount is too big.'
             );
         });
 
-        it('should not limit transaction not sent to uniswap pair address', async () => {
+        it('should not limit transaction not sent to pancakeswap pair address', async () => {
             await tokenDistributor.transfer(token.address, alice, ether('5'));
         });
     });
@@ -101,7 +101,7 @@ contract('Token', (accounts) => {
     context('burning', () => {
         beforeEach(async () => {
             await tokenDistributor.transfer(token.address, alice, ether('10'));
-            await tokenDistributor.transfer(token.address, uniswapPairAddress, ether('10'));
+            await tokenDistributor.transfer(token.address, pancakeswapPairAddress, ether('10'));
             await tokenDistributor.transfer(token.address, treasuryAddress, ether('10'));
             await tokenDistributor.transfer(token.address, rcFarmAddress, ether('10'));
             await tokenDistributor.transfer(token.address, rcEthFarmAddress, ether('10'));
@@ -133,14 +133,14 @@ contract('Token', (accounts) => {
             await testNonBurn(rcEthFarmAddress);
         });
 
-        it('should burn tokens when sending to uniswap router but not vice verca', async () => {
-            await token.transfer(uniswapPairAddress, ether('1'));
-            const uniswapBalance = await token.balanceOf(uniswapPairAddress);
-            expect(uniswapBalance.toString()).to.eq(ether('10.95').toString());
+        it('should burn tokens when sending to pancakeswap router but not vice verca', async () => {
+            await token.transfer(pancakeswapPairAddress, ether('1'));
+            const pancakeswapBalance = await token.balanceOf(pancakeswapPairAddress);
+            expect(pancakeswapBalance.toString()).to.eq(ether('10.95').toString());
             const treasuryBalance = await token.balanceOf(treasuryAddress);
             expect(treasuryBalance.toString()).to.eq(ether('10.05').toString());
 
-            await token.transfer(bob, ether('5'), { from: uniswapPairAddress });
+            await token.transfer(bob, ether('5'), { from: pancakeswapPairAddress });
             const bobBalance = await token.balanceOf(bob);
             expect(bobBalance.toString()).to.eq(ether('5').toString());
         });

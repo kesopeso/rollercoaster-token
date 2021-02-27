@@ -4,7 +4,7 @@ pragma solidity ^0.6.0;
 import "./interfaces/IBuyback.sol";
 import "./interfaces/IBuybackInitializer.sol";
 import "./interfaces/ITransferLimiter.sol";
-import "./interfaces/IUniswapV2Router02.sol";
+import "./interfaces/IPancakeswapRouter.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/math/Math.sol";
@@ -18,7 +18,7 @@ contract Buyback is Context, IBuyback, IBuybackInitializer, ITransferLimiter {
 
     bool private isInitialized;
     address private token;
-    address private uniswapRouter;
+    address private pancakeswapRouter;
     address private initializer;
     address private treasury;
     address private weth;
@@ -79,8 +79,8 @@ contract Buyback is Context, IBuyback, IBuybackInitializer, ITransferLimiter {
         return token;
     }
 
-    function uniswapRouterAddress() external view override returns (address) {
-        return uniswapRouter;
+    function pancakeswapRouterAddress() external view override returns (address) {
+        return pancakeswapRouter;
     }
 
     function treasuryAddress() external view override returns (address) {
@@ -120,11 +120,11 @@ contract Buyback is Context, IBuyback, IBuybackInitializer, ITransferLimiter {
 
     function init(
         address _token,
-        address _uniswapRouter,
+        address _pancakeswapRouter,
         uint256 _minTokensToHold
     ) external payable override notInitialized onlyInitializer {
         token = _token;
-        uniswapRouter = _uniswapRouter;
+        pancakeswapRouter = _pancakeswapRouter;
         totalBuyback = msg.value;
         singleBuyback = totalBuyback.div(10);
         minTokensToHold = _minTokensToHold;
@@ -152,7 +152,7 @@ contract Buyback is Context, IBuyback, IBuybackInitializer, ITransferLimiter {
         path[0] = weth;
         path[1] = token;
         uint256[] memory amounts =
-            IUniswapV2Router02(uniswapRouter).swapExactETHForTokens{ value: buyShare }(
+            IPancakeswapRouter(pancakeswapRouter).swapExactETHForTokens{ value: buyShare }(
                 0,
                 path,
                 treasury,

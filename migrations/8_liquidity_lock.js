@@ -1,6 +1,6 @@
 const Token = artifacts.require('Token');
 const LiquidityLock = artifacts.require('LiquidityLock');
-const { getTokenWethPairAddress } = require('../lib/uniswap');
+const { getTokenWethPairAddress } = require('../lib/pancakeswap');
 
 module.exports = async (deployer, network) => {
     if (network === 'test') {

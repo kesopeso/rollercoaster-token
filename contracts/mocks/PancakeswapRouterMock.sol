@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-import "../interfaces/IUniswapV2Router02.sol";
+import "../interfaces/IPancakeswapRouter.sol";
 
-contract UniswapV2Router02Mock is IUniswapV2Router02 {
+contract PancakeswapRouterMock is IPancakeswapRouter {
     uint256 private _msgValue;
     address private _token;
     uint256 private _amountTokenDesired;

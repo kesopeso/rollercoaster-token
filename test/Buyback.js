@@ -1,6 +1,6 @@
 const Treasury = artifacts.require('Treasury');
 const Buyback = artifacts.require('Buyback');
-const UniswapV2Router02Mock = artifacts.require('UniswapV2Router02Mock');
+const PancakeswapRouterMock = artifacts.require('PancakeswapRouterMock');
 const TokenMock = artifacts.require('TokenMock');
 const { expect } = require('chai');
 const { BN, balance, expectRevert, ether, constants, time } = require('@openzeppelin/test-helpers');
@@ -8,20 +8,20 @@ const { BN, balance, expectRevert, ether, constants, time } = require('@openzepp
 contract('Buyback', (accounts) => {
     let buyback;
     let treasury;
-    let uniswapRouter;
+    let pancakeswapRouter;
     let token;
     const [alice, bob, curtis] = accounts;
 
     beforeEach(async () => {
         treasury = await Treasury.new();
         buyback = await Buyback.new(alice, treasury.address, constants.ZERO_ADDRESS);
-        uniswapRouter = await UniswapV2Router02Mock.new();
+        pancakeswapRouter = await PancakeswapRouterMock.new();
         token = await TokenMock.new(alice, ether('1000'));
         await token.transfer(bob, ether('300'));
     });
 
     const buybackInit = (from, amount) =>
-        buyback.init(token.address, uniswapRouter.address, ether('300'), {
+        buyback.init(token.address, pancakeswapRouter.address, ether('300'), {
             from,
             value: ether(amount.toString()),
         });
@@ -47,7 +47,7 @@ contract('Buyback', (accounts) => {
 
             expect(await buyback.tokenAddress()).to.equal(token.address);
             expect(await buyback.initializerAddress()).to.equal(alice);
-            expect(await buyback.uniswapRouterAddress()).to.equal(uniswapRouter.address);
+            expect(await buyback.pancakeswapRouterAddress()).to.equal(pancakeswapRouter.address);
             expect(await buyback.treasuryAddress()).to.equal(treasury.address);
             expect(await buyback.wethAddress()).to.equal(constants.ZERO_ADDRESS);
             expect((await buyback.totalAmount()).toString()).to.eq(ether('10').toString());
@@ -84,7 +84,7 @@ contract('Buyback', (accounts) => {
             let nextExecution = await buyback.nextBuyback();
             await time.increase(time.duration.days(1));
 
-            await uniswapRouter.setSwapExactETHForTokensAmountOut(ether('2'));
+            await pancakeswapRouter.setSwapExactETHForTokensAmountOut(ether('2'));
             const bobTracker = await balance.tracker(bob);
             const { receipt } = await buybackBuyback(bob);
 
@@ -93,7 +93,7 @@ contract('Buyback', (accounts) => {
             const rewardAmount = (await bobTracker.delta()).add(txFee);
             expect(rewardAmount.toString()).to.eq(ether('0.01').toString());
 
-            await uniswapRouter.swapExactETHForTokensShouldBeCalledWith(
+            await pancakeswapRouter.swapExactETHForTokensShouldBeCalledWith(
                 ether('0.99'),
                 ether('0'),
                 [constants.ZERO_ADDRESS, token.address],

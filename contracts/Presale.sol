@@ -5,7 +5,7 @@ import "./interfaces/IBuybackInitializer.sol";
 import "./interfaces/IPresale.sol";
 import "./interfaces/ITokenDistributor.sol";
 import "./interfaces/IToken.sol";
-import "./interfaces/IUniswapV2Router02.sol";
+import "./interfaces/IPancakeswapRouter.sol";
 import "./interfaces/IFarmActivator.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -42,10 +42,10 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
     uint256 private contributorTokensPerCollectedEth;
     uint256 private liquidityTokensPerCollectedEth;
     address private token;
-    address private uniswapPair;
+    address private pancakeswapPair;
     address private buyback;
     address private liquidityLock;
-    address private uniswapRouter;
+    address private pancakeswapRouter;
     address private rcFarm;
     address private rcEthFarm;
     bool private isPresaleActiveFlag;
@@ -105,8 +105,8 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         return token;
     }
 
-    function uniswapPairAddress() external view override returns (address) {
-        return uniswapPair;
+    function pancakeswapPairAddress() external view override returns (address) {
+        return pancakeswapPair;
     }
 
     function buybackAddress() external view override returns (address) {
@@ -117,8 +117,8 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         return liquidityLock;
     }
 
-    function uniswapRouterAddress() external view override returns (address) {
-        return uniswapRouter;
+    function pancakeswapRouterAddress() external view override returns (address) {
+        return pancakeswapRouter;
     }
 
     function rcFarmAddress() external view override returns (address) {
@@ -190,10 +190,10 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         uint256 _privateMaxContribution,
         uint256 _maxContribution,
         address _token,
-        address _uniswapPair,
+        address _pancakeswapPair,
         address _buyback,
         address _liquidityLock,
-        address _uniswapRouter,
+        address _pancakeswapRouter,
         address _rcFarm,
         address _rcEthFarm,
         address[] calldata _privateContributors,
@@ -206,10 +206,10 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         contributorTokensPerCollectedEth = PRESALE_MAX_SUPPLY.mul(10**18).div(hardcap);
         liquidityTokensPerCollectedEth = LIQUIDITY_MAX_SUPPLY.mul(10**18).div(hardcap);
         token = _token;
-        uniswapPair = _uniswapPair;
+        pancakeswapPair = _pancakeswapPair;
         buyback = _buyback;
         liquidityLock = _liquidityLock;
-        uniswapRouter = _uniswapRouter;
+        pancakeswapRouter = _pancakeswapRouter;
         rcFarm = _rcFarm;
         rcEthFarm = _rcEthFarm;
         addContributors(_contributors);
@@ -238,15 +238,15 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         // calculate buyback and execute it
         uint256 buybackEths = totalCollected.mul(BUYBACK_ALLOCATION_PERCENT).div(100);
         uint256 minTokensToHoldForBuybackCall = maxContribution.mul(contributorTokensPerCollectedEth).div(10**18);
-        IBuybackInitializer(buyback).init{ value: buybackEths }(token, uniswapRouter, minTokensToHoldForBuybackCall);
+        IBuybackInitializer(buyback).init{ value: buybackEths }(token, pancakeswapRouter, minTokensToHoldForBuybackCall);
 
         // calculate liquidity share
         uint256 liquidityEths = totalCollected.mul(LIQUIDITY_ALLOCATION_PERCENT).div(100);
         uint256 liquidityTokens = liquidityTokensPerCollectedEth.mul(totalCollected).div(10**18);
 
         // approve router and add liquidity
-        rollerCoaster.approve(uniswapRouter, liquidityTokens);
-        IUniswapV2Router02(uniswapRouter).addLiquidityETH{ value: liquidityEths }(
+        rollerCoaster.approve(pancakeswapRouter, liquidityTokens);
+        IPancakeswapRouter(pancakeswapRouter).addLiquidityETH{ value: liquidityEths }(
             token,
             liquidityTokens,
             liquidityTokens,
@@ -265,7 +265,7 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
 
         // start farming
         IFarmActivator(rcFarm).startFarming(token, token);
-        IFarmActivator(rcEthFarm).startFarming(token, uniswapPair);
+        IFarmActivator(rcEthFarm).startFarming(token, pancakeswapPair);
 
         // burn the remaining balance and unlock token
         IToken(token).burnDistributorTokensAndUnlock();
