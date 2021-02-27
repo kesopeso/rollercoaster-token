@@ -5,7 +5,7 @@ const Buyback = artifacts.require('Buyback');
 const RcFarm = artifacts.require('RcFarm');
 const RcEthFarm = artifacts.require('RcEthFarm');
 const { deployProxy } = require('@openzeppelin/truffle-upgrades');
-const { getTokenWethPairAddress } = require('../lib/pancakeswap');
+const { getTokenWethPairAddress, pancakeswapRouterAddress } = require('../lib/pancakeswap');
 
 module.exports = async (deployer, network) => {
     if (network === 'test') {
@@ -37,5 +37,5 @@ module.exports = async (deployer, network) => {
 
     const token = await Token.deployed();
     const pancakeswapPairAddress = getTokenWethPairAddress(token.address, network);
-    await token.setpancakeswapPair(pancakeswapPairAddress);
+    await token.setPancakeswapAddresses(pancakeswapPairAddress, pancakeswapRouterAddress);
 };

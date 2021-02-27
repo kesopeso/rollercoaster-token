@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 interface IToken {
     function pancakeswapPairAddress() external view returns (address);
 
-    function setpancakeswapPair(address _pancakeswapPair) external;
+    function setPancakeswapAddresses(address _pancakeswapPair, address _pancakeswapRouter) external;
 
     function burnDistributorTokensAndUnlock() external;
 }

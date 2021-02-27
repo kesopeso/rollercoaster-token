@@ -4,6 +4,7 @@ const TransferLimiterMock = artifacts.require('TransferLimiterMock');
 const { deployProxy } = require('@openzeppelin/truffle-upgrades');
 const { expect } = require('chai');
 const { expectRevert, ether } = require('@openzeppelin/test-helpers');
+const { pancakeswapRouterAddress } = require('../lib/pancakeswap');
 
 contract('Token', (accounts) => {
     let tokenDistributor;
@@ -28,7 +29,7 @@ contract('Token', (accounts) => {
             rcFarmAddress,
             rcEthFarmAddress
         );
-        await token.setpancakeswapPair(pancakeswapPairAddress);
+        await token.setPancakeswapAddresses(pancakeswapPairAddress, pancakeswapRouterAddress);
     });
 
     context('proxy', () => {
@@ -62,7 +63,10 @@ contract('Token', (accounts) => {
         });
 
         it('should not allow setting pancakeswap pair twice', async () => {
-            await expectRevert(token.setpancakeswapPair(bob), 'Pancakeswap pair is already set.');
+            await expectRevert(
+                token.setPancakeswapAddresses(bob, pancakeswapRouterAddress),
+                'Pancakeswap pair is already set.'
+            );
         });
 
         it('should burn distributor tokens and unlock transfers', async () => {
@@ -133,7 +137,7 @@ contract('Token', (accounts) => {
             await testNonBurn(rcEthFarmAddress);
         });
 
-        it('should burn tokens when sending to pancakeswap router but not vice verca', async () => {
+        it('should burn tokens when sending to pancakeswap pair but not vice verca', async () => {
             await token.transfer(pancakeswapPairAddress, ether('1'));
             const pancakeswapBalance = await token.balanceOf(pancakeswapPairAddress);
             expect(pancakeswapBalance.toString()).to.eq(ether('10.95').toString());

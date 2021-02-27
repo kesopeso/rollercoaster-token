@@ -100,9 +100,14 @@ contract Token is ERC20Upgradeable, IToken {
         return pancakeswapPair;
     }
 
-    function setpancakeswapPair(address _pancakeswapPair) external override pancakeswapPairNotSet {
+    function setPancakeswapAddresses(address _pancakeswapPair, address _pancakeswapRouter)
+        external
+        override
+        pancakeswapPairNotSet
+    {
         pancakeswapPair = _pancakeswapPair;
-        nonBurnableSenders[pancakeswapPair] = true;
+        nonBurnableSenders[_pancakeswapPair] = true;
+        nonBurnableSenders[_pancakeswapRouter] = true;
     }
 
     function burnDistributorTokensAndUnlock() external override onlyDistributor {

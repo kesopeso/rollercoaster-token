@@ -15,7 +15,7 @@ contract TokenMock is ERC20, IToken {
         return address(0);
     }
 
-    function setpancakeswapPair(address _pancakeswapPair) external override {}
+    function setPancakeswapAddresses(address _pancakeswapPair, address _pancakeswapRouter) external override {}
 
     function burnDistributorTokensAndUnlockShouldBeCalled() external view {
         require(wasBurnDistributorTokensAndUnlockCalled, "burnDistributorTokensAndUnlock function was not called.");
