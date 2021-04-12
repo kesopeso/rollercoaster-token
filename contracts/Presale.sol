@@ -13,6 +13,7 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/math/Math.sol";
 
 contract Presale is Ownable, IPresale, ITokenDistributor {
+    event PrivateStarted();
     event PresaleStarted();
     event FcfsActivated();
     event PresaleEnded();
@@ -29,13 +30,14 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
 
     uint256 public constant BUYBACK_ALLOCATION_PERCENT = 40;
     uint256 public constant LIQUIDITY_ALLOCATION_PERCENT = 20;
-    uint256 public constant PRESALE_MAX_SUPPLY = 60000 * 10**18; // if hardcap reached, otherwise leftover burned
-    uint256 public constant LIQUIDITY_MAX_SUPPLY = 5400 * 10**18; // if hardcap reached, otherwise leftover burned
-    uint256 public constant RC_FARM_SUPPLY = 100000 * 10**18;
-    uint256 public constant RC_ETH_FARM_SUPPLY = 160000 * 10**18;
+    uint256 public constant PRESALE_MAX_SUPPLY = 60000000 * 10**18; // if hardcap reached, otherwise leftover burned
+    uint256 public constant LIQUIDITY_MAX_SUPPLY = 5400000 * 10**18; // if hardcap reached, otherwise leftover burned
+    uint256 public constant RC_FARM_SUPPLY = 100000000 * 10**18;
+    uint256 public constant RC_ETH_FARM_SUPPLY = 160000000 * 10**18;
 
     uint256 private hardcap;
     uint256 private collected;
+    uint256 private privateMaxContribution;
     uint256 private maxContribution;
     uint256 private contributorTokensPerCollectedEth;
     uint256 private liquidityTokensPerCollectedEth;
@@ -47,13 +49,25 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
     address private rcFarm;
     address private rcEthFarm;
     bool private isPresaleActiveFlag;
+    bool private isPrivateRoundActiveFlag;
     bool private isFcfsActiveFlag;
     bool private wasPresaleEndedFlag;
+    mapping(address => bool) private privateContributors;
     mapping(address => bool) private contributors;
     mapping(address => uint256) private contributions;
 
+    modifier privateRoundActive() {
+        require(isPrivateRoundActiveFlag, "Private round is not active.");
+        _;
+    }
+
     modifier presaleActive() {
         require(isPresaleActiveFlag, "Presale is not active.");
+        _;
+    }
+
+    modifier privateRoundNotActive() {
+        require(!isPrivateRoundActiveFlag, "Private round is active.");
         _;
     }
 
@@ -74,7 +88,12 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
     }
 
     modifier senderEligibleToContribute() {
-        require(isFcfsActiveFlag || contributors[msg.sender], "Not eligible to participate.");
+        require(
+            isFcfsActiveFlag ||
+                (isPresaleActiveFlag && contributors[msg.sender]) ||
+                (isPrivateRoundActiveFlag && privateContributors[msg.sender]),
+            "Not eligible to participate."
+        );
         _;
     }
 
@@ -122,6 +141,10 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         return maxContribution;
     }
 
+    function isPrivateRoundActive() external view override returns (bool) {
+        return isPrivateRoundActiveFlag;
+    }
+
     function isPresaleActive() external view override returns (bool) {
         return isPresaleActiveFlag;
     }
@@ -135,7 +158,7 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
     }
 
     function isWhitelisted(address _contributor) external view override returns (bool) {
-        return contributors[_contributor];
+        return contributors[_contributor] || privateContributors[_contributor];
     }
 
     function contribution(address _contributor) external view override returns (uint256) {
@@ -152,8 +175,19 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         }
     }
 
+    function addPrivateContributors(address[] memory _privateContributors) public override onlyOwner {
+        for (uint256 i; i < _privateContributors.length; i++) {
+            bool isAlreadyAdded = privateContributors[_privateContributors[i]];
+            if (isAlreadyAdded) {
+                continue;
+            }
+            privateContributors[_privateContributors[i]] = true;
+        }
+    }
+
     function start(
         uint256 _hardcap,
+        uint256 _privateMaxContribution,
         uint256 _maxContribution,
         address _token,
         address _uniswapPair,
@@ -162,10 +196,12 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         address _uniswapRouter,
         address _rcFarm,
         address _rcEthFarm,
+        address[] calldata _privateContributors,
         address[] calldata _contributors
-    ) external override onlyOwner presaleNotActive presaleNotEnded sufficientSupply(_token) {
-        isPresaleActiveFlag = true;
+    ) external override onlyOwner privateRoundNotActive presaleNotActive presaleNotEnded sufficientSupply(_token) {
+        isPrivateRoundActiveFlag = true;
         hardcap = _hardcap;
+        privateMaxContribution = _privateMaxContribution;
         maxContribution = _maxContribution;
         contributorTokensPerCollectedEth = PRESALE_MAX_SUPPLY.mul(10**18).div(hardcap);
         liquidityTokensPerCollectedEth = LIQUIDITY_MAX_SUPPLY.mul(10**18).div(hardcap);
@@ -177,15 +213,22 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         rcFarm = _rcFarm;
         rcEthFarm = _rcEthFarm;
         addContributors(_contributors);
-        emit PresaleStarted();
+        addPrivateContributors(_privateContributors);
+        emit PrivateStarted();
     }
 
-    function activateFcfs() external override onlyOwner presaleActive {
-        if (isFcfsActiveFlag) {
-            return;
+    function activatePresale() external override onlyOwner privateRoundActive presaleNotEnded {
+        if (!isPresaleActiveFlag) {
+            isPresaleActiveFlag = true;
+            emit PresaleStarted();
         }
-        isFcfsActiveFlag = true;
-        emit FcfsActivated();
+    }
+
+    function activateFcfs() external override onlyOwner presaleActive presaleNotEnded {
+        if (!isFcfsActiveFlag) {
+            isFcfsActiveFlag = true;
+            emit FcfsActivated();
+        }
     }
 
     function end(address payable _team) external override onlyOwner presaleActive {
@@ -228,14 +271,16 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         IToken(token).burnDistributorTokensAndUnlock();
 
         // end presale
+        isPrivateRoundActiveFlag = false;
         isPresaleActiveFlag = false;
+        isFcfsActiveFlag = false;
         wasPresaleEndedFlag = true;
         emit PresaleEnded();
     }
 
-    receive() external payable presaleActive senderEligibleToContribute {
+    receive() external payable senderEligibleToContribute {
         uint256 totalContributionLeft = PRESALE_MAX_SUPPLY.sub(collected);
-        uint256 senderContributionLeft = maxContribution.sub(contributions[msg.sender]);
+        uint256 senderContributionLeft = getMaxContribution(msg.sender).sub(contributions[msg.sender]);
         uint256 contributionLeft = Math.min(totalContributionLeft, senderContributionLeft);
 
         uint256 valueToAccept = Math.min(msg.value, contributionLeft);
@@ -261,5 +306,15 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
 
             emit ContributionRefunded(msg.sender, valueToRefund);
         }
+    }
+
+    function getMaxContribution(address _contributor) private view returns (uint256) {
+        if (privateContributors[_contributor]) {
+            return privateMaxContribution;
+        }
+        if (contributors[_contributor]) {
+            return maxContribution;
+        }
+        return 0;
     }
 }

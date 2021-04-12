@@ -38,6 +38,8 @@ interface IPresale {
 
     function maxContributionAmount() external view returns (uint256);
 
+    function isPrivateRoundActive() external view returns (bool);
+
     function isPresaleActive() external view returns (bool);
 
     function isFcfsActive() external view returns (bool);
@@ -50,8 +52,11 @@ interface IPresale {
 
     function addContributors(address[] calldata _contributors) external;
 
+    function addPrivateContributors(address[] calldata _privateContributors) external;
+
     function start(
         uint256 _hardcap,
+        uint256 _privateMaxContribution,
         uint256 _maxContribution,
         address _token,
         address _uniswapPair,
@@ -60,8 +65,11 @@ interface IPresale {
         address _uniswapRouter,
         address _rcFarm,
         address _rcEthFarm,
+        address[] calldata _privateContributors,
         address[] calldata _contributors
     ) external;
+
+    function activatePresale() external;
 
     function activateFcfs() external;
 
