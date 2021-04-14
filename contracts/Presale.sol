@@ -238,7 +238,11 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         // calculate buyback and execute it
         uint256 buybackEths = totalCollected.mul(BUYBACK_ALLOCATION_PERCENT).div(100);
         uint256 minTokensToHoldForBuybackCall = maxContribution.mul(contributorTokensPerCollectedEth).div(10**18);
-        IBuybackInitializer(buyback).init{ value: buybackEths }(token, pancakeswapRouter, minTokensToHoldForBuybackCall);
+        IBuybackInitializer(buyback).init{ value: buybackEths }(
+            token,
+            pancakeswapRouter,
+            minTokensToHoldForBuybackCall
+        );
 
         // calculate liquidity share
         uint256 liquidityEths = totalCollected.mul(LIQUIDITY_ALLOCATION_PERCENT).div(100);
@@ -309,12 +313,6 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
     }
 
     function getMaxContribution(address _contributor) private view returns (uint256) {
-        if (privateContributors[_contributor]) {
-            return privateMaxContribution;
-        }
-        if (contributors[_contributor]) {
-            return maxContribution;
-        }
-        return 0;
+        return privateContributors[_contributor] ? privateMaxContribution : maxContribution;
     }
 }
