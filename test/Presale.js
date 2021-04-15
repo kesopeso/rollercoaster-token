@@ -10,6 +10,7 @@ contract('Presale', (accounts) => {
     const [alice, bob, curtis, dick, earl, frank, greg] = accounts;
     const liquidityLockAddress = frank;
     const pancakeswapPairAddress = greg;
+    const maxSupply = '327500000';
     let presale;
     let token;
     let buyback;
@@ -46,7 +47,7 @@ contract('Presale', (accounts) => {
 
     beforeEach(async () => {
         presale = await Presale.new();
-        token = await TokenMock.new(presale.address, ether('325400000'));
+        token = await TokenMock.new(presale.address, ether(maxSupply));
         pancakeswapRouter = await PancakeswapRouterMock.new();
         buyback = await BuybackInitializerMock.new();
         rcFarm = await FarmActivatorMock.new();
@@ -91,7 +92,7 @@ contract('Presale', (accounts) => {
 
         it('should set variables correctly on start', async () => {
             await presaleStart([], [bob, curtis], alice);
-            expect((await presale.getMaxSupply()).toString()).to.eq(ether('325400000').toString());
+            expect((await presale.getMaxSupply()).toString()).to.eq(ether(maxSupply).toString());
             expect(await presale.tokenAddress()).to.equal(token.address);
             expect(await presale.pancakeswapPairAddress()).to.equal(pancakeswapPairAddress);
             expect(await presale.buybackAddress()).to.equal(buyback.address);
@@ -274,11 +275,11 @@ contract('Presale', (accounts) => {
         });
 
         it('should end presale successfully', async () => {
-            await testEndPresaleSuccessfully(3, 3, 2.4, 1.2, 5400000, 2.4);
+            await testEndPresaleSuccessfully(3, 3, 2.4, 1.2, 7500000, 2.4);
         });
 
         it('should end presale successfully with partially collected funds', async () => {
-            await testEndPresaleSuccessfully(1.5, 1.5, 1.2, 0.6, 2700000, 1.2);
+            await testEndPresaleSuccessfully(1.5, 1.5, 1.2, 0.6, 3750000, 1.2);
         });
     });
 

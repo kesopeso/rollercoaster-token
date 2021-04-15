@@ -31,7 +31,7 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
     uint256 public constant BUYBACK_ALLOCATION_PERCENT = 40;
     uint256 public constant LIQUIDITY_ALLOCATION_PERCENT = 20;
     uint256 public constant PRESALE_MAX_SUPPLY = 60000000 * 10**18; // if hardcap reached, otherwise leftover burned
-    uint256 public constant LIQUIDITY_MAX_SUPPLY = 5400000 * 10**18; // if hardcap reached, otherwise leftover burned
+    uint256 public constant LIQUIDITY_MAX_SUPPLY = 7500000 * 10**18; // if hardcap reached, otherwise leftover burned
     uint256 public constant RC_FARM_SUPPLY = 100000000 * 10**18;
     uint256 public constant RC_ETH_FARM_SUPPLY = 160000000 * 10**18;
 
