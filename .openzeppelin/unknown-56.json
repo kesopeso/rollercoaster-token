@@ -2,16 +2,16 @@
   "manifestVersion": "3.1",
   "impls": {
     "ac0db523ddc3e330f735df7b3b0b24460531c71290a891170e840f8f67d5ff6b": {
-      "address": "0x045ecCDa1aFb0cE83c7d876CDF5703C1B1Ac5aF7",
-      "txHash": "0xcc59c565eaaf26a5ea1f99c3024154a90b936be2e0dac9b016d0a8ce95fdb75a",
+      "address": "0xB590BaEf8FF60310Bd3dc8360C7c2da026fD498B",
+      "txHash": "0x11e7a71cceac453f697d4bec736d902cf9523a48cf3806e835647e6a599e1a0b",
       "layout": {
         "storage": [],
         "types": {}
       }
     },
     "4fcc9675771dbcc4f83b9ecca2830c8e9c8ba42364b955ac6bdb6fc9c0e1b682": {
-      "address": "0x03E7B790DC75428abaFE4B6b8e37e7f86f75FA6A",
-      "txHash": "0x2c1f1a7a05424030373337293518bfd550a7ec8d9f6e1fbf9d5e965e1c32b4e6",
+      "address": "0x70FE496F3F55694fD127595e2242eDFa8ae981Cd",
+      "txHash": "0xd56fdb5001178aabbbc30388cc7ec529c6736eb5ab721db19ff0090fca296ef6",
       "layout": {
         "storage": [
           {
@@ -65,13 +65,13 @@
           {
             "contract": "Farm",
             "label": "rewardToken",
-            "type": "t_contract(IERC20)6765",
+            "type": "t_contract(IERC20)6893",
             "src": "Farm.sol:39"
           },
           {
             "contract": "Farm",
             "label": "farmToken",
-            "type": "t_contract(IERC20)6765",
+            "type": "t_contract(IERC20)6893",
             "src": "Farm.sol:40"
           },
           {
@@ -139,7 +139,7 @@
           "t_uint256": {
             "label": "uint256"
           },
-          "t_contract(IERC20)6765": {
+          "t_contract(IERC20)6893": {
             "label": "contract IERC20"
           },
           "t_mapping(t_address,t_uint256)": {
@@ -183,8 +183,8 @@
       }
     },
     "76c9e655192a7861f64512b5149b43e3d7fbf51d60e5fb775a4423a3250008d3": {
-      "address": "0x3D718E0a78D8Eac019D4f4dA32D47cbA7462c9DA",
-      "txHash": "0xe3230e111e22f935967bde7d576d0cf6d79d2da5afc218a308b7d9c041e8ac70",
+      "address": "0x09BA683a309C2c3348fdBD5d5163beF56f0679D3",
+      "txHash": "0xbb053f2af55098456fed6553d9f8e1d7024349c7f890da42e0057c2ee521d25e",
       "layout": {
         "storage": [
           {
@@ -335,7 +335,7 @@
     }
   },
   "admin": {
-    "address": "0x5E40f787529cb71Ae2016D824198fE0F29E23B92",
-    "txHash": "0x33ea3d6bf5ac6d44821bbceb524e57902b0328a371151b9f30ee184eabe14f57"
+    "address": "0x851CcEAF8bC043F66eb71668962C6eCf585C5fbE",
+    "txHash": "0x3cde83b002c3d3c9cfd010764b9306205474829c0c07039ec71bc664e9945938"
   }
 }
