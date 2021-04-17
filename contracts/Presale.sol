@@ -35,6 +35,7 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
     uint256 public constant RC_FARM_SUPPLY = 100000000 * 10**18;
     uint256 public constant RC_ETH_FARM_SUPPLY = 160000000 * 10**18;
 
+    uint256 private softcap;
     uint256 private hardcap;
     uint256 private collected;
     uint256 private privateMaxContribution;
@@ -52,6 +53,8 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
     bool private isPrivateRoundActiveFlag;
     bool private isFcfsActiveFlag;
     bool private wasPresaleEndedFlag;
+    bool private wasSoftcapReachedFlag;
+    mapping(address => bool) private refundClaims;
     mapping(address => bool) private privateContributors;
     mapping(address => bool) private contributors;
     mapping(address => uint256) private contributions;
@@ -78,6 +81,26 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
 
     modifier presaleNotEnded() {
         require(!wasPresaleEndedFlag, "Presale was ended.");
+        _;
+    }
+
+    modifier refundsAvailable() {
+        require(wasPresaleEndedFlag && !wasSoftcapReachedFlag, "Refunds not available.");
+        _;
+    }
+
+    modifier refundNotClaimed() {
+        require(!refundClaims[msg.sender], "Refund already claimed.");
+        _;
+    }
+
+    modifier softcapNotSet() {
+        require(softcap == 0, "Softcap already set.");
+        _;
+    }
+
+    modifier softcapSet() {
+        require(softcap > 0, "Softcap not set.");
         _;
     }
 
@@ -133,6 +156,10 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         return collected;
     }
 
+    function softcapAmount() external view override returns (uint256) {
+        return softcap;
+    }
+
     function hardcapAmount() external view override returns (uint256) {
         return hardcap;
     }
@@ -185,6 +212,10 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         }
     }
 
+    function setSoftcap(uint256 _softcap) external override onlyOwner softcapNotSet {
+        softcap = _softcap;
+    }
+
     function start(
         uint256 _hardcap,
         uint256 _privateMaxContribution,
@@ -198,7 +229,16 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         address _rcEthFarm,
         address[] calldata _privateContributors,
         address[] calldata _contributors
-    ) external override onlyOwner privateRoundNotActive presaleNotActive presaleNotEnded sufficientSupply(_token) {
+    )
+        external
+        override
+        onlyOwner
+        softcapSet
+        privateRoundNotActive
+        presaleNotActive
+        presaleNotEnded
+        sufficientSupply(_token)
+    {
         isPrivateRoundActiveFlag = true;
         hardcap = _hardcap;
         privateMaxContribution = _privateMaxContribution;
@@ -232,47 +272,51 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
     }
 
     function end(address payable _team) external override onlyOwner presaleActive {
-        IERC20 rollerCoaster = IERC20(token);
-        uint256 totalCollected = address(this).balance;
+        wasSoftcapReachedFlag = collected >= softcap;
 
-        // calculate buyback and execute it
-        uint256 buybackEths = totalCollected.mul(BUYBACK_ALLOCATION_PERCENT).div(100);
-        uint256 minTokensToHoldForBuybackCall = maxContribution.mul(contributorTokensPerCollectedEth).div(10**18);
-        IBuybackInitializer(buyback).init{ value: buybackEths }(
-            token,
-            pancakeswapRouter,
-            minTokensToHoldForBuybackCall
-        );
+        if (wasSoftcapReachedFlag) {
+            IERC20 rollerCoaster = IERC20(token);
+            uint256 totalCollected = address(this).balance;
 
-        // calculate liquidity share
-        uint256 liquidityEths = totalCollected.mul(LIQUIDITY_ALLOCATION_PERCENT).div(100);
-        uint256 liquidityTokens = liquidityTokensPerCollectedEth.mul(totalCollected).div(10**18);
+            // calculate buyback and execute it
+            uint256 buybackEths = totalCollected.mul(BUYBACK_ALLOCATION_PERCENT).div(100);
+            uint256 minTokensToHoldForBuybackCall = maxContribution.mul(contributorTokensPerCollectedEth).div(10**18);
+            IBuybackInitializer(buyback).init{ value: buybackEths }(
+                token,
+                pancakeswapRouter,
+                minTokensToHoldForBuybackCall
+            );
 
-        // approve router and add liquidity
-        rollerCoaster.approve(pancakeswapRouter, liquidityTokens);
-        IPancakeswapRouter(pancakeswapRouter).addLiquidityETH{ value: liquidityEths }(
-            token,
-            liquidityTokens,
-            liquidityTokens,
-            liquidityEths,
-            liquidityLock,
-            block.timestamp
-        );
+            // calculate liquidity share
+            uint256 liquidityEths = totalCollected.mul(LIQUIDITY_ALLOCATION_PERCENT).div(100);
+            uint256 liquidityTokens = liquidityTokensPerCollectedEth.mul(totalCollected).div(10**18);
 
-        // transfer team share
-        uint256 teamEths = totalCollected.sub(liquidityEths).sub(buybackEths);
-        _team.transfer(teamEths);
+            // approve router and add liquidity
+            rollerCoaster.approve(pancakeswapRouter, liquidityTokens);
+            IPancakeswapRouter(pancakeswapRouter).addLiquidityETH{ value: liquidityEths }(
+                token,
+                liquidityTokens,
+                liquidityTokens,
+                liquidityEths,
+                liquidityLock,
+                block.timestamp
+            );
 
-        // transfer farm shares
-        rollerCoaster.transfer(rcFarm, RC_FARM_SUPPLY);
-        rollerCoaster.transfer(rcEthFarm, RC_ETH_FARM_SUPPLY);
+            // transfer team share
+            uint256 teamEths = totalCollected.sub(liquidityEths).sub(buybackEths);
+            _team.transfer(teamEths);
 
-        // start farming
-        IFarmActivator(rcFarm).startFarming(token, token);
-        IFarmActivator(rcEthFarm).startFarming(token, pancakeswapPair);
+            // transfer farm shares
+            rollerCoaster.transfer(rcFarm, RC_FARM_SUPPLY);
+            rollerCoaster.transfer(rcEthFarm, RC_ETH_FARM_SUPPLY);
 
-        // burn the remaining balance and unlock token
-        IToken(token).burnDistributorTokensAndUnlock();
+            // start farming
+            IFarmActivator(rcFarm).startFarming(token, token);
+            IFarmActivator(rcEthFarm).startFarming(token, pancakeswapPair);
+
+            // burn the remaining balance and unlock token
+            IToken(token).burnDistributorTokensAndUnlock();
+        }
 
         // end presale
         isPrivateRoundActiveFlag = false;
@@ -280,6 +324,11 @@ contract Presale is Ownable, IPresale, ITokenDistributor {
         isFcfsActiveFlag = false;
         wasPresaleEndedFlag = true;
         emit PresaleEnded();
+    }
+
+    function claimRefund() external override refundsAvailable refundNotClaimed {
+        refundClaims[msg.sender] = true;
+        _msgSender().transfer(contributions[msg.sender]);
     }
 
     receive() external payable senderEligibleToContribute {

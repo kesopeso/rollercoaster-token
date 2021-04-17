@@ -20,8 +20,12 @@ contract('Presale', (accounts) => {
 
     const sendEther = (from, value) => presale.send(value, { from, gas: 150000, gasPrice: 0 });
 
-    const presaleStart = (privateContributors, contributors, from) =>
-        presale.start(
+    const presaleStart = async (privateContributors, contributors, from, setSoftcap = true) => {
+        if (setSoftcap) {
+            await presale.setSoftcap(ether('1'));
+        }
+
+        return presale.start(
             ether('6'),
             ether('3'),
             ether('3'),
@@ -36,6 +40,7 @@ contract('Presale', (accounts) => {
             contributors,
             { from }
         );
+    };
 
     const presaleActivatePresale = () => presale.activatePresale();
 
@@ -122,7 +127,7 @@ contract('Presale', (accounts) => {
         });
 
         it('should not allow double start', async () => {
-            await expectRevert(presaleStart([], [], alice), 'Private round is active.');
+            await expectRevert(presaleStart([], [], alice, false), 'Private round is active.');
         });
 
         it('should not allow investment from non whitelisted address', async () => {
@@ -295,7 +300,28 @@ contract('Presale', (accounts) => {
         });
 
         it('should not allow restart after finished presale', async () => {
-            await expectRevert(presaleStart([], [], alice), 'Presale was ended.');
+            await expectRevert(presaleStart([], [], alice, false), 'Presale was ended.');
+        });
+    });
+
+    context('softcap not reached', () => {
+        beforeEach(async () => {
+            await presaleStart([curtis], [], alice);
+            await sendEther(curtis, ether('0.5'));
+            await presaleActivatePresale();
+            await presaleEnd(alice, dick);
+        });
+
+        it('should enable refund claim', async () => {
+            const tracker = await balance.tracker(presale.address);
+            await presale.claimRefund({ from: curtis });
+            const delta = await tracker.delta();
+            expect(delta.toString()).to.equal(ether('-0.5').toString());
+        });
+
+        it('should not allow double refunds', async () => {
+            await presale.claimRefund({ from: curtis });
+            await expectRevert(presale.claimRefund({ from: curtis }), 'Refund already claimed.');
         });
     });
 });

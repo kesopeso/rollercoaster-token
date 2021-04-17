@@ -34,6 +34,8 @@ interface IPresale {
 
     function collectedAmount() external view returns (uint256);
 
+    function softcapAmount() external view returns (uint256);
+
     function hardcapAmount() external view returns (uint256);
 
     function maxContributionAmount() external view returns (uint256);
@@ -53,6 +55,8 @@ interface IPresale {
     function addContributors(address[] calldata _contributors) external;
 
     function addPrivateContributors(address[] calldata _privateContributors) external;
+
+    function setSoftcap(uint256 _softcap) external;
 
     function start(
         uint256 _hardcap,
@@ -74,4 +78,6 @@ interface IPresale {
     function activateFcfs() external;
 
     function end(address payable _team) external;
+
+    function claimRefund() external;
 }
